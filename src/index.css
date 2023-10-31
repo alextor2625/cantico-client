@@ -1,0 +1,58 @@
+:root {
+  --primario-claro: #801F24;
+  --primario-oscuro: #4E0A05;
+  --titulos: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  --texto: 'Poppins', sans-serif;
+}
+
+.userform-container {
+  margin: 10% 20%;
+  text-align: center;
+}
+
+.userform-container > a > p{
+  margin-top: 5%;
+}
+
+.userform-flex > div {
+  flex-grow: 1;
+}
+
+.userform-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.navbar-container {
+  margin-top: 1rem;
+}
+.logo {
+  height: 100px;
+}
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--texto);
+  justify-content: space-around;
+  color: var(--primario-claro);
+}
+
+.btn-danger {
+  background-color: var(--primario-oscuro);
+  border: 1px solid var(--primario-oscuro);
+  margin: 5% 0%;
+}
+
+.error-message {
+  color: red
+}
+
+.modal {
+  margin-top: 10%;
+}
