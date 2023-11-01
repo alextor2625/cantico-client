@@ -53,21 +53,28 @@ export const handleInputChange = (setFunction) => (event) => {
   setFunction(event.target.value);
 };
 
-export const login = async (email, password, setIsLoggedIn) => {
+export const login = async (email, password, setIsLoggedIn, setUser, callback) => {
   const requestBody = { email, password };
 
   try {
     const response = await axios.post(`${API_URL}/auth/login`, requestBody);
-    console.log("Line 57 - Login User:", response.data);
+    // console.log("Line 57 - Login User:", response.data);
     if (response.data.success) {
       storeToken(response.data.authToken);
       setIsLoggedIn(true);
+      setUser(response.data.foundUser);
+      
+      console.log("Line 66 - setUser:", response.data.foundUser);
+
+      if (callback) callback(response.data.foundUser);
     }
     return response.data;
   } catch (error) {
     console.log("Line 60 - Error:", error);
     throw new Error(error.response.data.msg);
   }
+
+  
 };
 
 export const logout = () => {

@@ -1,76 +1,100 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
 const LoginPrompt = () => {
   const { isLoggedIn } = useContext(AuthContext);
-  const modalRef = useRef(null);
-  const modalInstanceRef = useRef(null);
+  const [showPrompt, setShowPromt] = useState(true);
+  const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    modalInstanceRef.current = new bootstrap.Modal(modalRef.current);
-    modalInstanceRef.current.show();
+  const handleHidePrompt = () => {
+    setShowPromt(false);
+  };
 
-    // Limpiar el backdrop al cerrarse
-    const handleModalHidden = () => {
-      document.body.classList.remove("modal-open");
-      const backdrops = document.getElementsByClassName("modal-backdrop");
-      while (backdrops.length > 0) {
-        backdrops[0].parentNode.removeChild(backdrops[0]);
-      }
-    };
-
-    modalRef.current.addEventListener("hidden.bs.modal", handleModalHidden);
-    return () => {
-      if (modalRef.current) {
-        modalRef.current.removeEventListener(
-          "hidden.bs.modal",
-          handleModalHidden
-        );
-      }
-    };
-  }, []);
+  console.log("Line 15 - User:", user);
 
   return (
     <>
-      <div className="modal" tabIndex="-1" ref={modalRef} id="loginPromptModal">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <p>Debes iniciar sesion para agregar canciones.</p>
-            </div>
-            <div className="modal-footer">
+      {!isLoggedIn && showPrompt &&(
+        <div
+          className="modal"
+          style={{ display: "block", position: "initial" }}
+        >
+          <Modal.Dialog onChange={handleHidePrompt} centered>
+            <Modal.Header closeButton onClick={handleHidePrompt}>
+              <Modal.Title>Estas a solo un paso</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <p>Necesitas iniciar sesion para agregar canciones</p>
+            </Modal.Body>
+
+            <Modal.Footer>
               <Link to="/signup">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => modalInstanceRef.current.hide()}
-                >
-                  Crear una cuenta
-                </button>
+                <Button variant="secondary" onClick={handleHidePrompt}>
+                  No tienes una cuenta?
+                </Button>
               </Link>
               <Link to="/login">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => modalInstanceRef.current.hide()}
-                >
-                  Iniciar Sesion
-                </button>
+                <Button variant="danger">Iniciar Sesion</Button>
               </Link>
-            </div>
-          </div>
+            </Modal.Footer>
+          </Modal.Dialog>
         </div>
-      </div>
+      )}
+      
+      {isLoggedIn && showPrompt &&(
+        <div
+          className="modal"
+          style={{ display: "block", position: "initial" }}
+        >
+          <Modal.Dialog onChange={handleHidePrompt} centered>
+            
+            {user && user.admin && showPrompt ? (
+              <>
+              <Modal.Header closeButton onClick={handleHidePrompt}>
+              <Modal.Title> Usuario Admin localizado</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <p>Selecciona debajo que deseas realizar</p>
+            </Modal.Body>
+              <Modal.Footer>
+                <Link to="/signup">
+                  <Button variant="secondary" onClick={handleHidePrompt}>
+                    Crear una sesion
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button variant="danger">Ver Sesiones anteriores</Button>
+                </Link>
+              </Modal.Footer>
+              </>
+            ) : (
+              <>
+              <Modal.Header closeButton onClick={handleHidePrompt}>
+              <Modal.Title> Ya haz iniciado sesion {user && user.name} !</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <p>Selecciona debajo que deseas realizar</p>
+            </Modal.Body>
+              <Modal.Footer>
+                <Link to="/signup">
+                  <Button variant="secondary" onClick={handleHidePrompt}>
+                    Mis Canciones
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button variant="danger">Agregar Canciones</Button>
+                </Link>
+              </Modal.Footer>
+              </>
+            )}
+          </Modal.Dialog>
+        </div>
+      )}
     </>
   );
 };

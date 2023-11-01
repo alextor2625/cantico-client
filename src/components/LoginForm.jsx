@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import cantico from "../../public/cantico.png";
 import { login, handleInputChange } from "../services/auth.service";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn, setUser, user } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const errorMessageTimeoutRef = useRef(null);
@@ -20,18 +20,19 @@ const LoginForm = () => {
       clearTimeout(errorMessageTimeoutRef.current);
     }
 
-    login(email, password, setIsLoggedIn)
-      .then((data) => {
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorDescription = error.message;
-        setErrorMessage(errorDescription);
+    login(email, password, setIsLoggedIn, setUser, (currentUser) => {
+      console.log("Line 24 - Current User:", currentUser);
+      setUser(currentUser);
+      console.log("Line 26 -  User:", user);
+      navigate("/");
+    }).catch((error) => {
+      const errorDescription = error.message;
+      setErrorMessage(errorDescription);
 
-        errorMessageTimeoutRef.current = setTimeout(() => {
-          setErrorMessage(undefined);
-        }, 2000);
-      });
+      errorMessageTimeoutRef.current = setTimeout(() => {
+        setErrorMessage(undefined);
+      }, 2000);
+    });
   };
 
   return (
