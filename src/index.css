@@ -18,6 +18,15 @@
   flex-grow: 1;
 }
 
+.nav-link {
+  color: white;
+}
+
+.nav-tabs {
+  background-color: #4E0A05;
+  padding-top: 1rem;
+}
+
 .userform-flex {
   display: flex;
   justify-content: space-between;
@@ -26,10 +35,6 @@
 
 a {
   text-decoration: none;
-}
-
-.navbar-container {
-  margin-top: 1rem;
 }
 .logo {
   height: 100px;
@@ -55,4 +60,30 @@ a {
 
 .modal-dialog-centered {
   margin-top: 10rem;
+}
+
+.create-session {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.create-session-cont {
+  display: flex;
+  height: 3.5rem;
+  gap: 1rem;
+}
+
+.err-msg {
+  text-align: center;
+  color: red;
+}
+
+.create-btn {
+  margin: 0;
+}
+
+.add-session {
+  text-align: center;
+  margin: 0;
 }

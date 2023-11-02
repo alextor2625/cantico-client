@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import cantico from "../../public/cantico.png";
 import { login, handleInputChange } from "../services/auth.service";
-import { useState, useRef, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 
 const LoginForm = () => {

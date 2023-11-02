@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import YouTube from "../components/YouTube";
 import Navbar from "../components/Navbar";
 import LoginPrompt from "../components/LoginPrompt";
+import { AuthContext } from "../context/auth.context";
+import CreateSession from "../components/createSession";
 
 const HomePage = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div>
       <div>
@@ -11,7 +15,13 @@ const HomePage = () => {
       </div>
 
       <div className="main-container">
-        <YouTube />
+        {user && user.admin && (
+          <>
+            <CreateSession />
+            <YouTube />
+          </>
+        )}
+
         <LoginPrompt />
       </div>
     </div>
