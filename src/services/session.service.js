@@ -49,7 +49,7 @@ export const getSessionID = async (sessionId, onSuccess, onError) => {
     const response = await axios.get(`${API_URL}/sessions/${sessionId}`);
 
     // onSuccess(response);
-    console.log("Line 59 - response", response.data.session);
+    console.log("Line 52 - response", response.data.session);
     return response.data.session;
   } catch (error) {
     console.log(error);
@@ -69,3 +69,27 @@ export const getAllSessions = async () => {
     console.log("Line 68 - Error:".error);
   }
 };
+
+// Edit Session - API ------------------------------------------------
+
+export const editSession = async (sessionId, name, isActive) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+    };
+
+    try {
+        const response = await axios.put(
+            `${API_URL}/sessions/update/${sessionId}`,
+            { name: name, isActive: isActive },
+            config
+        );
+        console.log("Line 89 - edit:", response.data);
+        return response.data.session;  // Asumiendo que 'session' es la clave que contiene la información actualizada.
+    } catch (error) {
+        console.log("Line 92 - Error:", error);
+    }
+};
+

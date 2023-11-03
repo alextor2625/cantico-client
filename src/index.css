@@ -127,7 +127,7 @@ a {
 }
 
 .sessActive {
-  background-color: #c33c43e1;
+  background-color: var(--primario-oscuro);
   color: white;
   border-radius: 5px;
 }
@@ -139,7 +139,7 @@ a {
 }
 
 .card-title {
-  color: black;
+  color: white;
 }
 
 .active-q {
@@ -180,4 +180,16 @@ a {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.btn-light {
+  background-color: #801F24;
+  color: white;
+  border: 1px solid black;
+}
+
+.cardText {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
