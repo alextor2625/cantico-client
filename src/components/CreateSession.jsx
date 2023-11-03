@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { addSession } from "../services/session.service";
 import { Button } from "react-bootstrap";
 
-const CreateSession = () => {
+const CreateSession = ({ sessionId, setSessionId, allSessions, setAllSessions }) => {
   const [showAddSession, setShowAddSession] = useState(false);
   const [name, setName] = useState("");
   const [apiSuccess, setApiSuccess] = useState(false);
@@ -18,16 +18,19 @@ const CreateSession = () => {
 
   const handleSessionCreate = (e) => {
     e.preventDefault();
+
     addSession(
       name,
-      (successMessage) => {
-        setMessage(successMessage);
+      (data) => {
+        setMessage(data.message);
+        setSessionId(data.session._id);
         setTimeout(() => {
           setMessage(undefined);
-          setShowAddSession(false);
+          //   setShowAddSession(false);
         }, 3000);
         setApiSuccess(true);
         setName("");
+        setAllSessions(prevSessions => [...prevSessions, data.session]);
       },
       (errorMessage) => {
         setMessage(errorMessage);
@@ -37,10 +40,15 @@ const CreateSession = () => {
         }, 4000);
       }
     );
+    console.log("Line 45 - sessionId", sessionId);
   };
 
+  useEffect(() => {
+    console.log("Actual sessionId:", sessionId);
+  }, [sessionId]);
+
   return (
-    <div>
+    <div className="session-fom">
       <p className="err-msg danger">{message}</p>
       {showAddSession ? (
         <form onSubmit={handleSessionCreate} className="create-session">
@@ -63,7 +71,11 @@ const CreateSession = () => {
           </Button>
         </form>
       ) : (
-        <Button onClick={toggleAddSession} variant="danger" className="add-session">
+        <Button
+          onClick={toggleAddSession}
+          variant="danger"
+          className="add-session"
+        >
           Add Session
         </Button>
       )}

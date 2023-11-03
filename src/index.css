@@ -22,6 +22,10 @@
   color: white;
 }
 
+.nav-link:hover {
+  color: grey;
+}
+
 .nav-tabs {
   background-color: #4E0A05;
   padding-top: 1rem;
@@ -62,16 +66,17 @@ a {
   margin-top: 10rem;
 }
 
-.create-session {
+/* .create-session {
   display: flex;
   justify-content: center;
   gap: 1rem;
-}
+} */
 
 .create-session-cont {
   display: flex;
   height: 3.5rem;
   gap: 1rem;
+  width: 12rem;
 }
 
 .err-msg {
@@ -81,9 +86,98 @@ a {
 
 .create-btn {
   margin: 0;
+  /* margin-right: 1rem; */
 }
 
 .add-session {
   text-align: center;
   margin: 0;
+  height: 3.5rem;
+}
+
+.blurred {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+.admin-content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+}
+
+.session-name {
+  background-color: #a0595d;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+  color: #4E0A05;
+  border-radius: 0.6rem;
+  border: 2.5px solid black;
+}
+
+
+
+.allsesions-cont {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.sessActive {
+  background-color: #c33c43e1;
+  color: white;
+  border-radius: 5px;
+}
+
+.sessInactive {
+  background-color: var(--primario-claro);
+  color: white;
+  border-radius: 5px;
+}
+
+.card-title {
+  color: black;
+}
+
+.active-q {
+  color: black;
+}
+
+.add-session-cont {
+  text-align: right;
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.create-session {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.session-fom {
+  width: 100%;
+}
+
+.total-sesiones-titulo {
+  color: var(--primario-oscuro);
+  white-space: no-wrap;
+  margin: 0;
+}
+
+.total-sesiones-output {
+  font-weight: normal;
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.total-sesiones-cont {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }

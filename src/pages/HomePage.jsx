@@ -1,29 +1,45 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import YouTube from "../components/YouTube";
 import Navbar from "../components/Navbar";
 import LoginPrompt from "../components/LoginPrompt";
 import { AuthContext } from "../context/auth.context";
-import CreateSession from "../components/createSession";
+// import CreateSession from "../components/CreateSession";
+import ActiveSession from "../components/ActiveSession";
 
 const HomePage = () => {
+  // Handy Things ----------------------
+
   const { user } = useContext(AuthContext);
+  const [sessionId, setSessionId] = useState(null);
+
+  // Hide & Show ------------------------
+  const [showPrompt, setShowPrompt] = useState(true);
+  console.log("user", user);
+  // console.log("isAdmin?", user.admin);
+  console.log("sessionId", sessionId);
 
   return (
     <div>
-      <div>
+      <div className={showPrompt ? "main-content blurred" : "main-content"}>
         <Navbar />
-      </div>
+        <div>
+          {user && user.admin && (
+            <div className="admin-content">
+              <YouTube />
+                <ActiveSession
+                  sessionId={sessionId}
+                  setSessionId={setSessionId}
+                />
+             
+            </div>
+          )}
 
-      <div className="main-container">
-        {user && user.admin && (
-          <>
-            <CreateSession />
-            <YouTube />
-          </>
-        )}
-
-        <LoginPrompt />
+          {user && !user.admin && (
+            <ActiveSession sessionId={sessionId} setSessionId={setSessionId} />
+          )}
+        </div>
       </div>
+      <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />
     </div>
   );
 };

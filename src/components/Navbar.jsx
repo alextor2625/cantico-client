@@ -7,6 +7,7 @@ import { logout } from "../services/auth.service";
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState("home");
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   console.log("Line 10 - isLoggedIn:", isLoggedIn);
 
@@ -45,6 +46,20 @@ const Navbar = () => {
               }
             >
               Sign Up
+            </Link>
+          </li>
+        )}
+
+        {user && user.admin && (
+          <li className="nav-item">
+            <Link
+              onClick={() => setActiveTab("sessions")}
+              to="/sessions"
+              className={
+                activeTab === "sessions" ? "nav-link active" : "nav-link"
+              }
+            >
+              Sesiones
             </Link>
           </li>
         )}

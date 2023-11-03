@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 
-const LoginPrompt = () => {
+const LoginPrompt = ({showPrompt, setShowPrompt}) => {
   const { isLoggedIn } = useContext(AuthContext);
-  const [showPrompt, setShowPromt] = useState(true);
+  
   const { user } = useContext(AuthContext);
 
   const handleHidePrompt = () => {
-    setShowPromt(false);
+    setShowPrompt(false);
   };
 
   console.log("Line 15 - User:", user);
@@ -18,6 +18,7 @@ const LoginPrompt = () => {
     <>
       {!isLoggedIn && showPrompt &&(
         <div
+          id="modal"
           className="modal"
           style={{ display: "block", position: "initial" }}
         >
