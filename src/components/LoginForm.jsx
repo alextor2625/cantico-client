@@ -20,9 +20,9 @@ const LoginForm = () => {
     }
 
     login(email, password, setIsLoggedIn, setUser, (currentUser) => {
-      console.log("Line 24 - Current User:", currentUser);
+      // console.log("Line 24 - Current User:", currentUser);
       setUser(currentUser);
-      console.log("Line 26 -  User:", user);
+      // console.log("Line 26 -  User:", user);
       navigate("/");
     }).catch((error) => {
       const errorDescription = error.message;

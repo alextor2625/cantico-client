@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import CreateSession from "../components/CreateSession";
 import {
   getAllSessions,
   getSessionID,
   editSession,
+  deleteSession,
+  getActiveSession,
 } from "../services/session.service";
 import { Button, Card, Placeholder } from "react-bootstrap";
+import ActiveSession from "../components/ActiveSession";
 
 const SessionsPage = () => {
   const [sessionId, setSessionId] = useState(null);
@@ -16,12 +19,57 @@ const SessionsPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [saveChanges, setSaveChanges] = useState(false);
   const [isActive, setIsActive] = useState(true);
+  const inputRef = useRef(null);
+  const [deleteSessionId, setDeleteSessionId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [noSessionsMessage, setNoSessionsMessage] = useState(null);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return `${monthNames[monthIndex]}-${day}-${year}`;
+  }
+
+  const formattedDate = formatDate("2023-11-03T16:23:22.511Z");
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editingSessionId]);
 
   useEffect(() => {
     setIsLoading(true);
     getAllSessions()
-      .then((sessions) => {
-        setAllSessions(sessions.sessionsArr);
+      .then((data) => {
+        if (
+          data.success &&
+          (!data.sessionsArr || data.sessionsArr.length === 0)
+        ) {
+          setNoSessionsMessage(
+            "\n\nTan lento utede, tienen que crear mas sesiones 👻 \n\n  Aqui les dejo una lista: \n\n - 🪳 Lunes pa los grillos 🪳 \n\n - 🦄 Marte pa lo venao 🦄 \n\n - 🤫 ''Sali sin permiso'' 🤫 \n\n - 🍺 Los Viernes Jr 🍺\n\n - 💩 Orlando Es Mierda 💩\n\n - 🛩️ Los cueros beben gratis 🛩️ \n\n\n\n"
+          );
+        } else {
+          setAllSessions(data.sessionsArr);
+        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -30,11 +78,12 @@ const SessionsPage = () => {
       });
   }, []);
 
-  const handleIsEditing = (sessionId) => {
+  const handleIsEditing = (sessionId, sessionName) => {
     if (editingSessionId === sessionId) {
       setIsEditingSessionId(null);
     } else {
       setIsEditingSessionId(sessionId);
+      setInputValue(sessionName);
       console.log("setIsEditingSessionID:", sessionId);
     }
 
@@ -48,31 +97,76 @@ const SessionsPage = () => {
     setInputValue(e.target.value);
   };
 
+  const handleDeleteSession = async (sessionId) => {
+    setDeleteSessionId(true);
+
+    try {
+      await deleteSession(sessionId);
+      setDeleteSessionId(false);
+      window.location.reload(false);
+      setAllSessions((prevSessions) =>
+        prevSessions.filter((session) => session._id !== sessionId)
+      );
+    } catch (error) {
+      console.log("Error deleting session:", error);
+    }
+  };
+
   const handleSaveChanges = () => {
     setSaveChanges(false);
     setIsEditingSessionId(null);
-    
-    editSession(sessionId, inputValue, isActive)
-    .then(updatedSession => {
-        setAllSessions(prevSessions => {
-            return prevSessions.map(session => {
-                if (session._id === updatedSession._id) {
-                    return updatedSession;
-                } else {
-                    return session;
-                }
-            });
-        });
-    });
-};
+    getActiveSession();
 
+    const currentSession = allSessions.find(
+      (session) => session._id === editingSessionId
+    );
+    if (currentSession) {
+      editSession(currentSession._id, inputValue, currentSession.isActive)
+        .then((updatedSession) => {
+          setAllSessions((prevSessions) => {
+            return prevSessions.map((session) => {
+              if (session._id === updatedSession._id) {
+                return updatedSession;
+              } else {
+                return session;
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          // 2. Manejar el error
+          console.error("Error editing session:", error);
+          setTimeout(() => {
+            window.location.reload(false);
+          }, 3000);
+          setErrorMessage(error.message); // Establecer el mensaje de error en el estado
+        });
+    }
+  };
 
   const hanldeSetIsActive = () => {
-    setIsActive((prevState) => !prevState);
+    const updatedSessions = allSessions.map((session) => {
+      if (session._id === editingSessionId) {
+        console.log("isActive - Antes:", session.name, session.isActive);
+        const updatedSession = {
+          ...session,
+          isActive: !session.isActive,
+        };
+        console.log(
+          "isActive - Despues:",
+          session.name,
+          updatedSession.isActive
+        );
+        return updatedSession;
+      }
+      return session;
+    });
+
+    setAllSessions(updatedSessions);
   };
 
   return (
-    <div>
+    <div className="session-full-cont">
       <Navbar />
 
       <div className="add-session-cont">
@@ -80,13 +174,16 @@ const SessionsPage = () => {
           <h1 className="total-sesiones-titulo">Total:</h1>
           <h2 className="total-sesiones-output">{allSessions.length}</h2>
         </div>
-        {!sessionId && (
-          <CreateSession
-            sessionId={sessionId}
-            setSessionId={setSessionId}
-            allSessions={allSessions}
-            setAllSessions={setAllSessions}
-          />
+        {!saveChanges && (
+          <div className="creat-sess-act">
+            <ActiveSession />
+            <CreateSession
+              sessionId={sessionId}
+              setSessionId={setSessionId}
+              allSessions={allSessions}
+              setAllSessions={setAllSessions}
+            />
+          </div>
         )}
       </div>
 
@@ -107,8 +204,20 @@ const SessionsPage = () => {
               </Card.Body>
             </Card>
           ) : (
-            <div>
+            <div className="grid-session-title">
               <h2>All Sessions</h2>
+              <h1 className="error-message">{errorMessage}</h1>
+              <p className="nosession-message">
+                {noSessionsMessage &&
+                  noSessionsMessage.split("\n").map((line, index) => {
+                    return (
+                      <h1 key={index} className="">
+                        {line}
+                        <br />
+                      </h1>
+                    );
+                  })}
+              </p>
               <div className="allsesions-cont">
                 {!saveChanges &&
                   [...allSessions].reverse().map((session) => (
@@ -125,9 +234,12 @@ const SessionsPage = () => {
                           <Card.Text>
                             {session.isActive ? "Active" : "Inactive"}
                           </Card.Text>
+                          <Card.Text>{formatDate(session.createdAt)}</Card.Text>
                           <Button
                             variant="light"
-                            onClick={() => handleIsEditing(session._id)}
+                            onClick={() =>
+                              handleIsEditing(session._id, session.name)
+                            }
                           >
                             Edit
                           </Button>
@@ -148,9 +260,15 @@ const SessionsPage = () => {
                           <Card.Title className="card-title">
                             {editingSessionId === session._id ? (
                               <input
+                                ref={inputRef}
                                 type="text"
                                 value={inputValue}
                                 onChange={handleInputChange}
+                                className={
+                                  session.isActive
+                                    ? "sessActive"
+                                    : "sessInactive"
+                                }
                               />
                             ) : (
                               session.name
@@ -170,9 +288,20 @@ const SessionsPage = () => {
                           </Card.Text>
 
                           {editingSessionId === session._id ? (
-                            <Button variant="light" onClick={handleSaveChanges}>
-                              Save Changes
-                            </Button>
+                            <div className="save-delete">
+                              <Button
+                                variant="light"
+                                onClick={handleSaveChanges}
+                              >
+                                Save Changes
+                              </Button>
+                              <Button
+                                variant="light"
+                                onClick={() => handleDeleteSession(session._id)}
+                              >
+                                Delete
+                              </Button>
+                            </div>
                           ) : (
                             <Button variant="light">Edit</Button>
                           )}

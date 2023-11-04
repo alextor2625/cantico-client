@@ -73,23 +73,71 @@ export const getAllSessions = async () => {
 // Edit Session - API ------------------------------------------------
 
 export const editSession = async (sessionId, name, isActive) => {
-    const config = {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("authToken"),
-        },
-    };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("authToken"),
+    },
+  };
 
-    try {
-        const response = await axios.put(
-            `${API_URL}/sessions/update/${sessionId}`,
-            { name: name, isActive: isActive },
-            config
-        );
-        console.log("Line 89 - edit:", response.data);
-        return response.data.session;  // Asumiendo que 'session' es la clave que contiene la información actualizada.
-    } catch (error) {
-        console.log("Line 92 - Error:", error);
+  try {
+    const response = await axios.put(
+      `${API_URL}/sessions/update/${sessionId}`,
+      { name: name, isActive: isActive },
+      config
+    );
+    console.log("Line 89 - edit:", response.data);
+    return response.data.session; // Asumiendo que 'session' es la clave que contiene la información actualizada.
+  } catch (error) {
+    console.error("Line 92 - Error:", error);
+    // Si hay un mensaje de error en la respuesta, lo mostramos
+    if (error.response && error.response.data && error.response.data.message) {
+      console.error("API Error:", error.response.data.message);
+      throw new Error(error.response.data.message);
+    } else {
+      // Si no hay un mensaje detallado, simplemente lanzamos el error original
+      throw error;
     }
+  }
 };
 
+// Delete Session - API ------------------------------------------------
+
+export const deleteSession = async (sessionId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("authToken"),
+    },
+  };
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/sessions/delete/${sessionId}`
+    );
+    console.log("Line 108 - Deleted Session:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Line 111 - Error:", error);
+  }
+};
+
+// Get the active session - API ------------------------------------------
+
+export const getActiveSession = async () => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("authToken"),
+    },
+  };
+
+  try {
+    const response = await axios.get(`${API_URL}/sessions/current/active`);
+    console.log("Active session data:", response.data);
+    return response.data; 
+  } catch (error) {
+    console.error("Error fetching active session data:", error);
+    throw error; 
+  }
+};

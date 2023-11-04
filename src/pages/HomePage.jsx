@@ -11,12 +11,13 @@ const HomePage = () => {
 
   const { user } = useContext(AuthContext);
   const [sessionId, setSessionId] = useState(null);
+  console.log("Before rendering ActiveSession:", typeof setSessionId);
 
   // Hide & Show ------------------------
   const [showPrompt, setShowPrompt] = useState(true);
-  console.log("user", user);
+  // console.log("user", user);
   // console.log("isAdmin?", user.admin);
-  console.log("sessionId", sessionId);
+  // console.log("sessionId", sessionId);
 
   return (
     <div>
@@ -26,17 +27,12 @@ const HomePage = () => {
           {user && user.admin && (
             <div className="admin-content">
               <YouTube />
-                <ActiveSession
-                  sessionId={sessionId}
-                  setSessionId={setSessionId}
-                />
-             
+
+              <ActiveSession />
             </div>
           )}
 
-          {user && !user.admin && (
-            <ActiveSession sessionId={sessionId} setSessionId={setSessionId} />
-          )}
+          {user && !user.admin && <ActiveSession />}
         </div>
       </div>
       <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />

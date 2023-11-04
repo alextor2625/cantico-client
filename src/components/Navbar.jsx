@@ -9,7 +9,7 @@ const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const { user } = useContext(AuthContext);
 
-  console.log("Line 10 - isLoggedIn:", isLoggedIn);
+  // console.log("Line 10 - isLoggedIn:", isLoggedIn);
 
   return (
     <div className="navbar-container">

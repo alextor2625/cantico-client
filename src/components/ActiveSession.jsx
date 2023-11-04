@@ -1,56 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { getSessionID } from "../services/session.service";
+import { getActiveSession } from "../services/session.service";
 
-const ActiveSession = ({ sessionId, setSessionId }) => {
-  const [sessionData, setSessionData] = useState(null);
+const ActiveSession = () => {
+  const [activeSession, setActiveSession] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!sessionId) {
-      setIsLoading(false);
-      return;
-    }
-
     setIsLoading(true);
-    getSessionID(sessionId)
-      .then((data) => {
-        if (data && data.isActive) {
-          setSessionData(data);
-          console.log("Line 20 - Data:", data);
-        } else {
-          // Si la sesión no está activa, restablecemos el sessionId
-          // setSessionId(null);
-          setSessionData(!data.isActive); // También limpiamos los datos de la sesión
-        }
+    // Hacer la llamada al servicio y manejar la promesa con then y catch.
+    getActiveSession()
+      .then((sessionData) => {
+        setActiveSession(sessionData.session); // Asume que sessionData es el objeto de sesión activa
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : String(err));
+        setError('Hubo un error al recuperar la sesión activa.');
+        console.error(err); // Registrar el error también puede ser útil para el debug
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoading(false); // Finalizar el indicador de carga independientemente del resultado.
       });
-  }, [sessionId, setSessionId]);
+  }, []);
 
   if (isLoading) {
-    return <div>Loading session data...</div>;
+    return <div>Cargando datos de la sesión...</div>;
   }
 
   if (error) {
     return (
-      <div>Error fetching session data: {error}. Please try again later.</div>
+      <div>
+        Todavía no se comienza a cantar, háblense con Orlrandito a ver. Error: {error}
+      </div>
     );
   }
 
-  if (!sessionData) {
+  if (!activeSession) {
     return <div>No hay sesión activa, favor hablar con Orlando Duarte.</div>;
   }
 
-  // Renderizado normal si hay datos de sesión activos
   return (
     <div>
-      <h2 className="session-name">{sessionData.name}</h2>
-      {/* Aquí puedes mostrar más datos de la sesión como desees */}
+      <h2 className="session-name">{activeSession.name}</h2>
     </div>
   );
 };

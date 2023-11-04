@@ -79,6 +79,12 @@ a {
   width: 12rem;
 }
 
+.creat-sess-act {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .err-msg {
   text-align: center;
   color: red;
@@ -91,7 +97,7 @@ a {
 
 .add-session {
   text-align: center;
-  margin: 0;
+  margin: 0 auto;
   height: 3.5rem;
 }
 
@@ -108,12 +114,14 @@ a {
 
 .session-name {
   background-color: #a0595d;
-  margin-right: 1rem;
-  margin-top: 1rem;
+  /* margin-right: 1rem; */
+  margin-top: 1.2rem;
   text-align: center;
   color: #4E0A05;
   border-radius: 0.6rem;
   border: 2.5px solid black;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
 }
 
 
@@ -148,7 +156,7 @@ a {
 
 .add-session-cont {
   text-align: right;
-  margin-right: 2rem;
+  margin:0rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -192,4 +200,43 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+/* .input-session-value {
+  background-color: var(--primario-claro);
+  border: 1px solid var(--primario-claro);
+} */
+
+.card-title > .sessActive {
+  border: 1px solid var(--primario-oscuro);
+}
+
+.card-title > .sessInactive {
+  border: 1px solid var(--primario-claro);
+}
+
+.card-title > input {
+  outline: none;
+}
+
+.save-delete {
+  display: flex;
+  justify-content: space-between;
+}
+
+.error-message {
+  color: red;
+}
+
+.grid-session-title {
+  margin: 0rem 2rem;
+}
+
+.nosession-message {
+  text-align: center;
+}
+
+.creat-sess-act {
+  display: flex;
+  align-items: center;
 }

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { addSession } from "../services/session.service";
+import { addSession, getActiveSession } from "../services/session.service";
 import { Button } from "react-bootstrap";
 
-const CreateSession = ({ sessionId, setSessionId, allSessions, setAllSessions }) => {
+const CreateSession = ({
+  sessionId,
+  setSessionId,
+  allSessions,
+  setAllSessions,
+}) => {
   const [showAddSession, setShowAddSession] = useState(false);
   const [name, setName] = useState("");
   const [apiSuccess, setApiSuccess] = useState(false);
@@ -22,15 +27,17 @@ const CreateSession = ({ sessionId, setSessionId, allSessions, setAllSessions })
     addSession(
       name,
       (data) => {
+        getActiveSession();
         setMessage(data.message);
         setSessionId(data.session._id);
         setTimeout(() => {
           setMessage(undefined);
+          window.location.reload(false);
           //   setShowAddSession(false);
         }, 3000);
         setApiSuccess(true);
         setName("");
-        setAllSessions(prevSessions => [...prevSessions, data.session]);
+        setAllSessions((prevSessions) => [...prevSessions, data.session]);
       },
       (errorMessage) => {
         setMessage(errorMessage);
