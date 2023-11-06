@@ -162,6 +162,14 @@ a {
   justify-content: space-between;
 }
 
+/* .add-session-cont > * {
+  flex-grow: 1;
+} */
+
+
+.create-sess-act {
+  flex-grow: 1;
+}
 .create-session {
   display: flex;
   justify-content: flex-end;
@@ -239,4 +247,21 @@ a {
 .creat-sess-act {
   display: flex;
   align-items: center;
+}
+.start-stop-btn {
+  height: 3.5rem;
+  margin-top: 1rem;
+  padding: 0rem 2rem;
+}
+
+.timer-flex {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-live {
+  width: 10rem;
+  height: 3.5rem;
+  margin-top: 1rem;
 }

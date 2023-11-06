@@ -10,6 +10,7 @@ import {
 } from "../services/session.service";
 import { Button, Card, Placeholder } from "react-bootstrap";
 import ActiveSession from "../components/ActiveSession";
+import TimerSession from "../components/TimerSession";
 
 const SessionsPage = () => {
   const [sessionId, setSessionId] = useState(null);
@@ -76,7 +77,7 @@ const SessionsPage = () => {
         console.error("Error fetching all sessions:", error);
         setIsLoading(false);
       });
-  }, []);
+  }, [isActive]);
 
   const handleIsEditing = (sessionId, sessionName) => {
     if (editingSessionId === sessionId) {
@@ -177,6 +178,8 @@ const SessionsPage = () => {
         {!saveChanges && (
           <div className="creat-sess-act">
             <ActiveSession />
+            <TimerSession />
+
             <CreateSession
               sessionId={sessionId}
               setSessionId={setSessionId}

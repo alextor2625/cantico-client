@@ -14,7 +14,7 @@ const ActiveSession = () => {
         setActiveSession(sessionData.session); // Asume que sessionData es el objeto de sesión activa
       })
       .catch((err) => {
-        setError('Hubo un error al recuperar la sesión activa.');
+        setError("Hubo un error al recuperar la sesión activa.");
         console.error(err); // Registrar el error también puede ser útil para el debug
       })
       .finally(() => {
@@ -29,7 +29,8 @@ const ActiveSession = () => {
   if (error) {
     return (
       <div>
-        Todavía no se comienza a cantar, háblense con Orlrandito a ver. Error: {error}
+        Todavía no se comienza a cantar, háblense con Orlrandito a ver. Error:{" "}
+        {error}
       </div>
     );
   }

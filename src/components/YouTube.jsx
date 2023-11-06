@@ -1,7 +1,6 @@
 import React from "react";
 
-let dynamicSrc =
-  "https://www.youtube.com/embed/Y3puNlFBqvo?si=tcDSTfyrLBDH1sVz&amp;controls=0";
+let dynamicSrc = "https://www.youtube.com/embed/Y3puNlFBqvo?controls=0&rel=0&modestbranding=1";
 
 const YouTube = () => {
   return (
