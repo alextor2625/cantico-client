@@ -11,6 +11,7 @@ import {
 import { Button, Card, Placeholder } from "react-bootstrap";
 import ActiveSession from "../components/ActiveSession";
 import TimerSession from "../components/TimerSession";
+import EndSession from "../components/EndSession";
 
 const SessionsPage = () => {
   const [sessionId, setSessionId] = useState(null);
@@ -77,7 +78,7 @@ const SessionsPage = () => {
         console.error("Error fetching all sessions:", error);
         setIsLoading(false);
       });
-  }, [isActive]);
+  }, []);
 
   const handleIsEditing = (sessionId, sessionName) => {
     if (editingSessionId === sessionId) {
@@ -112,6 +113,29 @@ const SessionsPage = () => {
       console.log("Error deleting session:", error);
     }
   };
+
+  const formatTime = (time) => {
+    const seconds = time % 60;
+    const minutes = Math.floor(time / 60);
+    const hours = Math.floor(time / 3600);
+
+    let formattedTime = "";
+
+    if (hours > 0) {
+        formattedTime += `${hours}h `;
+    }
+    if (minutes > 0) {
+        // Asegúrate de solo mostrar los minutos restantes si hay horas
+        formattedTime += `${hours > 0 ? minutes % 60 : minutes}m `;
+    }
+    if (seconds > 0 || time === 0) {
+        // Asegúrate de agregar segundos si no hay minutos ni horas
+        formattedTime += `${seconds}s`;
+    }
+
+    return formattedTime.trim(); // Elimina espacios extra al final
+};
+
 
   const handleSaveChanges = () => {
     setSaveChanges(false);
@@ -166,6 +190,17 @@ const SessionsPage = () => {
     setAllSessions(updatedSessions);
   };
 
+  const checkForActiveSession = () => {
+    // Esto devolverá true si encuentra alguna sesión que está activa, false en caso contrario
+    return allSessions.some(session => session.isActive);
+  };
+
+  useEffect(() => {
+    // Esto actualizará la variable de estado `isActive` cada vez que cambie `allSessions`
+    setIsActive(checkForActiveSession());
+  }, [allSessions]);
+
+
   return (
     <div className="session-full-cont">
       <Navbar />
@@ -177,15 +212,23 @@ const SessionsPage = () => {
         </div>
         {!saveChanges && (
           <div className="creat-sess-act">
-            <ActiveSession />
-            <TimerSession />
 
-            <CreateSession
+
+            <ActiveSession />
+            {!isActive ? (
+              <CreateSession
               sessionId={sessionId}
               setSessionId={setSessionId}
               allSessions={allSessions}
               setAllSessions={setAllSessions}
-            />
+              />
+            ) : (
+              <div className="timer-endSession">
+                {/* <TimerSession /> */}
+                <EndSession allSessions={allSessions} setAllSessions={setAllSessions} />
+              </div>
+            )}
+
           </div>
         )}
       </div>
@@ -237,7 +280,13 @@ const SessionsPage = () => {
                           <Card.Text>
                             {session.isActive ? "Active" : "Inactive"}
                           </Card.Text>
+                          <div className="timeandmore">
                           <Card.Text>{formatDate(session.createdAt)}</Card.Text>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                              <circle cx="8" cy="8" r="8" />
+                            </svg>
+                            <Card.Text>{formatTime(session.duration)}</Card.Text>
+                          </div>
                           <Button
                             variant="light"
                             onClick={() =>

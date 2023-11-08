@@ -141,3 +141,34 @@ export const getActiveSession = async () => {
     throw error; 
   }
 };
+
+// End Session - API ------------------------------------------
+
+export const endSession = async (sessionId, duration) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("authToken"),
+    },
+  };
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/sessions/end/${sessionId}`,
+      { duration: duration },
+      config
+    );
+    console.log("Session ended:", response.data);
+    return response.data.session;
+  } catch (error) {
+    console.error("Error ending session:", error);
+   
+    if (error.response && error.response.data && error.response.data.message) {
+      console.error("API Error:", error.response.data.message);
+      throw new Error(error.response.data.message);
+    } else {
+     
+      throw error;
+    }
+  }
+};

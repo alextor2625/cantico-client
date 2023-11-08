@@ -265,3 +265,24 @@ a {
   height: 3.5rem;
   margin-top: 1rem;
 }
+.end-session {
+  white-space: nowrap;
+  margin-top: 1rem;
+}
+
+.timer-endSession {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.timeandmore {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0rem;
+  gap: 0.5rem;
+}
+
+.card-text {
+  margin: 0;
+}
