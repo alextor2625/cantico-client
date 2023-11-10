@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { getSongsSpotify } from '../services/spotify.services';
+import { Button } from 'react-bootstrap';
 
 
 function useDebounce(value, delay) {
@@ -58,13 +58,18 @@ const SpotifySearch = () => {
             </Form>
 
 
-            <ListGroup>
+            <div className='songs-searched-container'>
                 {songs.map((song, index) => (
-                    <ListGroup.Item key={index}>
-                        {song.name} - {song.artists.map(artist => artist.name).join(', ')}
-                    </ListGroup.Item>
+                    <div key={index} className='songs-searched'>
+                        <img src={song.album.images[0].url} alt={song.name} />
+                        <div className='searched-name-title'>
+                        <Button variant="secondary" className='add-to-songs'>Add</Button>{' '}
+                            <p className='song-artists'>{song.artists.map(artist => artist.name).join(', ')}</p>
+                            <p className='song-name'>{song.name} </p>
+                        </div>
+                    </div>
                 ))}
-            </ListGroup>
+            </div>
         </div>
     );
 };
