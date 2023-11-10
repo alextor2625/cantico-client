@@ -48,7 +48,7 @@ const LoginPrompt = ({showPrompt, setShowPrompt}) => {
       {isLoggedIn && showPrompt &&(
         <div
           className="modal"
-          style={{ display: "block", position: "initial" }}
+          style={{ display: "block", position: "fixed" }}
         >
           <Modal.Dialog onChange={handleHidePrompt} centered>
             

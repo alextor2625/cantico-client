@@ -286,3 +286,58 @@ a {
 .card-text {
   margin: 0;
 }
+@keyframes blinking {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blinking 2s infinite;
+}
+
+
+.user-content {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin: 0rem 1rem;
+}
+
+.user-content>div>button {
+  width: 100%;
+  height: 3.5rem;
+  margin-top: 0.8rem;
+}
+
+p {
+  margin: 0;
+}
+
+.user-controls {
+  display: grid;
+  grid-template-columns: 6fr 1.5fr 1.5fr;
+  gap: 1rem;
+  margin: 0rem 1rem;
+}
+
+.user-controls>div>iframe {
+  width: 100%;
+}
+
+.user-controls>div>button {
+  width: 100%;
+}
+
+.modal-dialog-centered {
+  margin-top: 0rem;
+}

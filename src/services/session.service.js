@@ -172,3 +172,34 @@ export const endSession = async (sessionId, duration) => {
     }
   }
 };
+
+// Add User to Session - API ------------------------------------------
+
+export const addUserToSession = async (sessionId, userId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("authToken"),
+    },
+  };
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/sessions/add/${userId}`,
+      { sessionId }, 
+      config
+    );
+
+    console.log("User added to session:", response.data);
+    return response.data.session; 
+  } catch (error) {
+    console.error("Error adding user to session:", error.response || error);
+    if (error.response && error.response.data && error.response.data.message) {
+      
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error('Error adding user to session');
+    }
+  }
+};
+
