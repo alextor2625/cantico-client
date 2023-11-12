@@ -372,3 +372,23 @@ p {
 .add-to-songs {
   width: 80%;
 }
+
+.videos-searched-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.videos-searched {
+  display: flex;
+justify-content: space-between;
+}
+
+.searched-video-title {
+  display: flex;
+}
+
+.video-title {
+  text-align: center;
+}

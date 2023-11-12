@@ -9,6 +9,7 @@ import LiveHolder from "../components/LiveHolder";
 import MySongs from "../components/MySongs";
 import WhosNext from "../components/WhosNext";
 import SpotifySearch from "../components/SpotifySearch";
+import YouTubeSearch from "../components/YouTubeSearch";
 
 const HomePage = () => {
   // Handy Things ----------------------
@@ -20,6 +21,9 @@ const HomePage = () => {
   // Hide & Show ------------------------
   const [showPrompt, setShowPrompt] = useState(true);
   const [addSong, setAddSong] = useState(false)
+  const [videoId, setVideoId] = useState(null)
+  const [videoDuratoin, setVideoDuration] = useState(null)
+  const [videoStatus, setvideoStatus] = useState('')
   // console.log("user", user);
   // console.log("isAdmin?", user.admin);
   // console.log("sessionId", sessionId);
@@ -46,18 +50,14 @@ const HomePage = () => {
 
               <div className="user-controls">
 
-                {addSong ? <SpotifySearch /> : <YouTube />}
+                {addSong ? <YouTubeSearch setVideoId={setVideoId} setVideoDuration={setVideoDuration} /> : <YouTube />}
 
                 <MySongs addSong={addSong} setAddSong={setAddSong} />
                 <WhosNext />
               </div>
-
-
             </>
 
           )}
-
-
         </div>
       </div>
       <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />
