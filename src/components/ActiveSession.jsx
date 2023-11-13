@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { getActiveSession } from "../services/session.service";
 
-const ActiveSession = () => {
-  const [activeSession, setActiveSession] = useState(null);
+const ActiveSession = ({activeSession, setActiveSession}) => {
+  
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
-    // Hacer la llamada al servicio y manejar la promesa con then y catch.
+  
     getActiveSession()
       .then((sessionData) => {
-        setActiveSession(sessionData.session); // Asume que sessionData es el objeto de sesión activa
+        setActiveSession(sessionData.session);
       })
       .catch((err) => {
         setError("Hubo un error al recuperar la sesión activa.");
-        console.error(err); // Registrar el error también puede ser útil para el debug
+        console.error(err); 
       })
       .finally(() => {
-        setIsLoading(false); // Finalizar el indicador de carga independientemente del resultado.
+        setIsLoading(false); 
       });
   }, []);
 

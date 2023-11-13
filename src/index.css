@@ -392,3 +392,11 @@ justify-content: space-between;
 .video-title {
   text-align: center;
 }
+
+.videos-mysongs {
+  text-align: center;
+}
+
+.mysongs-btn {
+  margin-bottom: 1rem;
+}

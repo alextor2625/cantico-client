@@ -22,7 +22,8 @@ const HomePage = () => {
   const [showPrompt, setShowPrompt] = useState(true);
   const [addSong, setAddSong] = useState(false)
   const [videoId, setVideoId] = useState(null)
-  const [videoDuratoin, setVideoDuration] = useState(null)
+  const [activeSession, setActiveSession] = useState(null);
+  // const [videoDuratoin, setVideoDuration] = useState(null)
   const [videoStatus, setvideoStatus] = useState('')
   // console.log("user", user);
   // console.log("isAdmin?", user.admin);
@@ -44,15 +45,15 @@ const HomePage = () => {
           {user && !user.admin && (
             <>
               <div className="user-content">
-                <ActiveSession />
+                <ActiveSession activeSession={activeSession} setActiveSession={setActiveSession} />
                 <LiveHolder />
               </div>
 
               <div className="user-controls">
 
-                {addSong ? <YouTubeSearch setVideoId={setVideoId} setVideoDuration={setVideoDuration} /> : <YouTube />}
+                {addSong ? <YouTubeSearch setVideoId={setVideoId} activeSession={activeSession} /> : <YouTube />}
 
-                <MySongs addSong={addSong} setAddSong={setAddSong} />
+                <MySongs addSong={addSong} setAddSong={setAddSong} activeSession={activeSession} />
                 <WhosNext />
               </div>
             </>

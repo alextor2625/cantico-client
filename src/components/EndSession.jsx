@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { endSession, getActiveSession } from "../services/session.service"; // Importa las funciones necesarias del servicio
+import { endSession, getActiveSession } from "../services/session.service"; 
 
 const EndSession = () => {
     const [seconds, setSeconds] = useState(0);
@@ -36,16 +36,16 @@ const EndSession = () => {
 
     const handleEndSession = async () => {
         if (isActive) {
-            toggle(); // Detiene el temporizador si está activo
+            toggle(); 
         }
 
         try {
             const sessionData = await getActiveSession();
             if (sessionData && sessionData.session) {
-                setActiveSession(sessionData.session); // Establece la sesión activa
+                setActiveSession(sessionData.session); 
                 const updatedSession = await endSession(sessionData.session._id, seconds);
                 console.log("Session ended with updated duration:", updatedSession);
-                setSeconds(0); // Restablece el temporizador
+                setSeconds(0); 
                 window.location.reload(false)
             }
         } catch (error) {

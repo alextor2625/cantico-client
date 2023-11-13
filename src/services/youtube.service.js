@@ -25,3 +25,50 @@ export const searchYouTube = async (query) => {
         throw error;
     }
 };
+
+
+export const addPerfom = async (perfomData) => {
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+    };
+
+    try {
+        const response = await axios.post(`${API_URL}/perform/add-perform`, perfomData, config);
+        console.log('Respuesta al añadir perfom:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error al añadir perfom', error);
+        throw error;
+    }
+};
+
+export const getMySongs = async (sessionId) => {
+
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+    };
+
+    try {
+        const response = await axios.get(`${API_URL}/perform/my-songs`, {
+            params: { sessionId },
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("authToken")
+            }, config
+        });
+        console.log('get my songs:', response.data)
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener mis canciones', error);
+        throw error;
+    }
+};
+
+
+

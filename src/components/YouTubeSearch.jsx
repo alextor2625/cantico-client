@@ -23,7 +23,7 @@ function useDebounce(value, delay) {
     return debouncedValue;
 }
 
-const YouTubeSearch = ({ setVideoId, setVideoDuration }) => {
+const YouTubeSearch = ({ activeSession }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [videos, setVideos] = useState([])
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -62,7 +62,7 @@ const YouTubeSearch = ({ setVideoId, setVideoDuration }) => {
                         <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
                         <div className='searched-video-title'>
                             <p className='video-title'>{video.snippet.title}</p>
-                            <AddToMySongs videoId={video.id.videoId} setVideoDuration={setVideoDuration} />
+                            <AddToMySongs videoId={video.id.videoId} activeSession={activeSession} thumbnails={video.snippet.thumbnails.default.url} />
                         </div>
                     </div>
                 ))}

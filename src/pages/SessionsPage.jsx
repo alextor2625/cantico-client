@@ -125,15 +125,15 @@ const SessionsPage = () => {
         formattedTime += `${hours}h `;
     }
     if (minutes > 0) {
-        // Asegúrate de solo mostrar los minutos restantes si hay horas
+      
         formattedTime += `${hours > 0 ? minutes % 60 : minutes}m `;
     }
     if (seconds > 0 || time === 0) {
-        // Asegúrate de agregar segundos si no hay minutos ni horas
+      
         formattedTime += `${seconds}s`;
     }
 
-    return formattedTime.trim(); // Elimina espacios extra al final
+    return formattedTime.trim(); 
 };
 
 
@@ -164,7 +164,7 @@ const SessionsPage = () => {
           setTimeout(() => {
             window.location.reload(false);
           }, 3000);
-          setErrorMessage(error.message); // Establecer el mensaje de error en el estado
+          setErrorMessage(error.message); 
         });
     }
   };
@@ -191,12 +191,12 @@ const SessionsPage = () => {
   };
 
   const checkForActiveSession = () => {
-    // Esto devolverá true si encuentra alguna sesión que está activa, false en caso contrario
+   
     return allSessions.some(session => session.isActive);
   };
 
   useEffect(() => {
-    // Esto actualizará la variable de estado `isActive` cada vez que cambie `allSessions`
+   
     setIsActive(checkForActiveSession());
   }, [allSessions]);
 
@@ -224,7 +224,7 @@ const SessionsPage = () => {
               />
             ) : (
               <div className="timer-endSession">
-                {/* <TimerSession /> */}
+              
                 <EndSession allSessions={allSessions} setAllSessions={setAllSessions} />
               </div>
             )}

@@ -7,7 +7,6 @@ const LiveHolder = () => {
             <Button variant="outline-danger" >
 
                 <p className="blink">
-
                     Live
                 </p>
 
