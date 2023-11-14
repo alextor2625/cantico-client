@@ -70,5 +70,23 @@ export const getMySongs = async (sessionId) => {
     }
 };
 
+export const deleteSong = async (perfomId, sessionId) => {
+    const config = {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("authToken")
+        },
+        params: { sessionId } 
+    };
+
+    try {
+        const response = await axios.delete(`${API_URL}/perform/deletesong/${perfomId}`, config);
+        console.log('Respuesta al eliminar perfom:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error al eliminar perfom', error);
+        throw error;
+    }
+};
+
 
 

@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { getYouTubeVideoDetails, addPerfom, getMySongs } from '../services/youtube.service';
+import { getYouTubeVideoDetails, addPerfom } from '../services/youtube.service';
 import { AuthContext } from '../context/auth.context';
+import { useSongs } from '../context/Songs.context'; // Importa el hook del contexto
 
 const AddToMySongs = ({ videoId, activeSession, thumbnails }) => {
-    const [videoName, setVideoName] = useState('')
-    const [videoDuration, setVideoDuration] = useState('')
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
+    const { refreshSongs, setSearchQuery } = useSongs(); // Utiliza el hook para acceder a refreshSongs
 
     const handleAddClick = async () => {
         if (!videoId) {
@@ -17,9 +17,6 @@ const AddToMySongs = ({ videoId, activeSession, thumbnails }) => {
         try {
             const videoDetails = await getYouTubeVideoDetails(videoId);
             if (videoDetails && videoDetails.contentDetails) {
-                setVideoName(videoDetails.snippet.title);
-                setVideoDuration(videoDetails.contentDetails.duration);
-
                 const perfomData = {
                     name: videoDetails.snippet.title,
                     videoDuration: videoDetails.contentDetails.duration,
@@ -30,13 +27,10 @@ const AddToMySongs = ({ videoId, activeSession, thumbnails }) => {
                     thumbnail: thumbnails
                 };
 
-                console.log('Perfom Data:', perfomData)
-                const response = await addPerfom(perfomData);
-                console.log('Perfom añadido:', response);
-
-                setVideoName('');
-                setVideoDuration('');
-                getMySongs(activeSession._id)
+                await addPerfom(perfomData); 
+                console.log('Perfom añadido, actualizando canciones...');
+                setSearchQuery('');
+                refreshSongs(activeSession._id);
             }
         } catch (error) {
             console.error('Error al obtener los detalles del video o al añadir perfom', error);

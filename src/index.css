@@ -400,3 +400,12 @@ justify-content: space-between;
 .mysongs-btn {
   margin-bottom: 1rem;
 }
+
+.youtube-search-bar {
+  display: flex;
+  gap: 1rem;
+}
+
+.text-limit {
+  text-align: center;
+}

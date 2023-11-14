@@ -6,12 +6,13 @@ import {
   getSessionID,
   editSession,
   deleteSession,
-  getActiveSession,
 } from "../services/session.service";
 import { Button, Card, Placeholder } from "react-bootstrap";
 import ActiveSession from "../components/ActiveSession";
 import TimerSession from "../components/TimerSession";
 import EndSession from "../components/EndSession";
+import { useSongs } from "../context/Songs.context";
+
 
 const SessionsPage = () => {
   const [sessionId, setSessionId] = useState(null);
@@ -25,7 +26,8 @@ const SessionsPage = () => {
   const [deleteSessionId, setDeleteSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [noSessionsMessage, setNoSessionsMessage] = useState(null);
-
+  const { fetchActiveSession } = useSongs()
+  
   function formatDate(dateString) {
     const date = new Date(dateString);
     const monthNames = [
@@ -140,14 +142,14 @@ const SessionsPage = () => {
   const handleSaveChanges = () => {
     setSaveChanges(false);
     setIsEditingSessionId(null);
-    getActiveSession();
-
+    
     const currentSession = allSessions.find(
       (session) => session._id === editingSessionId
-    );
-    if (currentSession) {
-      editSession(currentSession._id, inputValue, currentSession.isActive)
+      );
+      if (currentSession) {
+        editSession(currentSession._id, inputValue, currentSession.isActive)
         .then((updatedSession) => {
+          fetchActiveSession()
           setAllSessions((prevSessions) => {
             return prevSessions.map((session) => {
               if (session._id === updatedSession._id) {
@@ -215,6 +217,7 @@ const SessionsPage = () => {
 
 
             <ActiveSession />
+
             {!isActive ? (
               <CreateSession
               sessionId={sessionId}
@@ -282,7 +285,7 @@ const SessionsPage = () => {
                           </Card.Text>
                           <div className="timeandmore">
                           <Card.Text>{formatDate(session.createdAt)}</Card.Text>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" className="bi bi-circle-fill" viewBox="0 0 16 16">
                               <circle cx="8" cy="8" r="8" />
                             </svg>
                             <Card.Text>{formatTime(session.duration)}</Card.Text>

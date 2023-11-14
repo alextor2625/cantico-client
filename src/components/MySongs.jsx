@@ -1,41 +1,35 @@
-import React, { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap'
-import { getMySongs } from '../services/youtube.service'
+import React, { useEffect } from 'react';
+import { Button } from 'react-bootstrap';
+import DeleteMySong from './DeleteMySong';
+import { useSongs } from '../context/Songs.context'; // Importa el hook del contexto
 
 const MySongs = ({ addSong, setAddSong, activeSession }) => {
+    const { mySongs, refreshSongs } = useSongs(); // Utiliza el hook para acceder a mySongs y refreshSongs
 
-    const [mySongs, setMySongs] = useState([])
-
-
-    const handleAddSong = () => {
-        setAddSong((prevState) => !prevState)
-    }
     useEffect(() => {
         if (activeSession && activeSession._id) {
-            getMySongs(activeSession._id)
-                .then(response => {
-                    console.log('My Songs:', response);
-                    if (response.success) {
-                        setMySongs(response.data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al obtener My Songs', error);
-                });
+            refreshSongs(activeSession._id); // Actualiza la lista de canciones al cargar el componente
         }
-    }, [activeSession]);
+    }, [activeSession, refreshSongs]); // Asegúrate de incluir refreshSongs como dependencia
 
-    console.log('mySongs:', mySongs);
+    const handleAddSong = () => {
+        setAddSong(prevState => !prevState);
+    };
 
     return (
         <div>
             <Button variant="outline-warning" className='mysongs-btn'>My Songs</Button>{' '}
 
             <div>
-                {mySongs.map((song) => (
+                {mySongs.map(song => (
                     <div key={song._id} className='videos-mysongs'>
-                        <img src={song.thumbnail} alt="" />
+                        <img src={song.thumbnail} alt={song.name} />
                         <p>{song.name}</p>
+                        <DeleteMySong 
+                            perfomId={song._id} 
+                            activeSession={activeSession} 
+                            onRefresh={() => refreshSongs(activeSession._id)}
+                        />
                         <hr />
                     </div>
                 ))}
@@ -45,7 +39,7 @@ const MySongs = ({ addSong, setAddSong, activeSession }) => {
                 {addSong ? 'Seguir Brechando' : 'Add Song'}
             </Button>
         </div>
-    )
-}
+    );
+};
 
-export default MySongs
+export default MySongs;
