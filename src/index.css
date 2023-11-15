@@ -409,3 +409,7 @@ justify-content: space-between;
 .text-limit {
   text-align: center;
 }
+
+h3 {
+  margin: 0;
+}

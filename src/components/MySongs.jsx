@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import DeleteMySong from './DeleteMySong';
-import { useSongs } from '../context/Songs.context'; // Importa el hook del contexto
+import { useSongs } from '../context/Songs.context'; 
+import AddToQueue from './AddToQueue';
 
-const MySongs = ({ addSong, setAddSong, activeSession }) => {
-    const { mySongs, refreshSongs } = useSongs(); // Utiliza el hook para acceder a mySongs y refreshSongs
+const MySongs = ({ addSong, setAddSong }) => {
+    const { mySongs, refreshSongs, activeSession, refreshQueueSongs } = useSongs(); 
+
+    // console.log('myysongs', mySongs)
 
     useEffect(() => {
         if (activeSession && activeSession._id) {
-            refreshSongs(activeSession._id); // Actualiza la lista de canciones al cargar el componente
+            refreshSongs(activeSession._id); 
+            refreshQueueSongs(activeSession._id);
         }
-    }, [activeSession, refreshSongs]); // Asegúrate de incluir refreshSongs como dependencia
+    }, [activeSession, refreshSongs]); 
 
     const handleAddSong = () => {
         setAddSong(prevState => !prevState);
@@ -30,6 +34,7 @@ const MySongs = ({ addSong, setAddSong, activeSession }) => {
                             activeSession={activeSession} 
                             onRefresh={() => refreshSongs(activeSession._id)}
                         />
+                        <AddToQueue perfomId={song._id} />
                         <hr />
                     </div>
                 ))}

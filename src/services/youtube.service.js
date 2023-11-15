@@ -88,5 +88,39 @@ export const deleteSong = async (perfomId, sessionId) => {
     }
 };
 
+export const updatePerfomStatus = async (perfomId, sessionId) => {
+    const config = {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("authToken")
+        },
+        params: { sessionId }
+    };
 
+    try {
+        const response = await axios.patch(`${API_URL}/perform/update-perfom-status/${perfomId}`, {}, config);
 
+        console.log("updatePerformStatus", response.data)
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar el estado del perfom:', error);
+        throw error;
+    }
+};
+
+export const getQueueSongs = async (sessionId) => {
+
+    const config = {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("authToken")
+        },
+        params: { sessionId }
+    };
+
+    try {
+        const response = await axios.get(`${API_URL}/perform/queue-songs`, config);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener canciones en cola:', error);
+        throw error;
+    }
+};

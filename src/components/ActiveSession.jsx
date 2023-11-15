@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSongs } from "../context/Songs.context"; 
 
 const ActiveSession = () => {
-    const { activeSession, fetchActiveSession, isLoading, error, refreshSongs } = useSongs(); 
+    const { activeSession, fetchActiveSession, isLoading, error } = useSongs(); 
 
     useEffect(() => {
         fetchActiveSession();

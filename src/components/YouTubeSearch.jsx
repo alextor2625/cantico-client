@@ -62,7 +62,7 @@ const YouTubeSearch = ({ activeSession }) => {
                     </div>
                 )}
 
-                {canAddMoreSongs && videos.length > 0 && (
+                {canAddMoreSongs && searchQuery && videos.length > 0 && (
                     <div>
                         {videos.map((video, index) => (
                             <div key={index} className='videos-searched'>

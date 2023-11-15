@@ -4,9 +4,9 @@ import { getYouTubeVideoDetails, addPerfom } from '../services/youtube.service';
 import { AuthContext } from '../context/auth.context';
 import { useSongs } from '../context/Songs.context'; // Importa el hook del contexto
 
-const AddToMySongs = ({ videoId, activeSession, thumbnails }) => {
+const AddToMySongs = ({ videoId, thumbnails }) => {
     const { user } = useContext(AuthContext);
-    const { refreshSongs, setSearchQuery } = useSongs(); // Utiliza el hook para acceder a refreshSongs
+    const { refreshSongs, setSearchQuery, activeSession } = useSongs(); // Utiliza el hook para acceder a refreshSongs
 
     const handleAddClick = async () => {
         if (!videoId) {
