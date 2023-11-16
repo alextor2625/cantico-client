@@ -29,12 +29,14 @@ const MySongs = ({ addSong, setAddSong }) => {
                     <div key={song._id} className='videos-mysongs'>
                         <img src={song.thumbnail} alt={song.name} />
                         <p>{song.name}</p>
+                        <div className='delete-add-queu'>
                         <DeleteMySong 
                             perfomId={song._id} 
                             activeSession={activeSession} 
                             onRefresh={() => refreshSongs(activeSession._id)}
                         />
                         <AddToQueue perfomId={song._id} />
+                        </div>
                         <hr />
                     </div>
                 ))}

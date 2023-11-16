@@ -1,6 +1,7 @@
 import { API_URL } from "./config.service";
 import axios from "axios";
 
+
 export const storeToken = (token) => {
   localStorage.setItem("authToken", token);
   console.log("Line 6 - Token:", token);

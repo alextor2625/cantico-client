@@ -19,7 +19,7 @@ const AddToQueue = ({ perfomId }) => {
 
     return (
         <div>
-            <Button variant="outline-dark" onClick={handleAddToQueueClick}>Añadir a Cola</Button>
+            <Button variant="outline-dark" onClick={handleAddToQueueClick}>Queu</Button>
         </div>
     );
 };

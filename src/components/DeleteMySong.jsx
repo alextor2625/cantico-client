@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { useSongs } from '../context/Songs.context'; 
 
 const DeleteMySong = ({ perfomId, activeSession }) => {
-    const { refreshSongs } = useSongs(); 
+    const { refreshSongs, refreshQueueSongs } = useSongs(); 
 
     const handleDeleteSong = async () => {
         try {
@@ -12,6 +12,7 @@ const DeleteMySong = ({ perfomId, activeSession }) => {
             if (response.success) {
                 console.log('Canción eliminada con éxito');
                 refreshSongs(activeSession._id);
+                refreshQueueSongs(activeSession._id);
             }
         } catch (error) {
             console.error('No se pudo eliminar la canción', error);
@@ -20,7 +21,7 @@ const DeleteMySong = ({ perfomId, activeSession }) => {
 
     return (
         <div>
-            <Button variant="outline-dark" onClick={handleDeleteSong}>Remove</Button>
+            <Button className='delete-queue-btn' onClick={handleDeleteSong}>Remove</Button>
         </div>
     );
 };
