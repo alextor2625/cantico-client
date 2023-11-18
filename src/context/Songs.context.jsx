@@ -1,6 +1,13 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import { getMySongs, getQueueSongs } from '../services/youtube.service';
 import { getActiveSession } from '../services/session.service';
+import { io } from 'socket.io-client';
+import { API_URL } from '../services/config.service';
+
+const socket = io.connect(API_URL)
+
+
+  
 
 export const SongsContext = createContext();
 
@@ -13,6 +20,23 @@ export const SongsProvider = ({ children }) => {
     const [queueSongs, setQueueSongs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const sendSession = (sessionData) => {
+        socket.emit("update_session", sessionData)
+    }
+
+    useEffect(() => {
+        // Escuchar el evento 'update_session'
+        socket.on('update_session', (updatedSessionData) => {
+          // Aquí actualizas el estado con los datos de la sesión actualizada
+          setActiveSession(updatedSessionData);
+        });
+      
+        // Limpiar el listener al desmontar el componente
+        return () => {
+          socket.off('update_session');
+        };
+      }, []);
 
     const refreshSongs = useCallback(async (sessionId) => {
         try {
@@ -35,6 +59,7 @@ export const SongsProvider = ({ children }) => {
           const response = await getActiveSession();
           if (response.success) {
             setActiveSession(response.session);
+              sendSession(response.session)
           } else {
             setActiveSession(null);
             setError('No active session found.');
