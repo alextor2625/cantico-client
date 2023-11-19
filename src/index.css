@@ -454,3 +454,12 @@ h3 {
 .video-controls-btns > button {
   flex-grow: 1;
 }
+
+.user-play-btn-cont {
+  display: flex;
+  /* margin-bottom: 1rem; */
+}
+
+.user-play-btn-cont > button {
+  flex-grow: 1;
+}

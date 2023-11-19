@@ -42,7 +42,7 @@ const MySongs = ({ addSong, setAddSong }) => {
             </div>
 
             <Button onClick={handleAddSong}>
-                {addSong ? 'Seguir Brechando' : 'Add Song'}
+                {addSong ? 'Seguir Viendo' : 'Add Song'}
             </Button>
         </div>
     );
