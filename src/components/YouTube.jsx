@@ -3,6 +3,7 @@ import { useSongs } from '../context/Songs.context';
 import { updatePerfomStatus } from '../services/youtube.service';
 import { AuthContext } from '../context/auth.context';
 import ReactPlayer from "react-player";
+import { Button } from "react-bootstrap";
 
 const YouTube = () => {
   const { queueSongs, refreshQueueSongs, activeSession } = useSongs();
@@ -50,6 +51,24 @@ const YouTube = () => {
 
   return (
     <div>
+
+      {user && user.admin && (
+        <div className="video-controls-btns">
+          <Button variant="dark" onClick={skipToPrevious}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+          </Button>
+          <Button variant="dark" onClick={skipToNext}>
+          
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+            </svg>
+          </Button>
+        </div>
+      )}
+
+
       <ReactPlayer
         url={videoUrl}
         width="100%"
@@ -71,12 +90,7 @@ const YouTube = () => {
         onEnded={handleVideoEnd}
       />
 
-      {user && user.admin && (
-        <div>
-          <button onClick={skipToPrevious}>Anterior</button>
-          <button onClick={skipToNext}>Siguiente</button>
-        </div>
-      )}
+
     </div>
   );
 };

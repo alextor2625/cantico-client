@@ -443,3 +443,14 @@ h3 {
 .ytp-chrome-top-buttons {
   display: none !important;
 }
+
+.video-controls-btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.video-controls-btns > button {
+  flex-grow: 1;
+}
