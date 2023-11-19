@@ -440,3 +440,6 @@ h3 {
   padding: 1rem;
   margin-bottom: 1rem;
 }
+.ytp-chrome-top-buttons {
+  display: none !important;
+}

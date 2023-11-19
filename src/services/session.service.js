@@ -134,7 +134,7 @@ export const getActiveSession = async () => {
 
   try {
     const response = await axios.get(`${API_URL}/sessions/current/active`);
-    console.log("Active session data:", response.data);
+    // console.log("Active session data:", response.data);
     return response.data; 
   } catch (error) {
     console.error("Error fetching active session data:", error);

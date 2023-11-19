@@ -55,7 +55,7 @@ export const getMySongs = async (sessionId) => {
                 Authorization: "Bearer " + localStorage.getItem("authToken")
             }
         });
-        console.log('get my songs:', response.data)
+        // console.log('get my songs:', response.data)
         return response.data;
     } catch (error) {
         console.error('Error al obtener mis canciones', error);

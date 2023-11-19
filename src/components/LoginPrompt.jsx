@@ -12,7 +12,7 @@ const LoginPrompt = ({showPrompt, setShowPrompt}) => {
     setShowPrompt(false);
   };
 
-  console.log("Line 15 - User:", user);
+  // console.log("Line 15 - User:", user);
 
   return (
     <>

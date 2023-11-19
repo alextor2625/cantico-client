@@ -46,7 +46,7 @@ export const SongsProvider = ({ children }) => {
         try {
             const response = await getMySongs(sessionId);
             if (response.success) {
-                console.log('Canciones actualizadas:', response.data);
+                // console.log('Canciones actualizadas:', response.data);
                 setMySongs(response.data);
             } else {
                 console.log('No se pudo encontrar my songs');

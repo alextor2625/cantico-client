@@ -16,13 +16,13 @@ const HomePage = () => {
 
   const { user } = useContext(AuthContext);
   const [sessionId, setSessionId] = useState(null);
-  console.log("Before rendering ActiveSession:", typeof setSessionId);
+  // console.log("Before rendering ActiveSession:", typeof setSessionId);
 
   const [showPrompt, setShowPrompt] = useState(true);
   const [addSong, setAddSong] = useState(false)
   const [videoId, setVideoId] = useState(null)
   const [activeSession, setActiveSession] = useState(null);
-  console.log('active session home page', activeSession)
+  // console.log('active session home page', activeSession)
   
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useSongs } from '../context/Songs.context';
 import { updatePerfomStatus } from '../services/youtube.service';
 import { AuthContext } from '../context/auth.context';
+import ReactPlayer from "react-player";
 
 const YouTube = () => {
   const { queueSongs, refreshQueueSongs, activeSession } = useSongs();
@@ -42,23 +43,33 @@ const YouTube = () => {
     }
   };
 
-  const videoSrc = queueSongs.length > currentVideoIndex
-    ? `https://www.youtube.com/embed/${queueSongs[currentVideoIndex].videoId}?autoplay=1&controls=0&showinfo=0&modestbranding=1&rel=0&enablejsapi=1&autohide=0`
+  // Verificar si existe queueSongs[currentVideoIndex] antes de acceder a videoId
+  const videoUrl = queueSongs.length > currentVideoIndex && queueSongs[currentVideoIndex]
+    ? `https://www.youtube.com/watch?v=${queueSongs[currentVideoIndex].videoId}`
     : '';
 
   return (
     <div>
-      <iframe
-        width="560"
-        control="0"
-        height="315"
-        src={videoSrc}
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
+      <ReactPlayer
+        url={videoUrl}
+        width="100%"
+        height="100%"
+        controls={false}
+        config={{
+          youtube: {
+            playerVars: {
+              modestbranding: 1, // Modest Branding
+              rel: 0, // No mostrar videos relacionados
+              enablejsapi: 1, // Habilitar la API de YouTube
+              autohide: 1, // Ocultar la barra de reproducción automáticamente
+              showinfo: 0, // No mostrar información del video
+              disablekb: 0, // Deshabilitar el teclado
+              autoplay: 1, 
+            },
+          },
+        }}
         onEnded={handleVideoEnd}
-      ></iframe>
+      />
 
       {user && user.admin && (
         <div>
