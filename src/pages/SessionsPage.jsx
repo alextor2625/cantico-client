@@ -163,9 +163,9 @@ const SessionsPage = () => {
         .catch((error) => {
           // 2. Manejar el error
           console.error("Error editing session:", error);
-          // setTimeout(() => {
-          //   window.location.reload(false);
-          // }, 3000);
+          setTimeout(() => {
+            window.location.reload(false);
+          }, 3000);
           setErrorMessage(error.message); 
         });
     }

@@ -1,25 +1,26 @@
 import React from 'react';
-import { updatePerfomStatus } from '../services/youtube.service';
-import { useSongs } from '../context/Songs.context';
 import { Button } from 'react-bootstrap';
+import { queuePerfom } from '../services/youtube.service';
+import { useSongs } from '../context/Songs.context'; 
 
 const AddToQueue = ({ perfomId }) => {
-    const { activeSession, refreshSongs, refreshQueueSongs } = useSongs();
 
-    const handleAddToQueueClick = async () => {
+    const { refreshSongs, activeSession, refreshQueueSongs } = useSongs(); 
+
+    const handleAddToQueue = async () => {
         try {
-            await updatePerfomStatus(perfomId, activeSession._id);
-            // Actualiza ambas listas de canciones
-            refreshSongs(activeSession._id);
+            const result = await queuePerfom(perfomId);
+            refreshSongs(activeSession._id)
             refreshQueueSongs(activeSession._id);
+            console.log("Perfom actualizado con éxito:", result);
         } catch (error) {
-            console.error(error);
+            console.error("Error al actualizar el Perfom:", error);
         }
     };
 
     return (
         <div>
-            <Button variant="outline-dark" onClick={handleAddToQueueClick}>Queu</Button>
+            <Button variant="outline-dark" onClick={handleAddToQueue}>Queue</Button>
         </div>
     );
 };

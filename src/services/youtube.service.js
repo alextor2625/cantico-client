@@ -48,19 +48,12 @@ export const addPerfom = async (perfomData) => {
 
 export const getMySongs = async (sessionId) => {
 
-    const config = {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("authToken"),
-        },
-    };
-
     try {
         const response = await axios.get(`${API_URL}/perform/my-songs`, {
             params: { sessionId },
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("authToken")
-            }, config
+            }
         });
         console.log('get my songs:', response.data)
         return response.data;
@@ -88,30 +81,27 @@ export const deleteSong = async (perfomId, sessionId) => {
     }
 };
 
-export const updatePerfomStatus = async (perfomId, sessionId) => {
-    const config = {
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem("authToken")
-        },
-        params: { sessionId }
-    };
-
+export const queuePerfom = async (perfomId) => {
     try {
-        const response = await axios.patch(`${API_URL}/perform/update-perfom-status/${perfomId}`, {}, config);
 
-        console.log("updatePerformStatus", response.data)
+        const config = {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("authToken"),
+            },
+        };
+
+        const response = await axios.put(`${API_URL}/perform/queue-perform/${perfomId}`, {}, config);
         return response.data;
     } catch (error) {
-        console.error('Error al actualizar el estado del perfom:', error);
+        console.error('Error al actualizar el estado de Perfom:', error);
         throw error;
     }
 };
 
 export const getQueueSongs = async (sessionId) => {
-
     const config = {
         headers: {
-            Authorization: "Bearer " + localStorage.getItem("authToken")
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
         },
         params: { sessionId }
     };
@@ -120,7 +110,7 @@ export const getQueueSongs = async (sessionId) => {
         const response = await axios.get(`${API_URL}/perform/queue-songs`, config);
         return response.data;
     } catch (error) {
-        console.error('Error al obtener canciones en cola:', error);
+        console.error('Error al obtener canciones en la cola:', error);
         throw error;
     }
 };

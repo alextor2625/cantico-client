@@ -5,14 +5,13 @@ import { useSongs } from '../context/Songs.context';
 import AddToQueue from './AddToQueue';
 
 const MySongs = ({ addSong, setAddSong }) => {
-    const { mySongs, refreshSongs, activeSession, refreshQueueSongs } = useSongs(); 
+    const { mySongs, refreshSongs, activeSession } = useSongs(); 
 
     // console.log('myysongs', mySongs)
 
     useEffect(() => {
         if (activeSession && activeSession._id) {
             refreshSongs(activeSession._id); 
-            refreshQueueSongs(activeSession._id);
         }
     }, [activeSession, refreshSongs]); 
 
@@ -22,7 +21,7 @@ const MySongs = ({ addSong, setAddSong }) => {
 
     return (
         <div>
-            <Button variant="outline-warning" className='mysongs-btn'>My Songs</Button>{' '}
+            <Button variant="dark" className='mysongs-btn'>My Songs</Button>{' '}
 
             <div>
                 {mySongs.map(song => (

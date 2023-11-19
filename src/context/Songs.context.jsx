@@ -17,22 +17,18 @@ export const SongsProvider = ({ children }) => {
     const [mySongs, setMySongs] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeSession, setActiveSession] = useState(null);
-    const [queueSongs, setQueueSongs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [queueSongs, setQueueSongs] = useState([]);
 
     const sendSession = (sessionData) => {
         socket.emit("update_session", sessionData)
     }
 
     useEffect(() => {
-        // Escuchar el evento 'update_session'
         socket.on('update_session', (updatedSessionData) => {
-          // Aquí actualizas el estado con los datos de la sesión actualizada
           setActiveSession(updatedSessionData);
         });
-      
-        // Limpiar el listener al desmontar el componente
         return () => {
           socket.off('update_session');
         };
@@ -76,7 +72,7 @@ export const SongsProvider = ({ children }) => {
         try {
             const response = await getQueueSongs(sessionId);
             if (response.success) {
-                setQueueSongs(response.data); 
+                setQueueSongs(response.data);
             } else {
                 console.log('No se pudo encontrar queue songs');
             }
@@ -88,8 +84,8 @@ export const SongsProvider = ({ children }) => {
     
 
     return (
-        <SongsContext.Provider value={{ mySongs, setMySongs, refreshSongs, searchQuery, setSearchQuery, activeSession, setActiveSession, isLoading, error, fetchActiveSession, queueSongs, 
-            refreshQueueSongs   }}>
+        <SongsContext.Provider value={{ mySongs, setMySongs, refreshSongs, searchQuery, setSearchQuery, activeSession, setActiveSession, isLoading, error, fetchActiveSession, queueSongs, refreshQueueSongs, 
+             }}>
             {children}
         </SongsContext.Provider>
     );

@@ -24,7 +24,7 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
                     status: "hold", 
                     user: user._id,
                     session: activeSession._id,
-                    thumbnail: thumbnails
+                    thumbnail: thumbnails,
                 };
 
                 await addPerfom(perfomData); 
