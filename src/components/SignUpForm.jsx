@@ -24,7 +24,7 @@ const SignUpForm = () => {
 
     signup(name, lastname, email, telephone, password, admin)
       .then((data) => {
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         const errorDescription = error.message;

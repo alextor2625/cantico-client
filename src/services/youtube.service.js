@@ -83,7 +83,6 @@ export const deleteSong = async (perfomId, sessionId) => {
 
 export const queuePerfom = async (perfomId) => {
     try {
-
         const config = {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("authToken"),
@@ -108,9 +107,28 @@ export const getQueueSongs = async (sessionId) => {
 
     try {
         const response = await axios.get(`${API_URL}/perform/queue-songs`, config);
+        // console.log('queue songs', response.data)
         return response.data;
     } catch (error) {
         console.error('Error al obtener canciones en la cola:', error);
+        throw error;
+    }
+};
+
+export const updatePerfomStatus = async (perfomId, statusData) => {
+    try {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("authToken"),
+            },
+        };
+
+        const response = await axios.put(`${API_URL}/perform/update-perfom/${perfomId}`, statusData, config);
+        console.log('update perform status:', response.data)
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar el estado del Perfom:', error);
         throw error;
     }
 };

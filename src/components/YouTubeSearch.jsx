@@ -21,7 +21,7 @@ const YouTubeSearch = ({ activeSession }) => {
 
     const handleSearch = async () => {
         if (searchQuery) {
-            const searchQueryWithKaraoke = searchQuery + ' karaoke';
+            const searchQueryWithKaraoke = searchQuery + 'karaoke';
             try {
                 const results = await searchYouTube(searchQueryWithKaraoke);
                 setVideos(results.items);

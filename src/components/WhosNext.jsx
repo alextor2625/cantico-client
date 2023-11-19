@@ -6,33 +6,38 @@ import DeleteMySong from './DeleteMySong';
 
 const WhosNext = () => {
     const { queueSongs, refreshQueueSongs, activeSession } = useSongs();
-    const { user } = useContext(AuthContext); // Obtiene la información del usuario actual
+    const { user } = useContext(AuthContext); 
 
     useEffect(() => {
         if (activeSession && activeSession._id) {
-            refreshQueueSongs(activeSession._id); // Actualiza la lista de canciones en cola
+            refreshQueueSongs(activeSession._id); 
         }
     }, [activeSession, refreshQueueSongs]);
 
     return (
         <div>
             <Button variant="dark" className='mysongs-btn'>Queue</Button>
-            <div className='videos-queue-songs'>
-                {queueSongs.map(song => (
-                    <div key={song._id} className='queue-song-item'>
-                        <h3>{song.user.name}</h3>
-                        <p>{song.name}</p>
-                        {/* Muestra el botón de eliminar solo si el usuario actual es el creador de la canción */}
-                        {user && song.user._id === user._id && (
-                            <DeleteMySong 
-                                perfomId={song._id} 
-                                activeSession={activeSession}
-                                onRefresh={() => refreshQueueSongs(activeSession._id)}
-                            />
-                        )}
-                    </div>
-                ))}
-            </div>
+            {queueSongs.map((song, index) => (
+                <div
+                    key={song._id}
+                    className={`queue-song-item ${index === 0 ? 'song-playing' : ''} ${index === 1 ? 'song-next' : ''}`}
+                >
+                    {index === 0 && <p className="song-status">Sonando</p>}
+                    {index === 1 && <p className="song-status">Siguiente en fila</p>}
+
+                    <h3>{song.user.name}</h3>
+                    <p>{song.name}</p>
+
+                    {user && (user.admin || song.user._id === user._id) && (
+                        <DeleteMySong
+                            perfomId={song._id}
+                            activeSession={activeSession}
+                            onRefresh={() => refreshQueueSongs(activeSession._id)}
+                        />
+                    )}
+                </div>
+            ))}
+
         </div>
     );
 };

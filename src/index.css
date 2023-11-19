@@ -433,3 +433,10 @@ h3 {
   color: black;
   border: 1px solid black;
 }
+
+.queue-song-item {
+  background-color: #7ca8bc;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}

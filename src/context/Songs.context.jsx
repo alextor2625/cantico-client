@@ -25,9 +25,17 @@ export const SongsProvider = ({ children }) => {
         socket.emit("update_session", sessionData)
     }
 
+    const updateQueue = (queueData) => {
+        socket.emit("update_queue", queueData)
+    }
+
     useEffect(() => {
         socket.on('update_session', (updatedSessionData) => {
           setActiveSession(updatedSessionData);
+        });
+
+        socket.on('update_queue', (updateQueue) => {
+            setQueueSongs(updateQueue);
         });
         return () => {
           socket.off('update_session');
@@ -73,6 +81,7 @@ export const SongsProvider = ({ children }) => {
             const response = await getQueueSongs(sessionId);
             if (response.success) {
                 setQueueSongs(response.data);
+                updateQueue(response.data)
             } else {
                 console.log('No se pudo encontrar queue songs');
             }
