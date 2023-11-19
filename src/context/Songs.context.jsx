@@ -20,6 +20,7 @@ export const SongsProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [queueSongs, setQueueSongs] = useState([]);
+    const [isPlaying, setIsPlaying] = useState(false); 
 
     const sendSession = (sessionData) => {
         socket.emit("update_session", sessionData)
@@ -27,6 +28,16 @@ export const SongsProvider = ({ children }) => {
 
     const updateQueue = (queueData) => {
         socket.emit("update_queue", queueData)
+    }
+    const updatePerform = (performData) => {
+        socket.emit("update_perform", performData)
+    }
+
+    const toggleIsPlaying = () => {
+      !isPlaying?
+      setIsPlaying(true):
+      setIsPlaying(false)
+    
     }
 
     useEffect(() => {
@@ -37,6 +48,14 @@ export const SongsProvider = ({ children }) => {
         socket.on('update_queue', (updateQueue) => {
             setQueueSongs(updateQueue);
         });
+        
+        socket.on('update_perform', (updatedPerfom) => {
+          console.log("Updating Video Status");
+          setIsPlaying(updatedPerfom.isPlaying);
+
+        });
+
+
         return () => {
           socket.off('update_session');
         };
@@ -93,7 +112,7 @@ export const SongsProvider = ({ children }) => {
     
 
     return (
-        <SongsContext.Provider value={{ mySongs, setMySongs, refreshSongs, searchQuery, setSearchQuery, activeSession, setActiveSession, isLoading, error, fetchActiveSession, queueSongs, refreshQueueSongs, 
+        <SongsContext.Provider value={{ mySongs, setMySongs, refreshSongs, searchQuery, setSearchQuery, activeSession, setActiveSession, isLoading, error, fetchActiveSession, queueSongs, refreshQueueSongs, isPlaying, toggleIsPlaying,
              }}>
             {children}
         </SongsContext.Provider>
