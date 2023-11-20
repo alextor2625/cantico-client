@@ -6,10 +6,10 @@ import ReactPlayer from "react-player";
 import { Button } from "react-bootstrap";
 
 const YouTube = () => {
-  const { queueSongs, refreshQueueSongs, activeSession } = useSongs();
+  const { queueSongs, refreshQueueSongs, activeSession, isPlaying, toggleIsPlaying } = useSongs();
   const { user } = useContext(AuthContext);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true); 
+  // const [isPlaying, setIsPlaying] = useState(true); 
 
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex) {
@@ -47,7 +47,7 @@ const YouTube = () => {
 
   const handlePlayPauseClick = () => {
     // Cambiar el estado de reproducción cuando se hace clic en el botón
-    setIsPlaying(!isPlaying);
+    toggleIsPlaying()
   };
 
   // Verificar si existe queueSongs[currentVideoIndex] antes de acceder a videoId
