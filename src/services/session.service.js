@@ -135,10 +135,10 @@ export const getActiveSession = async () => {
   try {
     const response = await axios.get(`${API_URL}/sessions/current/active`);
     // console.log("Active session data:", response.data);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Error fetching active session data:", error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -162,12 +162,11 @@ export const endSession = async (sessionId, duration) => {
     return response.data.session;
   } catch (error) {
     console.error("Error ending session:", error);
-   
+
     if (error.response && error.response.data && error.response.data.message) {
       console.error("API Error:", error.response.data.message);
       throw new Error(error.response.data.message);
     } else {
-     
       throw error;
     }
   }
@@ -186,19 +185,30 @@ export const addUserToSession = async (sessionId, userId) => {
   try {
     const response = await axios.post(
       `${API_URL}/sessions/add/${userId}`,
-      { sessionId }, 
+      { sessionId },
       config
     );
 
     console.log("User added to session:", response.data);
-    return response.data.session; 
+    return response.data.session;
   } catch (error) {
     console.error("Error adding user to session:", error.response || error);
     if (error.response && error.response.data && error.response.data.message) {
-      
       throw new Error(error.response.data.message);
     } else {
-      throw new Error('Error adding user to session');
+      throw new Error("Error adding user to session");
     }
+  }
+};
+
+export const toggleSessionStartApi = async (sessionId) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/sessions/toggle-has-started/${sessionId}`
+    );
+    console.log("updadte timer:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Line 211 - Error:", error);
   }
 };

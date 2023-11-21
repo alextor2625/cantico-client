@@ -250,7 +250,6 @@ a {
 .timer-flex {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .form-live {

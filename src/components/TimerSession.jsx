@@ -1,67 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button'; // Asegúrate de que estás importando Button de 'react-bootstrap'
+import React, { useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import { useSongs } from "../context/Songs.context";
+// import { io } from "socket.io-client";
+// import { API_URL } from "../services/config.service";
 
 const TimerSession = () => {
-    const [isActive, setIsActive] = useState(false);
-    const [seconds, setSeconds] = useState(0);
-    
-    // Efecto para iniciar el temporizador
-    useEffect(() => {
-        let interval = null;
+  const {
+    isRunning,
+    setIsRunning,
+    startTime,
+    setStartTime,
+    seconds,
+    setSeconds,
+    activeSession,
+    toggleSessionStart,
+  } = useSongs();
 
-        if (isActive) {
-            interval = setInterval(() => {
-                setSeconds(seconds => seconds + 1);
-            }, 1000); // Cada segundo
-        } else if (!isActive && seconds !== 0) {
-            clearInterval(interval);
-        }
-        
-        // Limpieza del intervalo
-        return () => clearInterval(interval);
-    }, [isActive, seconds]);
+//   const socket = io.connect(API_URL);
 
-    // Formatear el tiempo a horas:minutos:segundos
-    const formatTime = (time) => {
-        const hours = Math.floor(time / 3600);
-        const minutes = Math.floor((time % 3600) / 60);
-        const seconds = time % 60;
+  useEffect(() => {
+    let interval = null;
 
-        return [
-            hours,
-            minutes < 10 ? '0' + minutes : minutes,
-            seconds < 10 ? '0' + seconds : seconds,
-        ].join(':');
-    };
+    if (isRunning) {
+      if (startTime === null) {
+        // Establecer la hora de inicio si es la primera vez que se inicia el temporizador
+        setStartTime(Date.now() - seconds * 1000);
+      }
+      interval = setInterval(() => {
+        setSeconds(Math.floor((Date.now() - startTime) / 1000));
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
 
-    const toggle = () => {
-        setIsActive(!isActive);
-    };
+    return () => clearInterval(interval);
+  }, [isRunning, startTime, seconds, setSeconds]);
 
-    const reset = () => {
-        setIsActive(false);
-        setSeconds(0);
-    };
+  const formatTime = (time) => {
+    // Función formatTime
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
 
-    return (
-        <div className='timer-flex'>
-            <Button onClick={toggle} variant={isActive ? 'light' : 'success'} className='start-stop-btn'>
-                {isActive ? 'Stop' : 'Start'}
-            </Button>
+    return [
+      hours,
+      minutes < 10 ? "0" + minutes : minutes,
+      seconds < 10 ? "0" + seconds : seconds,
+    ].join(":");
+  };
 
-            <div className="form-floating mb-3 form-live">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="floatingInput"
-                    placeholder="00:00:00"
-                    value={formatTime(seconds)}
-                    readOnly
-                />
-                <label htmlFor="floatingInput">Live</label>
-            </div>
-        </div>
-    );
+  const toggle = () => {
+    if (isRunning || !activeSession) {
+      // Detener el temporizador
+      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+      toggleSessionStart(activeSession._id);
+      setSeconds(elapsedSeconds);
+    } else {
+      // Reanudar el temporizador
+      setStartTime(Date.now() - seconds * 1000);
+    }
+    setIsRunning((prevState) => !prevState);
+    // const newIsRunning = !isRunning;
+    // socket.emit("toggleIsRunning", { isRunning: newIsRunning });
+    console.log("isRunning:", isRunning);
+  };
+
+  const reset = () => {
+    setIsRunning(false);
+    setSeconds(0);
+    setStartTime(null);
+  };
+
+  return (
+    <div className="timer-flex">
+      <Button
+        onClick={toggle}
+        variant={isRunning ? "light" : "success"}
+        className="start-stop-btn"
+      >
+        {isRunning ? "Stop" : "Start"}
+      </Button>
+      <div className="form-floating mb-3 form-live">
+        <input
+          type="text"
+          className="form-control"
+          id="floatingInput"
+          placeholder="00:00:00"
+          value={formatTime(seconds)}
+          readOnly
+        />
+        <label htmlFor="floatingInput">Live</label>
+      </div>
+    </div>
+  );
 };
 
 export default TimerSession;
