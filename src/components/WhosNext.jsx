@@ -18,26 +18,26 @@ const WhosNext = () => {
         <div>
             <Button variant="dark" className='mysongs-btn'>Queue</Button>
             {queueSongs.map((song, index) => (
-                <div
-                    key={song._id}
-                    className={`queue-song-item ${index === 0 ? 'song-playing' : ''} ${index === 1 ? 'song-next' : ''}`}
-                >
-                    {index === 0 && <p className="song-status">Sonando</p>}
-                    {index === 1 && <p className="song-status">Siguiente en fila</p>}
-
-                    <h3>{song.user.name}</h3>
-                    <p>{song.name}</p>
-
-                    {user && (user.admin || song.user._id === user._id) && (
-                        <DeleteMySong
-                            perfomId={song._id}
-                            activeSession={activeSession}
-                            onRefresh={() => refreshQueueSongs(activeSession._id)}
-                        />
-                    )}
-                </div>
+               <div
+               key={song._id}
+               className={`queue-song-item ${index === 0 ? 'song-playing' : ''} ${index === 1 ? 'song-next' : ''} ${user && !user.admin && song.user._id !== user._id && index > 1? 'default-song' : ''}`}
+           >
+               {index === 0 && <p className="song-status">Sonando</p>}
+               {index === 1 && <p className="song-status">Siguiente en fila</p>}
+           
+               <h3>{song.user.name}</h3>
+               <p>{song.name}</p>
+           
+               {user && (user.admin || song.user._id === user._id) && (
+                   <DeleteMySong
+                       perfomId={song._id}
+                       activeSession={activeSession}
+                       onRefresh={() => refreshQueueSongs(activeSession._id)}
+                   />
+               )}
+           </div>
+           
             ))}
-
         </div>
     );
 };

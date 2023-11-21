@@ -124,8 +124,6 @@ a {
   padding: 0.5rem 1rem;
 }
 
-
-
 .allsesions-cont {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -161,11 +159,6 @@ a {
   align-items: center;
   justify-content: space-between;
 }
-
-/* .add-session-cont > * {
-  flex-grow: 1;
-} */
-
 
 .create-sess-act {
   flex-grow: 1;
@@ -462,4 +455,21 @@ h3 {
 
 .user-play-btn-cont > button {
   flex-grow: 1;
+}
+
+
+.song-playing {
+  background-color: red;
+}
+
+.song-next {
+  background-color: yellow;
+}
+
+.user-song {
+  background-color: green;
+}
+
+.default-song {
+  background-color: white;
 }
