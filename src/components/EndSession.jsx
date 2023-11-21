@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { endSession, getActiveSession } from "../services/session.service";
 import TimerSession from "./TimerSession";
 import { useSongs } from "../context/Songs.context";
 
 const EndSession = () => {
-  const { seconds } = useSongs(); // Obtener los segundos desde el contexto
-  const [activeSession, setActiveSession] = useState(null);
+  const {
+    seconds,
+    toggleSessionStart,
+    activeSession,
+    setActiveSession,
+    timerActive,
+  } = useSongs();
+
+  useEffect(() => {
+    console.log("timerActive", timerActive);
+  }, [timerActive]);
 
   const handleEndSession = async () => {
     try {
@@ -22,6 +31,8 @@ const EndSession = () => {
       }
     } catch (error) {
       console.error("Error ending the session:", error);
+    } finally {
+      toggleSessionStart(activeSession._id);
     }
   };
 

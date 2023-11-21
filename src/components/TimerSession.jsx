@@ -16,7 +16,7 @@ const TimerSession = () => {
     toggleSessionStart,
   } = useSongs();
 
-//   const socket = io.connect(API_URL);
+  //   const socket = io.connect(API_URL);
 
   useEffect(() => {
     let interval = null;
@@ -49,19 +49,25 @@ const TimerSession = () => {
     ].join(":");
   };
 
+  let start = 0;
+
   const toggle = () => {
     if (isRunning || !activeSession) {
       // Detener el temporizador
       const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-      toggleSessionStart(activeSession._id);
       setSeconds(elapsedSeconds);
     } else {
       // Reanudar el temporizador
       setStartTime(Date.now() - seconds * 1000);
     }
+
+    toggleSessionStart(activeSession._id);
+
+    console.log("Start:", (start += 1));
     setIsRunning((prevState) => !prevState);
-    // const newIsRunning = !isRunning;
-    // socket.emit("toggleIsRunning", { isRunning: newIsRunning });
+
+    const newIsRunning = !isRunning;
+    socket.emit("toggleIsRunning", { isRunning: newIsRunning });
     console.log("isRunning:", isRunning);
   };
 

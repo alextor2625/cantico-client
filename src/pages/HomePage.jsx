@@ -17,16 +17,23 @@ const HomePage = () => {
 
   const { user } = useContext(AuthContext);
   const [sessionId, setSessionId] = useState(null);
-  const { activeSession, setActiveSession, isRunning, fetchActiveSession } =
-    useSongs();
+  const {
+    activeSession,
+    setActiveSession,
+    isRunning,
+    fetchActiveSession,
+    timerActive,
+  } = useSongs();
   // console.log("Before rendering ActiveSession:", typeof setSessionId);
+
+  console.log("Timer Active - Home Page:", timerActive);
 
   const [showPrompt, setShowPrompt] = useState(true);
   const [addSong, setAddSong] = useState(false);
   const [videoId, setVideoId] = useState(null);
   // const [activeSession, setActiveSession] = useState(null);
-  console.log("active session", activeSession);
-  console.log("isRunnig", isRunning);
+  // console.log("active session", activeSession);
+  // console.log("isRunnig", isRunning);
 
   useEffect(() => {
     fetchActiveSession();
@@ -67,7 +74,9 @@ const HomePage = () => {
             </>
           )}
 
-          {user && !user.admin && activeSession && isRunning && (
+          {/* Live Holder & Title - Active Session !Timer*/}
+
+          {user && !user.admin && activeSession && (
             <>
               <div className="user-content">
                 <ActiveSession />
@@ -76,33 +85,47 @@ const HomePage = () => {
             </>
           )}
 
-          {user && !user.admin && !activeSession && isRunning && (
+          {/* Prompts & No hay Active Session */}
+
+          {user && !user.admin && !activeSession && (
             <h1>No hay Sesion Activa en este momento</h1>
           )}
 
-          {user && !user.admin && activeSession && isRunning && (
-            <h1>La sesion esta a punto de iniciar...</h1>
-          )}
+          {/* Actice Sessio === True && !Not Actice */}
 
-          {user && !user.admin && activeSession && !isRunning && (
-            <div className="user-controls">
-              {addSong ? (
-                <YouTubeSearch
-                  setVideoId={setVideoId}
+          {user &&
+            !user.admin &&
+            !activeSession &&
+            timerActive &&
+            timerActive.hasStarted && (
+              <h1>La sesion esta a punto de iniciar...</h1>
+            )}
+
+          {/* Active Session && Timer */}
+
+          {user &&
+            !user.admin &&
+            activeSession &&
+            timerActive &&
+            !timerActive.hasStarted && (
+              <div className="user-controls">
+                {addSong ? (
+                  <YouTubeSearch
+                    setVideoId={setVideoId}
+                    activeSession={activeSession}
+                  />
+                ) : (
+                  <YouTube />
+                )}
+
+                <MySongs
+                  addSong={addSong}
+                  setAddSong={setAddSong}
                   activeSession={activeSession}
                 />
-              ) : (
-                <YouTube />
-              )}
-
-              <MySongs
-                addSong={addSong}
-                setAddSong={setAddSong}
-                activeSession={activeSession}
-              />
-              <WhosNext />
-            </div>
-          )}
+                <WhosNext />
+              </div>
+            )}
         </div>
       </div>
       <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />

@@ -30,9 +30,14 @@ export const SongsProvider = ({ children }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [startTime, setStartTime] = useState(null);
+  const [timerActive, setTimerActive] = useState(null);
 
   const sendSession = (sessionData) => {
     socket.emit("update_session", sessionData);
+  };
+
+  const updatedTimer = (timerData) => {
+    socket.emit("updated_time", timerData);
   };
 
   const updateQueue = (queueData) => {
@@ -55,10 +60,14 @@ export const SongsProvider = ({ children }) => {
     });
 
     socket.on("update_perform", (updatedPerfom) => {
-      console.log("Updating Video Status");
+      // console.log("Updating Video Status");
       setIsPlaying(updatedPerfom.isPlaying);
     });
 
+    socket.on("updated_time", (updatedTime) => {
+      console.log("Updated Time");
+      setTimerActive(updatedTime);
+    });
     // socket.on("toggleIsRunning", (data) => {
     //   setIsRunning(data.isRunning);
     // });
@@ -116,15 +125,22 @@ export const SongsProvider = ({ children }) => {
     }
   }, []);
 
-  // const toggleSessionStart = useCallback(async (sessionId) => {
-  //   try {
-  //     const updatedSession = await toggleSessionStartApi(sessionId);
-  //     console.log("updatedSession", updatedSession);
-  //     return updatedSession;
-  //   } catch (error) {
-  //     console.log("Context Line 125:", error);
-  //   }
-  // });
+  const toggleSessionStart = useCallback(async (sessionId) => {
+    try {
+      const updatedSession = await toggleSessionStartApi(sessionId);
+      console.log("Timer:", updatedSession.hasStarted);
+      if (activeSession) {
+        setTimerActive(updatedSession.hasStarted)
+      } else {
+        setTimerActive(false)
+      }
+      updatedTimer(updatedSession);
+
+      return updatedSession;
+    } catch (error) {
+      console.log("Context Line 125:", error);
+    }
+  });
 
   return (
     <SongsContext.Provider
@@ -149,7 +165,8 @@ export const SongsProvider = ({ children }) => {
         setSeconds,
         startTime,
         setStartTime,
-        // toggleSessionStart,
+        toggleSessionStart,
+        timerActive,
       }}
     >
       {children}
