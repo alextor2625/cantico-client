@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useSongs } from "../context/Songs.context";
-// import { io } from "socket.io-client";
-// import { API_URL } from "../services/config.service";
+import { io } from "socket.io-client";
+import { API_URL } from "../services/config.service";
 
 const TimerSession = () => {
   const {
@@ -16,14 +16,13 @@ const TimerSession = () => {
     toggleSessionStart,
   } = useSongs();
 
-  //   const socket = io.connect(API_URL);
+  const socket = io.connect(API_URL);
 
   useEffect(() => {
     let interval = null;
 
     if (isRunning) {
       if (startTime === null) {
-        // Establecer la hora de inicio si es la primera vez que se inicia el temporizador
         setStartTime(Date.now() - seconds * 1000);
       }
       interval = setInterval(() => {
@@ -37,7 +36,6 @@ const TimerSession = () => {
   }, [isRunning, startTime, seconds, setSeconds]);
 
   const formatTime = (time) => {
-    // Función formatTime
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
@@ -49,42 +47,38 @@ const TimerSession = () => {
     ].join(":");
   };
 
-  let start = 0;
-
-  const toggle = () => {
-    if (isRunning || !activeSession) {
-      // Detener el temporizador
-      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-      setSeconds(elapsedSeconds);
-    } else {
-      // Reanudar el temporizador
-      setStartTime(Date.now() - seconds * 1000);
-    }
-
+  const startTimer = () => {
+    if (!activeSession) return;
+    setStartTime(Date.now() - seconds * 1000);
     toggleSessionStart(activeSession._id);
-
-    console.log("Start:", (start += 1));
-    setIsRunning((prevState) => !prevState);
-
-    const newIsRunning = !isRunning;
-    socket.emit("toggleIsRunning", { isRunning: newIsRunning });
-    console.log("isRunning:", isRunning);
+    setIsRunning(true);
+    console.log('is Running:', isRunning)
+    socket.emit("toggleIsRunning", { isRunning: true });
   };
 
-  const reset = () => {
+  const stopTimer = () => {
     setIsRunning(false);
-    setSeconds(0);
-    setStartTime(null);
+    console.log('is Running:', isRunning)
+    socket.emit("toggleIsRunning", { isRunning: false });
   };
 
   return (
     <div className="timer-flex">
       <Button
-        onClick={toggle}
-        variant={isRunning ? "light" : "success"}
-        className="start-stop-btn"
+        onClick={startTimer}
+        variant="success"
+        className="start-btn"
+        disabled={isRunning}
       >
-        {isRunning ? "Stop" : "Start"}
+        Start
+      </Button>
+      <Button
+        onClick={stopTimer}
+        variant="light"
+        className="stop-btn"
+        disabled={!isRunning}
+      >
+        Stop
       </Button>
       <div className="form-floating mb-3 form-live">
         <input

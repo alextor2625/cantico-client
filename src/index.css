@@ -247,6 +247,16 @@ a {
   padding: 0rem 2rem;
 }
 
+.stop-btn{
+  height: 3.5rem;
+    margin-top: 1rem;
+}
+
+.start-btn{
+  height: 3.5rem;
+    margin-top: 1rem;
+}
+
 .timer-flex {
   display: flex;
   gap: 1rem;

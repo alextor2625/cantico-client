@@ -68,9 +68,9 @@ export const SongsProvider = ({ children }) => {
       console.log("Updated Time");
       setTimerActive(updatedTime);
     });
-    // socket.on("toggleIsRunning", (data) => {
-    //   setIsRunning(data.isRunning);
-    // });
+    socket.on("toggleIsRunning", (data) => {
+      setIsRunning(data.isRunning);
+    });
 
     return () => {
       socket.off("update_session");

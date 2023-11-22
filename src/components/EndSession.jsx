@@ -3,14 +3,19 @@ import { Button } from "react-bootstrap";
 import { endSession, getActiveSession } from "../services/session.service";
 import TimerSession from "./TimerSession";
 import { useSongs } from "../context/Songs.context";
+import { io } from "socket.io-client";
+import { API_URL } from "../services/config.service";
 
 const EndSession = () => {
+  const socket = io.connect(API_URL);
+
   const {
     seconds,
     toggleSessionStart,
     activeSession,
     setActiveSession,
     timerActive,
+    setIsRunning,
   } = useSongs();
 
   useEffect(() => {
@@ -33,6 +38,8 @@ const EndSession = () => {
       console.error("Error ending the session:", error);
     } finally {
       toggleSessionStart(activeSession._id);
+      setIsRunning(false);
+      socket.emit("toggleIsRunning", { isRunning: false });
     }
   };
 

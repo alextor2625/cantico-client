@@ -33,7 +33,7 @@ const HomePage = () => {
   const [videoId, setVideoId] = useState(null);
   // const [activeSession, setActiveSession] = useState(null);
   // console.log("active session", activeSession);
-  // console.log("isRunnig", isRunning);
+  console.log("isRunnig", isRunning);
 
   useEffect(() => {
     fetchActiveSession();
@@ -93,39 +93,31 @@ const HomePage = () => {
 
           {/* Actice Sessio === True && !Not Actice */}
 
-          {user &&
-            !user.admin &&
-            !activeSession &&
-            timerActive &&
-            timerActive.hasStarted && (
-              <h1>La sesion esta a punto de iniciar...</h1>
-            )}
+          {user && !user.admin && activeSession && !isRunning && (
+            <h1>La sesion esta a punto de iniciar...</h1>
+          )}
 
           {/* Active Session && Timer */}
 
-          {user &&
-            !user.admin &&
-            activeSession &&
-            timerActive &&
-            !timerActive.hasStarted && (
-              <div className="user-controls">
-                {addSong ? (
-                  <YouTubeSearch
-                    setVideoId={setVideoId}
-                    activeSession={activeSession}
-                  />
-                ) : (
-                  <YouTube />
-                )}
-
-                <MySongs
-                  addSong={addSong}
-                  setAddSong={setAddSong}
+          {user && !user.admin && activeSession && isRunning && (
+            <div className="user-controls">
+              {addSong ? (
+                <YouTubeSearch
+                  setVideoId={setVideoId}
                   activeSession={activeSession}
                 />
-                <WhosNext />
-              </div>
-            )}
+              ) : (
+                <YouTube />
+              )}
+
+              <MySongs
+                addSong={addSong}
+                setAddSong={setAddSong}
+                activeSession={activeSession}
+              />
+              <WhosNext />
+            </div>
+          )}
         </div>
       </div>
       <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />
