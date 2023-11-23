@@ -506,6 +506,8 @@ h3 {
 .qr-image {
   height: 200px;
   width: 200px;
+  background-color: white;
+  text-align: center;
 }
 
 .code-intruction {
@@ -539,7 +541,8 @@ h3 {
 }
 
 .streaming-display {
-  width: 100%;
+  /* width: 100%; */
+  margin: 0 3rem;
 }
 
 
@@ -553,7 +556,9 @@ h3 {
 }
 
 .streaming {
-  margin: 0 3rem;
+  /* margin: 0 3rem; */
+  background-color: black;
+  color: white;
 }
 
 .cantico-logo-streaming {
@@ -564,4 +569,8 @@ h3 {
 .logo-queue-streaming {
   display: flex;
   justify-content: space-between;
+}
+
+.streamin-title {
+  text-align: center;
 }

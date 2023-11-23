@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import qrImage from "../assets/qr-test.png";
+import qrImage from "../assets/qr-test-2.jpg";
 
 const SessionId = () => {
   return (

@@ -15,6 +15,7 @@ const StreamingPage = () => {
   return (
     <div className="streaming">
       StreamingPage
+      <h1 className="streamin-title">CANTICO</h1>
       {/* <div className="user-content">
         <ActiveSession />
         <LiveHolder />
@@ -23,31 +24,28 @@ const StreamingPage = () => {
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
         </div>
-        <div className="logo-queue-streaming">
-          {queueSongs.map(
-            (song, index) =>
-              index === 1 && (
-                <div key={index}>
-                  <div className="display-flex">
-                    <h4> Siguiente en fila</h4>
-                  </div>
-                  <p>{song.name}</p>
-                  <p>{song.user.name}</p>
-                </div>
-              )
-          )}
-          <img src={cantico} alt="" className="cantico-logo-streaming"/>
-        </div>
 
         <hr />
 
         <div className="streaming-container">
           <div className="streaming-session-queue">
             <div>
+                {queueSongs.map(
+                  (song, index) =>
+                    index === 1 && (
+                      <div key={index}>
+                        <div className="display-flex">
+                          <h4> Siguiente en fila</h4>
+                        </div>
+                        <p>{song.name}</p>
+                        <p>{song.user.name}</p>
+                      </div>
+                    )
+                )}
+           
               {queueSongs.map(
                 (song, index) =>
-                  index !== 0 &&
-                  index !== 1 && (
+                  index !== 0 && (
                     <div key={index}>
                       <div className="display-flex">
                         <h4>
