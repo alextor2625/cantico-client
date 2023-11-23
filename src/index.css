@@ -457,6 +457,10 @@ h3 {
   flex-grow: 1;
 }
 
+.grow-video-controls {
+  width: 100%;
+}
+
 .user-play-btn-cont {
   display: flex;
   /* margin-bottom: 1rem; */
@@ -482,3 +486,38 @@ h3 {
 .default-song {
   background-color: white;
 }
+
+.display-title {
+  text-align: center;
+}
+
+.stream-btn:hover {
+  color: white;
+}
+
+.stream-btn {
+  color: white;
+}
+
+.code-session {
+  text-align: center;
+}
+
+.qr-image {
+  height: 100%;
+  width: 100%;
+}
+
+.code-intruction {
+  font-size: 1.5rem;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.sessionId-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.video-controls-btns {}

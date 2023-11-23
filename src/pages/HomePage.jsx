@@ -23,13 +23,15 @@ const HomePage = () => {
     isRunning,
     fetchActiveSession,
     timerActive,
+    addSong,
+    setAddSong,
   } = useSongs();
   // console.log("Before rendering ActiveSession:", typeof setSessionId);
 
   console.log("Timer Active - Home Page:", timerActive);
 
   const [showPrompt, setShowPrompt] = useState(true);
-  const [addSong, setAddSong] = useState(false);
+  // const [addSong, setAddSong] = useState(false);
   const [videoId, setVideoId] = useState(null);
   // const [activeSession, setActiveSession] = useState(null);
   // console.log("active session", activeSession);
@@ -64,11 +66,7 @@ const HomePage = () => {
                   <YouTube />
                 )}
 
-                <MySongs
-                  addSong={addSong}
-                  setAddSong={setAddSong}
-                  activeSession={activeSession}
-                />
+                <MySongs />
                 <WhosNext />
               </div>
             </>

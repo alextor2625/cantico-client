@@ -36,7 +36,7 @@ export const signup = async (
   admin
 ) => {
   const requestBody = { name, lastname, email, telephone, password, admin };
-
+  
   try {
     const response = await axios.post(`${API_URL}/auth/signup`, requestBody);
     console.log("Line 33 - Created User:", response.data);

@@ -4,8 +4,8 @@ import DeleteMySong from './DeleteMySong';
 import { useSongs } from '../context/Songs.context'; 
 import AddToQueue from './AddToQueue';
 
-const MySongs = ({ addSong, setAddSong }) => {
-    const { mySongs, refreshSongs, activeSession } = useSongs(); 
+const MySongs = () => {
+    const { mySongs, refreshSongs, activeSession, addSong, setAddSong } = useSongs(); 
 
     // console.log('myysongs', mySongs)
 

@@ -31,6 +31,7 @@ export const SongsProvider = ({ children }) => {
   const [seconds, setSeconds] = useState(0);
   const [startTime, setStartTime] = useState(null);
   const [timerActive, setTimerActive] = useState(null);
+  const [addSong, setAddSong] = useState(false)
 
   const sendSession = (sessionData) => {
     socket.emit("update_session", sessionData);
@@ -167,6 +168,8 @@ export const SongsProvider = ({ children }) => {
         setStartTime,
         toggleSessionStart,
         timerActive,
+        addSong,
+        setAddSong,
       }}
     >
       {children}

@@ -12,7 +12,9 @@ import ActiveSession from "../components/ActiveSession";
 import TimerSession from "../components/TimerSession";
 import EndSession from "../components/EndSession";
 import { useSongs } from "../context/Songs.context";
-
+import { Link } from "react-router-dom";
+import StreamingPage from "./StreamingPage";
+// import Button from "react-bootstrap";
 
 const SessionsPage = () => {
   const [sessionId, setSessionId] = useState(null);
@@ -26,8 +28,8 @@ const SessionsPage = () => {
   const [deleteSessionId, setDeleteSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [noSessionsMessage, setNoSessionsMessage] = useState(null);
-  const { fetchActiveSession } = useSongs()
-  
+  const { fetchActiveSession, isRunning } = useSongs();
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const monthNames = [
@@ -124,32 +126,29 @@ const SessionsPage = () => {
     let formattedTime = "";
 
     if (hours > 0) {
-        formattedTime += `${hours}h `;
+      formattedTime += `${hours}h `;
     }
     if (minutes > 0) {
-      
-        formattedTime += `${hours > 0 ? minutes % 60 : minutes}m `;
+      formattedTime += `${hours > 0 ? minutes % 60 : minutes}m `;
     }
     if (seconds > 0 || time === 0) {
-      
-        formattedTime += `${seconds}s`;
+      formattedTime += `${seconds}s`;
     }
 
-    return formattedTime.trim(); 
-};
-
+    return formattedTime.trim();
+  };
 
   const handleSaveChanges = () => {
     setSaveChanges(false);
     setIsEditingSessionId(null);
-    
+
     const currentSession = allSessions.find(
       (session) => session._id === editingSessionId
-      );
-      if (currentSession) {
-        editSession(currentSession._id, inputValue, currentSession.isActive)
+    );
+    if (currentSession) {
+      editSession(currentSession._id, inputValue, currentSession.isActive)
         .then((updatedSession) => {
-          fetchActiveSession()
+          fetchActiveSession();
           setAllSessions((prevSessions) => {
             return prevSessions.map((session) => {
               if (session._id === updatedSession._id) {
@@ -166,7 +165,7 @@ const SessionsPage = () => {
           setTimeout(() => {
             window.location.reload(false);
           }, 3000);
-          setErrorMessage(error.message); 
+          setErrorMessage(error.message);
         });
     }
   };
@@ -193,15 +192,12 @@ const SessionsPage = () => {
   };
 
   const checkForActiveSession = () => {
-   
-    return allSessions.some(session => session.isActive);
+    return allSessions.some((session) => session.isActive);
   };
 
   useEffect(() => {
-   
     setIsActive(checkForActiveSession());
   }, [allSessions]);
-
 
   return (
     <div className="session-full-cont">
@@ -214,24 +210,30 @@ const SessionsPage = () => {
         </div>
         {!saveChanges && (
           <div className="creat-sess-act">
-
-
             <ActiveSession />
+
+            {isRunning && (
+              <Button className="display-title">
+                <Link to="/streaming" target="_blank" className="stream-btn">Stream</Link>
+                {/* <StreamingPage /> */}
+              </Button>
+            )}
 
             {!isActive ? (
               <CreateSession
-              sessionId={sessionId}
-              setSessionId={setSessionId}
-              allSessions={allSessions}
-              setAllSessions={setAllSessions}
+                sessionId={sessionId}
+                setSessionId={setSessionId}
+                allSessions={allSessions}
+                setAllSessions={setAllSessions}
               />
             ) : (
               <div className="timer-endSession">
-              
-                <EndSession allSessions={allSessions} setAllSessions={setAllSessions} />
+                <EndSession
+                  allSessions={allSessions}
+                  setAllSessions={setAllSessions}
+                />
               </div>
             )}
-
           </div>
         )}
       </div>
@@ -284,11 +286,22 @@ const SessionsPage = () => {
                             {session.isActive ? "Active" : "Inactive"}
                           </Card.Text>
                           <div className="timeandmore">
-                          <Card.Text>{formatDate(session.createdAt)}</Card.Text>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" className="bi bi-circle-fill" viewBox="0 0 16 16">
+                            <Card.Text>
+                              {formatDate(session.createdAt)}
+                            </Card.Text>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="8"
+                              height="8"
+                              fill="currentColor"
+                              className="bi bi-circle-fill"
+                              viewBox="0 0 16 16"
+                            >
                               <circle cx="8" cy="8" r="8" />
                             </svg>
-                            <Card.Text>{formatTime(session.duration)}</Card.Text>
+                            <Card.Text>
+                              {formatTime(session.duration)}
+                            </Card.Text>
                           </div>
                           <Button
                             variant="light"

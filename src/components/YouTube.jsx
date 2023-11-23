@@ -16,6 +16,7 @@ const YouTube = () => {
   const { user } = useContext(AuthContext);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   // const [isPlaying, setIsPlaying] = useState(true);
+  
 
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex) {
