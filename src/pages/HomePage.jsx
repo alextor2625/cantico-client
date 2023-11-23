@@ -28,14 +28,14 @@ const HomePage = () => {
   } = useSongs();
   // console.log("Before rendering ActiveSession:", typeof setSessionId);
 
-  console.log("Timer Active - Home Page:", timerActive);
+  // console.log("Timer Active - Home Page:", timerActive);
 
   const [showPrompt, setShowPrompt] = useState(true);
   // const [addSong, setAddSong] = useState(false);
   const [videoId, setVideoId] = useState(null);
   // const [activeSession, setActiveSession] = useState(null);
   // console.log("active session", activeSession);
-  console.log("isRunnig", isRunning);
+  // console.log("isRunnig", isRunning);
 
   useEffect(() => {
     fetchActiveSession();
@@ -63,7 +63,7 @@ const HomePage = () => {
                     activeSession={activeSession}
                   />
                 ) : (
-                  <YouTube />
+                  <YouTube hideControls={false}/>
                 )}
 
                 <MySongs />

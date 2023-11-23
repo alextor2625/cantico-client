@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup, handleInputChange } from "../services/auth.service";
 import { useState, useRef } from "react";
-import cantico from "../../public/cantico.png";
+import cantico from "../assets/cantico.png";
 
 const SignUpForm = () => {
   const [name, setName] = useState("");

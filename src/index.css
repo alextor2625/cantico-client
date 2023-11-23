@@ -504,8 +504,8 @@ h3 {
 }
 
 .qr-image {
-  height: 100%;
-  width: 100%;
+  height: 200px;
+  width: 200px;
 }
 
 .code-intruction {
@@ -520,4 +520,48 @@ h3 {
   justify-content: center;
 }
 
-.video-controls-btns {}
+.streaming-allcontent {
+  margin: 0 3rem;
+}
+
+.streaming-session-queue {
+  display: flex;
+  justify-content: space-between;
+}
+
+.adjust-video-size {
+  height: 500px;
+}
+
+.video-size-streaming {
+  height: 100%;
+  width: 100%;
+}
+
+.streaming-display {
+  width: 100%;
+}
+
+
+.video-yt-streaming {
+  height: 400px;
+}
+
+.display-flex {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.streaming {
+  margin: 0 3rem;
+}
+
+.cantico-logo-streaming {
+  height: 100px;
+  width: 100px;
+}
+
+.logo-queue-streaming {
+  display: flex;
+  justify-content: space-between;
+}

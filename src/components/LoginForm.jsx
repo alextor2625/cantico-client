@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import cantico from "../../public/cantico.png";
+import cantico from "../assets/cantico.png";
 import { login, handleInputChange } from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
 

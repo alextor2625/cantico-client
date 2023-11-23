@@ -5,7 +5,7 @@ import { AuthContext } from "../context/auth.context";
 import ReactPlayer from "react-player";
 import { Button } from "react-bootstrap";
 
-const YouTube = () => {
+const YouTube = ({hideControls}) => {
   const {
     queueSongs,
     refreshQueueSongs,
@@ -15,6 +15,7 @@ const YouTube = () => {
   } = useSongs();
   const { user } = useContext(AuthContext);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true); 
   // const [isPlaying, setIsPlaying] = useState(true);
   
 
@@ -36,6 +37,8 @@ const YouTube = () => {
         isPlaying: isPlaying,
       });
     }
+
+
   }, [queueSongs, currentVideoIndex, isPlaying]);
 
   useEffect(() => {
@@ -102,9 +105,17 @@ const YouTube = () => {
     }
   };
 
+  const handleVideoReady = () => {
+    setIsLoading(false); // Establecer como falso cuando el video esté listo
+  };
+
+  const handleVideoBuffer = () => {
+    setIsLoading(true); // Establecer como verdadero cuando el video esté cargando
+  };
+
   return (
     <div>
-      {user && user.admin && (
+      {user && user.admin && !hideControls && (
         <div className="video-controls-btns">
           <Button variant="dark" onClick={skipToPrevious}>
             <svg
@@ -161,7 +172,7 @@ const YouTube = () => {
         <ReactPlayer
           url={videoUrl}
           width="100%"
-          height="100%"
+          height={!hideControls ? '100%' : '600px'}
           playing={isPlaying} // Utiliza la prop "playing" para controlar la reproducción
           controls={false}
           config={{
@@ -177,7 +188,10 @@ const YouTube = () => {
               },
             },
           }}
+          onReady={handleVideoReady}
+          onBuffer={handleVideoBuffer}
           onEnded={handleVideoEnd}
+          className={ hideControls ? '' : 'adjust-video-size'}
         />
       )}
 

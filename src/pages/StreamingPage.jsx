@@ -7,22 +7,62 @@ import ActiveSession from "../components/ActiveSession";
 import LiveHolder from "../components/LiveHolder";
 import { useSongs } from "../context/Songs.context";
 import SessionId from "../components/SessionId";
+import cantico from "../assets/cantico.png";
 
 const StreamingPage = () => {
-  const { addSong } = useSongs();
+  const { addSong, queueSongs } = useSongs();
 
   return (
-    <div>
+    <div className="streaming">
       StreamingPage
-      <div className="user-content">
+      {/* <div className="user-content">
         <ActiveSession />
         <LiveHolder />
-      </div>
-      <div className="user-controls">
-        {addSong ? <YouTubeSearch /> : <YouTube />}
+      </div> */}
+      <div className="streaming-display">
+        <div className="video-size-streaming">
+          <YouTube hideControls={true} className="video-yt-streaming" />
+        </div>
+        <div className="logo-queue-streaming">
+          {queueSongs.map(
+            (song, index) =>
+              index === 1 && (
+                <div key={index}>
+                  <div className="display-flex">
+                    <h4> Siguiente en fila</h4>
+                  </div>
+                  <p>{song.name}</p>
+                  <p>{song.user.name}</p>
+                </div>
+              )
+          )}
+          <img src={cantico} alt="" className="cantico-logo-streaming"/>
+        </div>
 
-        <SessionId />
-        <WhosNext />
+        <hr />
+
+        <div className="streaming-container">
+          <div className="streaming-session-queue">
+            <div>
+              {queueSongs.map(
+                (song, index) =>
+                  index !== 0 &&
+                  index !== 1 && (
+                    <div key={index}>
+                      <div className="display-flex">
+                        <h4>
+                          {" "}
+                          {index}- {song.user.name}{" "}
+                        </h4>
+                      </div>
+                      <p>{song.name}</p>
+                    </div>
+                  )
+              )}
+            </div>
+            <SessionId />
+          </div>
+        </div>
       </div>
     </div>
   );
