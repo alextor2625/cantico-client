@@ -7,6 +7,7 @@ function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  
 
   useEffect(() => {
     authenticateUser().then((data) => {

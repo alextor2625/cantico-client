@@ -12,6 +12,8 @@ import {
 } from "../services/session.service";
 import { io } from "socket.io-client";
 import { API_URL } from "../services/config.service";
+import { generateCode } from "../services/auth.service";
+import axios from "axios";
 
 const socket = io.connect(API_URL);
 
@@ -31,7 +33,8 @@ export const SongsProvider = ({ children }) => {
   const [seconds, setSeconds] = useState(0);
   const [startTime, setStartTime] = useState(null);
   const [timerActive, setTimerActive] = useState(null);
-  const [addSong, setAddSong] = useState(false)
+  const [addSong, setAddSong] = useState(false);
+  const [code, setCode] = useState(null);
 
   const sendSession = (sessionData) => {
     socket.emit("update_session", sessionData);
@@ -131,9 +134,9 @@ export const SongsProvider = ({ children }) => {
       const updatedSession = await toggleSessionStartApi(sessionId);
       console.log("Timer:", updatedSession.hasStarted);
       if (activeSession) {
-        setTimerActive(updatedSession.hasStarted)
+        setTimerActive(updatedSession.hasStarted);
       } else {
-        setTimerActive(false)
+        setTimerActive(false);
       }
       updatedTimer(updatedSession);
 
@@ -142,6 +145,15 @@ export const SongsProvider = ({ children }) => {
       console.log("Context Line 125:", error);
     }
   });
+
+  const genNewCode = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/auth/generate-code`);
+      setCode(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SongsContext.Provider
@@ -170,6 +182,9 @@ export const SongsProvider = ({ children }) => {
         timerActive,
         addSong,
         setAddSong,
+        code,
+        setCode,
+        genNewCode,
       }}
     >
       {children}

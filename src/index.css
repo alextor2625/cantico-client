@@ -545,7 +545,6 @@ h3 {
   margin: 0 3rem;
 }
 
-
 .video-yt-streaming {
   height: 400px;
 }
@@ -573,4 +572,11 @@ h3 {
 
 .streamin-title {
   text-align: center;
+}
+
+.youtube-blocker {
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  position: fixed;
 }
