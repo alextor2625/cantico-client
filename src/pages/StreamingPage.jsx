@@ -39,7 +39,8 @@ const StreamingPage = () => {
                         <h4> Siguiente en fila</h4>
                       </div>
                       <p>{song.name}</p>
-                      <p>{song.user.name}</p>
+                      <p>{song.user ? song.user.name : ""}</p>
+
                     </div>
                   )
               )}

@@ -33,7 +33,7 @@ const WhosNext = () => {
           {index === 0 && <p className="song-status">Sonando</p>}
           {index === 1 && <p className="song-status">Siguiente en fila</p>}
 
-          <h3>{user ? song.user.name : ""}</h3>
+          <h3>{song.user ? song.user.name : ""}</h3>
           <p>{song.name}</p>
 
           {user && (user.admin || song.user._id === user._id) && (
