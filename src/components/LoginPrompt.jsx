@@ -47,7 +47,7 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
 
   return (
     <>
-      {!isLoggedIn && showPrompt && (
+      {!isLoggedIn && showPrompt &&  (
         <div
           id="modal"
           className="modal"
