@@ -184,7 +184,7 @@ const YouTube = ({hideControls}) => {
                 autohide: 1, // Ocultar la barra de reproducción automáticamente
                 showinfo: 0, // No mostrar información del video
                 disablekb: 0, // Deshabilitar el teclado
-                autoplay: 1,
+                autoplay: 0,
               },
             },
           }}
