@@ -11,11 +11,13 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const { code } = useParams();
   const [signUpCode, setSignUpCode] = useState(code);
-  const { setIsLoggedIn, setUser, user } = useContext(AuthContext);
+  const { setIsLoggedIn, setUser, user, isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const errorMessageTimeoutRef = useRef(null);
 
-  const { isLoggedIn } = useContext(AuthContext);
+  // const { isLoggedIn } = useContext(AuthContext);
+
+  console.log("Login Prompt User:", user);
 
   // const { user } = useContext(AuthContext);
 
@@ -80,19 +82,19 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
                   placeholder="Ex: 9A9A9A"
                   onChange={handleInputChange(setSignUpCode)}
                   value={signUpCode}
-                  readOnly={signUpCode !== ""} 
+                  readOnly={signUpCode !== ""}
                 />
               </Modal.Body>
 
               <Modal.Footer>
                 {/* <Link to="/"> */}
-                  <Button
-                    variant="secondary"
-                    // onClick={handleHidePrompt}
-                    type="submit"
-                  >
-                    Submit
-                  </Button>
+                <Button
+                  variant="secondary"
+                  // onClick={handleHidePrompt}
+                  type="submit"
+                >
+                  Submit
+                </Button>
                 {/* </Link> */}
                 <Link to="/login">
                   <Button variant="danger">-</Button>
