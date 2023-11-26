@@ -12,7 +12,7 @@ const TimerSession = () => {
     setSeconds,
     activeSession,
     toggleSessionStart,
-    socket // Utiliza el socket del contexto
+    socket, // Utiliza el socket del contexto
   } = useSongs();
 
   useEffect(() => {
@@ -49,12 +49,16 @@ const TimerSession = () => {
     setStartTime(Date.now() - seconds * 1000);
     toggleSessionStart(activeSession._id);
     setIsRunning(true);
-    socket.emit("toggleIsRunning", { isRunning: true });
+    if (!isRunning) {
+      socket.emit("toggleIsRunning", { isRunning: true });
+    }
   };
 
   const stopTimer = () => {
     setIsRunning(false);
-    socket.emit("toggleIsRunning", { isRunning: false });
+    if (isRunning) {
+      socket.emit("toggleIsRunning", { isRunning: false });
+    }
   };
 
   return (
