@@ -7,20 +7,26 @@ import { TEST_HOST } from "../services/config.service";
 import { useSongs } from "../context/Songs.context";
 
 const SessionId = () => {
-    const { code, genNewCode } = useSongs();
-    const dataToEncode = `${TEST_HOST}/${code.data.genCode}`;
+  const { code, genNewCode } = useSongs();
+  const dataToEncode =
+    code && code.data && code.data.genCode
+      ? `${TEST_HOST}/${code.data.genCode}`
+      : "";
+
   useEffect(() => {
-      genNewCode();
-    }, []);
-    console.log("Code:", code);
+    genNewCode();
+  }, []);
+  console.log("Code:", code);
 
   return (
     <div className="sessionId-container">
       {/* <img src={qrImage} alt="" className="qr-image" /> */}
-      <QRCode className="qr-image" value={dataToEncode} onClick={genNewCode}/>
+      <QRCode className="qr-image" value={dataToEncode} onClick={genNewCode} />
 
       <p className="code-intruction">Código de la sesion</p>
-      <h4 className="code-session">{code ?  code.data.genCode : 'NOT AVAILABLE'}</h4>
+      <h4 className="code-session">
+        {code ? code.data.genCode : "NOT AVAILABLE"}
+      </h4>
     </div>
   );
 };
