@@ -81,7 +81,10 @@ export const SongsProvider = ({ children }) => {
 
     return () => {
       socket.off("update_session");
-      // socket.off("toggleIsRunning");
+      socket.off("update_queue");
+      socket.off("update_perform");
+      socket.off("update_time");
+      socket.off("toggleIsRunning");
     };
   }, []);
 
