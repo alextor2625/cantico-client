@@ -52,7 +52,7 @@ const StreamingPage = () => {
                       <div className="display-flex">
                         <h4>
                           {" "}
-                          {index}- {song.user.name}{" "}
+                          {index}- {song.user ? song.user.name : ""}{" "}
                         </h4>
                       </div>
                       <p>{song.name}</p>
