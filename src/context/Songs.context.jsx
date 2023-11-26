@@ -96,6 +96,7 @@ export const SongsProvider = ({ children }) => {
     try {
       const response = await getQueueSongs(sessionId);
       if (response.success) {
+        console.log("refreshQueueSongs===========>", response.data);
         setQueueSongs(response.data);
         socket.emit("update_queue", response.data);
       } else {

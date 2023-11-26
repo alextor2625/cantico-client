@@ -25,7 +25,7 @@ const WhosNext = () => {
           className={`queue-song-item ${index === 0 ? "song-playing" : ""} ${
             index === 1 ? "song-next" : ""
           } ${
-            user && !user.admin && song.user._id !== user._id && index > 1
+            user && !user.admin && (song.user !== user._id || song.tempUser !== user._id) && index > 1
               ? "default-song"
               : ""
           }`}
@@ -36,7 +36,7 @@ const WhosNext = () => {
           <h3>{song.user ? song.user.name : ""}</h3>
           <p>{song.name}</p>
 
-          {user && (user.admin || song.user._id === user._id) && (
+          {user && (user.admin || song.user === user._id) && (
             <DeleteMySong
               perfomId={song._id}
               activeSession={activeSession}

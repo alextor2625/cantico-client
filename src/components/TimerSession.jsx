@@ -30,7 +30,7 @@ const TimerSession = () => {
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, startTime, seconds, setSeconds]);
+  }, [isRunning, startTime, seconds, setSeconds, activeSession]);
 
   const formatTime = (time) => {
     const hours = Math.floor(time / 3600);

@@ -107,7 +107,7 @@ export const getQueueSongs = async (sessionId) => {
 
     try {
         const response = await axios.get(`${API_URL}/perform/queue-songs`, config);
-        // console.log('queue songs', response.data)
+        console.log('queue songs', response.data)
         return response.data;
     } catch (error) {
         console.error('Error al obtener canciones en la cola:', error);

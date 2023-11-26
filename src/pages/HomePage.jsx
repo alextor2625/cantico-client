@@ -96,7 +96,7 @@ const HomePage = () => {
           )}
 
           {/* Active Session && Timer */}
-
+            {/* {console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
           {user && !user.admin && activeSession && isRunning && (
             <div className="user-controls">
               {addSong ? (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { queuePerfom } from '../services/youtube.service';
 import { useSongs } from '../context/Songs.context'; 
@@ -6,7 +6,9 @@ import { useSongs } from '../context/Songs.context';
 const AddToQueue = ({ perfomId }) => {
 
     const { refreshSongs, activeSession, refreshQueueSongs } = useSongs(); 
-
+    useEffect(() => {
+        console.log(activeSession);
+    },[activeSession])
     const handleAddToQueue = async () => {
         try {
             const result = await queuePerfom(perfomId);
