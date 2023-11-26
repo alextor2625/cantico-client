@@ -16,11 +16,9 @@ import { generateCode } from "../services/auth.service";
 import axios from "axios";
 
 const socket = io.connect(API_URL, {
-  withCredentials: true,
-  extraHeaders: {
-    "Access-Control-Allow-Origin": "https://cantico.netlify.app",
-  },
+  withCredentials: true
 });
+
 
 export const SongsContext = createContext();
 
