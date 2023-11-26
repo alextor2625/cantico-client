@@ -83,7 +83,7 @@ export const SongsProvider = ({ children }) => {
       socket.off("update_session");
       socket.off("update_queue");
       socket.off("update_perform");
-      socket.off("update_time");
+      socket.off("updated_time");
       socket.off("toggleIsRunning");
     };
   }, []);
