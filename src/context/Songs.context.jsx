@@ -1,24 +1,9 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  useEffect,
-} from "react";
-import { getMySongs, getQueueSongs } from "../services/youtube.service";
-import {
-  getActiveSession,
-  toggleSessionStartApi,
-} from "../services/session.service";
+import React, { createContext, useState, useContext, useCallback, useEffect } from "react";
 import { io } from "socket.io-client";
 import { API_URL } from "../services/config.service";
-import { generateCode } from "../services/auth.service";
+import { getMySongs, getQueueSongs } from "../services/youtube.service";
+import { getActiveSession, toggleSessionStartApi } from "../services/session.service";
 import axios from "axios";
-
-const socket = io.connect(API_URL, {
-  withCredentials: true
-});
-
 
 export const SongsContext = createContext();
 
@@ -38,53 +23,39 @@ export const SongsProvider = ({ children }) => {
   const [timerActive, setTimerActive] = useState(null);
   const [addSong, setAddSong] = useState(false);
   const [code, setCode] = useState(null);
-
-  const sendSession = (sessionData) => {
-    socket.emit("update_session", sessionData);
-  };
-
-  const updatedTimer = (timerData) => {
-    socket.emit("updated_time", timerData);
-  };
-
-  const updateQueue = (queueData) => {
-    socket.emit("update_queue", queueData);
-  };
-  const updatePerform = (performData) => {
-    socket.emit("update_perform", performData);
-  };
-  const toggleIsPlaying = () => {
-    !isPlaying ? setIsPlaying(true) : setIsPlaying(false);
-  };
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    socket.on("update_session", (updatedSessionData) => {
+    const newSocket = io.connect(API_URL, { withCredentials: true });
+    setSocket(newSocket);
+
+    newSocket.on("update_session", (updatedSessionData) => {
       setActiveSession(updatedSessionData);
     });
 
-    socket.on("update_queue", (updateQueue) => {
+    newSocket.on("update_queue", (updateQueue) => {
       setQueueSongs(updateQueue);
     });
 
-    socket.on("update_perform", (updatedPerfom) => {
-      // console.log("Updating Video Status");
+    newSocket.on("update_perform", (updatedPerfom) => {
       setIsPlaying(updatedPerfom.isPlaying);
     });
 
-    socket.on("updated_time", (updatedTime) => {
-      console.log("Updated Time");
+    newSocket.on("updated_time", (updatedTime) => {
       setTimerActive(updatedTime);
     });
-    socket.on("toggleIsRunning", (data) => {
+
+    newSocket.on("toggleIsRunning", (data) => {
       setIsRunning(data.isRunning);
     });
 
     return () => {
-      socket.off("update_session");
-      // socket.off("update_queue");
-      // socket.off("update_perform");
-      // socket.off("updated_time");
-      // socket.off("toggleIsRunning");
+      newSocket.off("update_session");
+      newSocket.off("update_queue");
+      newSocket.off("update_perform");
+      newSocket.off("updated_time");
+      newSocket.off("toggleIsRunning");
+      newSocket.disconnect();
     };
   }, []);
 
@@ -108,7 +79,7 @@ export const SongsProvider = ({ children }) => {
       const response = await getActiveSession();
       if (response.success) {
         setActiveSession(response.session);
-        sendSession(response.session);
+        socket.emit("update_session", response.session);
       } else {
         setActiveSession(null);
         setError("No active session found.");
@@ -119,21 +90,21 @@ export const SongsProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [socket]);
 
   const refreshQueueSongs = useCallback(async (sessionId) => {
     try {
       const response = await getQueueSongs(sessionId);
       if (response.success) {
         setQueueSongs(response.data);
-        updateQueue(response.data);
+        socket.emit("update_queue", response.data);
       } else {
         console.log("No se pudo encontrar queue songs");
       }
     } catch (error) {
       console.error("Error al obtener las canciones en cola:", error);
     }
-  }, []);
+  }, [socket]);
 
   const toggleSessionStart = useCallback(async (sessionId) => {
     try {
@@ -144,13 +115,11 @@ export const SongsProvider = ({ children }) => {
       } else {
         setTimerActive(false);
       }
-      updatedTimer(updatedSession);
-
-      return updatedSession;
+      socket.emit("updated_time", updatedSession);
     } catch (error) {
       console.log("Context Line 125:", error);
     }
-  });
+  }, [activeSession, socket]);
 
   const genNewCode = async () => {
     try {
@@ -177,7 +146,7 @@ export const SongsProvider = ({ children }) => {
         queueSongs,
         refreshQueueSongs,
         isPlaying,
-        toggleIsPlaying,
+        setIsPlaying,
         isRunning,
         setIsRunning,
         seconds,
@@ -191,6 +160,7 @@ export const SongsProvider = ({ children }) => {
         code,
         setCode,
         genNewCode,
+        socket, // Proporcionar la conexión del socket
       }}
     >
       {children}

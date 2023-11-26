@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useSongs } from "../context/Songs.context";
-import { io } from "socket.io-client";
-import { API_URL } from "../services/config.service";
 
 const TimerSession = () => {
   const {
@@ -14,9 +12,8 @@ const TimerSession = () => {
     setSeconds,
     activeSession,
     toggleSessionStart,
+    socket // Utiliza el socket del contexto
   } = useSongs();
-
-  const socket = io.connect(API_URL);
 
   useEffect(() => {
     let interval = null;
@@ -52,13 +49,11 @@ const TimerSession = () => {
     setStartTime(Date.now() - seconds * 1000);
     toggleSessionStart(activeSession._id);
     setIsRunning(true);
-    console.log('is Running:', isRunning)
     socket.emit("toggleIsRunning", { isRunning: true });
   };
 
   const stopTimer = () => {
     setIsRunning(false);
-    console.log('is Running:', isRunning)
     socket.emit("toggleIsRunning", { isRunning: false });
   };
 

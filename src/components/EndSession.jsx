@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { endSession, getActiveSession } from "../services/session.service";
 import TimerSession from "./TimerSession";
 import { useSongs } from "../context/Songs.context";
-import { io } from "socket.io-client";
-import { API_URL } from "../services/config.service";
 
 const EndSession = () => {
-  const socket = io.connect(API_URL);
-
   const {
     seconds,
     toggleSessionStart,
@@ -16,6 +12,7 @@ const EndSession = () => {
     setActiveSession,
     timerActive,
     setIsRunning,
+    socket // Utiliza el socket del contexto
   } = useSongs();
 
   useEffect(() => {
@@ -32,7 +29,6 @@ const EndSession = () => {
           seconds
         );
         console.log("Session ended with updated duration:", updatedSession);
-        window.location.reload(false);
       }
     } catch (error) {
       console.error("Error ending the session:", error);
