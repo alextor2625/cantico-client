@@ -203,9 +203,16 @@ export const addUserToSession = async (sessionId, userId) => {
 
 export const toggleSessionStartApi = async (sessionId) => {
   try {
-    const response = await axios.put(
-      `${API_URL}/sessions/toggle-has-started/${sessionId}`
-    );
+    const response = await axios.put(`${API_URL}/sessions/toggle-has-started/${sessionId}`);
+    console.log("updadte timer:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Line 211 - Error:", error);
+  }
+};
+export const setSessionHasStartedApi = async (sessionId, hasStarted) => {
+  try {
+    const response = await axios.put(`${API_URL}/sessions//set-session-has-started/${sessionId}`,{hasStarted});
     console.log("updadte timer:", response.data);
     return response.data;
   } catch (error) {
