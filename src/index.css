@@ -520,6 +520,7 @@ h3 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .streaming-allcontent {
@@ -579,4 +580,8 @@ h3 {
   height: 200px;
   background-color: white;
   position: fixed;
+}
+
+.streaming-index {
+  margin-bottom: 1rem;
 }

@@ -90,7 +90,7 @@ const YouTube = ({ hideControls }) => {
         {
           console.log("Checking IDS ====>",song);
           return (index > currentVideoIndex) &&
-        (song.user._id === user._id || song.tempUser._id === user._id)}
+        (song.user ? song.user._id === user._id : song.tempUser._id === user._id)}
     );
     console.log("Line 95 ===>", queueSongs);
     return proximoTurno === -1 ? 0 : proximoTurno - currentVideoIndex;

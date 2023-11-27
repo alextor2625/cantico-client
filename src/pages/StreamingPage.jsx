@@ -12,6 +12,8 @@ import cantico from "../assets/cantico.png";
 const StreamingPage = () => {
   const { addSong, queueSongs } = useSongs();
 
+  console.log("queueSogns", queueSongs);
+
   return (
     <div className="streaming">
       StreamingPage
@@ -39,26 +41,26 @@ const StreamingPage = () => {
                         <h4> Siguiente en fila</h4>
                       </div>
                       <p>{song.name}</p>
-                      <p>{song.user ? song.user.name : ""}</p>
-
+                      <p>{song.user ? song.user.name : song.tempUser.name}</p>
                     </div>
                   )
               )}
 
-              {queueSongs.map(
-                (song, index) =>
-                  index !== 0 && (
+              {queueSongs.map((song, index) => {
+                if (index === 2 || index === 3 || index === 4) {
+                  return (
                     <div key={index}>
-                      <div className="display-flex">
+                      <div className="display-flex ">
                         <h4>
-                          {" "}
-                          {index}- {song.user.name}{" "}
+                          {index}- {song.name}
                         </h4>
                       </div>
-                      <p>{song.name}</p>
+                      <p className="streaming-index">{song.user ? song.user.name : song.tempUser.name}</p>
                     </div>
-                  )
-              )}
+                  );
+                }
+                return null; // No devuelve nada si los índices no son 2, 3 o 4
+              })}
             </div>
             <SessionId />
           </div>

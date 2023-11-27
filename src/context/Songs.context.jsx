@@ -151,6 +151,10 @@ export const SongsProvider = ({ children }) => {
     }
   };
 
+  const toggleIsPlaying = () => {
+    setIsPlaying((prevState)=> !prevState)
+  }
+
   return (
     <SongsContext.Provider
       value={{
@@ -183,6 +187,7 @@ export const SongsProvider = ({ children }) => {
         setCode,
         genNewCode,
         socket, // Proporcionar la conexión del socket
+        toggleIsPlaying,
       }}
     >
       {children}

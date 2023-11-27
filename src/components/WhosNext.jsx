@@ -39,16 +39,28 @@ const WhosNext = () => {
             {index === 0 && <p className="song-status">Sonando</p>}
             {index === 1 && <p className="song-status">Siguiente en fila</p>}
 
-            <h3>{song.user ? song.user.name : ""}</h3>
+            <h3>{song.user ? song.user.name : song.tempUser.name}</h3>
             <p>{song.name}</p>
 
-            {user && (user.admin || (song.user && song.user._id === user._id)) && (
-              <DeleteMySong
-                perfomId={song._id}
-                activeSession={activeSession}
-                onRefresh={() => refreshQueueSongs(activeSession._id)}
-              />
-            )}
+            {user &&
+              (user.admin || (song.user && song.user._id === user._id)) && (
+                <DeleteMySong
+                  perfomId={song._id}
+                  activeSession={activeSession}
+                  onRefresh={() => refreshQueueSongs(activeSession._id)}
+                />
+              )}
+
+            {user &&
+              !user.admin &&
+              ((song.user && song.user._id === user._id) ||
+                (song.tempUser && song.tempUser._id === user._id)) && (
+                <DeleteMySong
+                  perfomId={song._id}
+                  activeSession={activeSession}
+                  onRefresh={() => refreshQueueSongs(activeSession._id)}
+                />
+              )}
           </div>
         );
       })}
