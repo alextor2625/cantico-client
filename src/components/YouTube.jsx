@@ -90,7 +90,7 @@ const YouTube = ({ hideControls }) => {
         {
           console.log("Checking IDS ====>",song);
           return (index > currentVideoIndex) &&
-        (song.user === user._id || song.tempUser._id === user._id)}
+        (song.user._id === user._id || song.tempUser._id === user._id)}
     );
     console.log("Line 95 ===>", queueSongs);
     return proximoTurno === -1 ? 0 : proximoTurno - currentVideoIndex;
@@ -159,7 +159,7 @@ const YouTube = ({ hideControls }) => {
       {user &&
         !user.admin &&
         queueSongs.length > currentVideoIndex &&
-        (queueSongs[currentVideoIndex].user === user._id || queueSongs[currentVideoIndex].tempUser === user._id) && (
+        ((queueSongs[currentVideoIndex].user && queueSongs[currentVideoIndex].user._id === user._id) || (queueSongs[currentVideoIndex].tempUser && queueSongs[currentVideoIndex].tempUser._id === user._id)) && (
           <div className="user-play-btn-cont">
             <Button
               variant="dark"
@@ -200,7 +200,7 @@ const YouTube = ({ hideControls }) => {
 
       {user && !user.admin ? (
         queueSongs.length > currentVideoIndex &&
-        (queueSongs[currentVideoIndex].user === user._id || queueSongs[currentVideoIndex].tempUser === user._id) ? (
+        ((queueSongs[currentVideoIndex].user && queueSongs[currentVideoIndex].user._id === user._id) || (queueSongs[currentVideoIndex].tempUser && queueSongs[currentVideoIndex].tempUser._id === user._id)) ? (
           <h1>Ya es tu turno de cantar, haz click en "Play" para comenzar</h1>
         ) : (
           <h2>{mensajeTurno()}</h2>
