@@ -17,7 +17,7 @@ const EndSession = () => {
 
   useEffect(() => {
     console.log("timerActive", timerActive);
-  }, [timerActive]);
+  }, [activeSession, timerActive]);
 
   const handleEndSession = async () => {
     try {

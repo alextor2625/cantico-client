@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useCallback, useEffect } fr
 import { io } from "socket.io-client";
 import { API_URL } from "../services/config.service";
 import { getMySongs, getQueueSongs } from "../services/youtube.service";
-import { getActiveSession, toggleSessionStartApi } from "../services/session.service";
+import { getActiveSession, setSessionHasStartedApi, toggleSessionStartApi } from "../services/session.service";
 import axios from "axios";
 
 export const SongsContext = createContext();
@@ -48,6 +48,9 @@ export const SongsProvider = ({ children }) => {
     newSocket.on("toggleIsRunning", (data) => {
       setIsRunning(data.isRunning);
     });
+    newSocket.on("getIsRunning", (data) => {
+      setIsRunning(data.isRunning);
+    });
 
     return () => {
       newSocket.off("update_session");
@@ -55,6 +58,7 @@ export const SongsProvider = ({ children }) => {
       newSocket.off("update_perform");
       newSocket.off("updated_time");
       newSocket.off("toggleIsRunning");
+      newSocket.off("getIsRunning");
       newSocket.disconnect();
     };
   }, []);
@@ -79,7 +83,9 @@ export const SongsProvider = ({ children }) => {
       const response = await getActiveSession();
       if (response.success) {
         setActiveSession(response.session);
-        socket.emit("update_session", response.session);
+        if(socket){
+          socket.emit("update_session", response.session);
+        }
       } else {
         setActiveSession(null);
         setError("No active session found.");
@@ -96,6 +102,7 @@ export const SongsProvider = ({ children }) => {
     try {
       const response = await getQueueSongs(sessionId);
       if (response.success) {
+        console.log("refreshQueueSongs===========>", response.data);
         setQueueSongs(response.data);
         socket.emit("update_queue", response.data);
       } else {
@@ -109,6 +116,20 @@ export const SongsProvider = ({ children }) => {
   const toggleSessionStart = useCallback(async (sessionId) => {
     try {
       const updatedSession = await toggleSessionStartApi(sessionId);
+      console.log("Timer:", updatedSession.hasStarted);
+      if (activeSession) {
+        setTimerActive(updatedSession.hasStarted);
+      } else {
+        setTimerActive(false);
+      }
+      socket.emit("updated_time", updatedSession);
+    } catch (error) {
+      console.log("Context Line 125:", error);
+    }
+  }, [activeSession, socket]);
+  const setSessionStart = useCallback(async (sessionId, hasStarted) => {
+    try {
+      const updatedSession = await setSessionHasStartedApi(sessionId,hasStarted);
       console.log("Timer:", updatedSession.hasStarted);
       if (activeSession) {
         setTimerActive(updatedSession.hasStarted);
@@ -154,6 +175,7 @@ export const SongsProvider = ({ children }) => {
         startTime,
         setStartTime,
         toggleSessionStart,
+        setSessionStart,
         timerActive,
         addSong,
         setAddSong,
