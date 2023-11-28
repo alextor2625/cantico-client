@@ -28,7 +28,7 @@ const SessionsPage = () => {
   const [deleteSessionId, setDeleteSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [noSessionsMessage, setNoSessionsMessage] = useState(null);
-  const { fetchActiveSession, isRunning } = useSongs();
+  const { fetchActiveSession, isRunning, socket } = useSongs();
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -83,6 +83,12 @@ const SessionsPage = () => {
         setIsLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit("getIsRunning");
+    }
+  },[socket])
 
   const handleIsEditing = (sessionId, sessionName) => {
     if (editingSessionId === sessionId) {

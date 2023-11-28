@@ -107,7 +107,7 @@ export const getQueueSongs = async (sessionId) => {
 
     try {
         const response = await axios.get(`${API_URL}/perform/queue-songs`, config);
-        // console.log('queue songs', response.data)
+        console.log('queue songs', response.data)
         return response.data;
     } catch (error) {
         console.error('Error al obtener canciones en la cola:', error);
@@ -129,6 +129,23 @@ export const updatePerfomStatus = async (perfomId, statusData) => {
         return response.data;
     } catch (error) {
         console.error('Error al actualizar el estado del Perfom:', error);
+        throw error;
+    }
+};
+
+export const updateMaxQueueLimit = async (sessionId, maxQueueLimit) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+    };
+
+    try {
+        const response = await axios.put(`${API_URL}/perform/session/${sessionId}/updateMaxQueueLimit`, { maxQueueLimit }, config); // Corregido aquí
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar maxQueueLimit', error);
         throw error;
     }
 };

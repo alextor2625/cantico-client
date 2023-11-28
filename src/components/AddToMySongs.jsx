@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { getYouTubeVideoDetails, addPerfom } from "../services/youtube.service";
 import { AuthContext } from "../context/auth.context";
@@ -8,15 +8,21 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
   const { user } = useContext(AuthContext);
   const { refreshSongs, setSearchQuery, activeSession } = useSongs(); // Utiliza el hook para acceder a refreshSongs
 
-//   useEffect(() => {
-//     console.log("getting activeSession", activeSession);
-//   }, [activeSession]);
+  useEffect(() => {
+    console.log(user, activeSession);
+  }, [user, activeSession]);
 
   const handleAddClick = async () => {
     if (!videoId) {
       console.log("No hay un ID de video proporcionado");
       return;
     }
+
+    //   const handleAddClick = async () => {
+    //     if (!videoId) {
+    //       console.log("No hay un ID de video proporcionado");
+    //       return;
+    //     }
 
     // console.log("activeSession", activeSession);
 

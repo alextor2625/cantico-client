@@ -5,7 +5,7 @@ import { AuthContext } from "../context/auth.context";
 import ReactPlayer from "react-player";
 import { Button } from "react-bootstrap";
 
-const YouTube = ({hideControls}) => {
+const YouTube = ({ hideControls }) => {
   const {
     queueSongs,
     refreshQueueSongs,
@@ -15,9 +15,8 @@ const YouTube = ({hideControls}) => {
   } = useSongs();
   const { user } = useContext(AuthContext);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
   // const [isPlaying, setIsPlaying] = useState(true);
-  
 
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex) {
@@ -37,16 +36,14 @@ const YouTube = ({hideControls}) => {
         isPlaying: isPlaying,
       });
     }
-
-
-  }, [queueSongs, currentVideoIndex, isPlaying]);
+  }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
   useEffect(() => {
     // Ajusta el índice si la longitud de queueSongs cambia
     if (queueSongs.length <= currentVideoIndex) {
       setCurrentVideoIndex(Math.max(0, queueSongs.length - 1));
     }
-  }, [queueSongs]);
+  }, [queueSongs, activeSession, user]);
 
   const skipToNext = async () => {
     // Asegúrate de que currentVideoIndex apunte a la canción actualmente en reproducción
@@ -56,7 +53,7 @@ const YouTube = ({hideControls}) => {
         isPlayed: true,
         isPlaying: false,
       });
-  
+
       // Incrementar el índice para seleccionar la canción "Siguiente en fila"
       setCurrentVideoIndex(currentVideoIndex);
       refreshQueueSongs(activeSession._id);
@@ -87,9 +84,16 @@ const YouTube = ({hideControls}) => {
       : "";
 
   const cancionesHastaTurno = () => {
-    const proximoTurno = queueSongs.findIndex(
-      (song, index) => index > currentVideoIndex && song.user._id === user._id
-    );
+    console.log("Line 91 ===>", queueSongs);
+    const proximoTurno = queueSongs.findIndex((song, index) => {
+      console.log("Checking IDS ====>", song);
+      return (
+        index > currentVideoIndex &&
+        ((song.user && song.user._id === user._id) ||
+          (song.tempUser && song.tempUser._id === user._id))
+      );
+    });
+    console.log("Line 95 ===>", queueSongs);
     return proximoTurno === -1 ? 0 : proximoTurno - currentVideoIndex;
   };
 
@@ -152,11 +156,14 @@ const YouTube = ({hideControls}) => {
           </Button>
         </div>
       )}
-
+      {console.log(queueSongs[currentVideoIndex])}
       {user &&
         !user.admin &&
         queueSongs.length > currentVideoIndex &&
-        queueSongs[currentVideoIndex].user._id === user._id && (
+        ((queueSongs[currentVideoIndex].user &&
+          queueSongs[currentVideoIndex].user._id === user._id) ||
+          (queueSongs[currentVideoIndex].tempUser &&
+            queueSongs[currentVideoIndex].tempUser._id === user._id)) && (
           <div className="user-play-btn-cont">
             <Button
               variant="dark"
@@ -172,7 +179,7 @@ const YouTube = ({hideControls}) => {
         <ReactPlayer
           url={videoUrl}
           width="100%"
-          height={!hideControls ? '100%' : '750px'}
+          height={!hideControls ? "100%" : "750px"}
           playing={isPlaying} // Utiliza la prop "playing" para controlar la reproducción
           controls={false}
           config={{
@@ -191,13 +198,17 @@ const YouTube = ({hideControls}) => {
           onReady={handleVideoReady}
           onBuffer={handleVideoBuffer}
           onEnded={handleVideoEnd}
-          className={ hideControls ? '' : 'adjust-video-size'}
+          className={hideControls ? "" : "adjust-video-size"}
+          muted={hideControls ? false : true}
         />
       )}
 
       {user && !user.admin ? (
         queueSongs.length > currentVideoIndex &&
-        queueSongs[currentVideoIndex].user._id === user._id ? (
+        ((queueSongs[currentVideoIndex].user &&
+          queueSongs[currentVideoIndex].user._id === user._id) ||
+          (queueSongs[currentVideoIndex].tempUser &&
+            queueSongs[currentVideoIndex].tempUser._id === user._id)) ? (
           <h1>Ya es tu turno de cantar, haz click en "Play" para comenzar</h1>
         ) : (
           <h2>{mensajeTurno()}</h2>

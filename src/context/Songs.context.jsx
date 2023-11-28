@@ -10,6 +10,7 @@ import { API_URL } from "../services/config.service";
 import { getMySongs, getQueueSongs } from "../services/youtube.service";
 import {
   getActiveSession,
+  setSessionHasStartedApi,
   toggleSessionStartApi,
 } from "../services/session.service";
 import axios from "axios";
@@ -57,6 +58,9 @@ export const SongsProvider = ({ children }) => {
     newSocket.on("toggleIsRunning", (data) => {
       setIsRunning(data.isRunning);
     });
+    newSocket.on("getIsRunning", (data) => {
+      setIsRunning(data.isRunning);
+    });
 
     return () => {
       newSocket.off("update_session");
@@ -64,6 +68,7 @@ export const SongsProvider = ({ children }) => {
       newSocket.off("update_perform");
       newSocket.off("updated_time");
       newSocket.off("toggleIsRunning");
+      newSocket.off("getIsRunning");
       newSocket.disconnect();
     };
   }, []);
@@ -123,7 +128,28 @@ export const SongsProvider = ({ children }) => {
   const toggleSessionStart = useCallback(
     async (sessionId) => {
       try {
-        const updatedSession = await toggleSessionStartApi(sessionId);
+        updatedSession = await toggleSessionStartApi(sessionId);
+        console.log("Timer:", updatedSession.hasStarted);
+        if (activeSession) {
+          setTimerActive(updatedSession.hasStarted);
+        } else {
+          setTimerActive(false);
+        }
+        socket.emit("updated_time", updatedSession);
+      } catch (error) {
+        console.log("Context Line 125:", error);
+      }
+    },
+    [activeSession, socket]
+  );
+
+  const setSessionStart = useCallback(
+    async (sessionId, hasStarted) => {
+      try {
+        const updatedSession = await setSessionHasStartedApi(
+          sessionId,
+          hasStarted
+        );
         console.log("Timer:", updatedSession.hasStarted);
         if (activeSession) {
           setTimerActive(updatedSession.hasStarted);
@@ -145,6 +171,10 @@ export const SongsProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const toggleIsPlaying = () => {
+    setIsPlaying((prevState) => !prevState);
   };
 
   return (
@@ -171,13 +201,15 @@ export const SongsProvider = ({ children }) => {
         startTime,
         setStartTime,
         toggleSessionStart,
+        setSessionStart,
         timerActive,
         addSong,
         setAddSong,
         code,
         setCode,
         genNewCode,
-        socket, // Proporcionar la conexión del socket
+        socket,
+        toggleIsPlaying,
       }}
     >
       {children}

@@ -30,6 +30,7 @@ const HomePage = () => {
     timerActive,
     addSong,
     setAddSong,
+    socket
   } = useSongs();
   // console.log("Before rendering ActiveSession:", typeof setSessionId);
 
@@ -45,6 +46,12 @@ const HomePage = () => {
   useEffect(() => {
     fetchActiveSession();
   }, [fetchActiveSession]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit("getIsRunning");
+    }
+  },[socket])
 
   return (
     <div>
@@ -101,7 +108,7 @@ const HomePage = () => {
           )}
 
           {/* Active Session && Timer */}
-
+            {/* {console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
           {user && !user.admin && activeSession && isRunning && (
             <div className="user-controls">
               {addSong ? (
