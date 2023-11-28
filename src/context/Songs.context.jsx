@@ -1,8 +1,17 @@
-import React, { createContext, useState, useContext, useCallback, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useCallback,
+  useEffect,
+} from "react";
 import { io } from "socket.io-client";
 import { API_URL } from "../services/config.service";
 import { getMySongs, getQueueSongs } from "../services/youtube.service";
-import { getActiveSession, toggleSessionStartApi } from "../services/session.service";
+import {
+  getActiveSession,
+  toggleSessionStartApi,
+} from "../services/session.service";
 import axios from "axios";
 
 export const SongsContext = createContext();
@@ -79,7 +88,9 @@ export const SongsProvider = ({ children }) => {
       const response = await getActiveSession();
       if (response.success) {
         setActiveSession(response.session);
-        socket.emit("update_session", response.session);
+        if (socket) {
+          socket.emit("update_session", response.session);
+        }
       } else {
         setActiveSession(null);
         setError("No active session found.");
@@ -92,34 +103,40 @@ export const SongsProvider = ({ children }) => {
     }
   }, [socket]);
 
-  const refreshQueueSongs = useCallback(async (sessionId) => {
-    try {
-      const response = await getQueueSongs(sessionId);
-      if (response.success) {
-        setQueueSongs(response.data);
-        socket.emit("update_queue", response.data);
-      } else {
-        console.log("No se pudo encontrar queue songs");
+  const refreshQueueSongs = useCallback(
+    async (sessionId) => {
+      try {
+        const response = await getQueueSongs(sessionId);
+        if (response.success) {
+          setQueueSongs(response.data);
+          socket.emit("update_queue", response.data);
+        } else {
+          console.log("No se pudo encontrar queue songs");
+        }
+      } catch (error) {
+        console.error("Error al obtener las canciones en cola:", error);
       }
-    } catch (error) {
-      console.error("Error al obtener las canciones en cola:", error);
-    }
-  }, [socket]);
+    },
+    [socket]
+  );
 
-  const toggleSessionStart = useCallback(async (sessionId) => {
-    try {
-      const updatedSession = await toggleSessionStartApi(sessionId);
-      console.log("Timer:", updatedSession.hasStarted);
-      if (activeSession) {
-        setTimerActive(updatedSession.hasStarted);
-      } else {
-        setTimerActive(false);
+  const toggleSessionStart = useCallback(
+    async (sessionId) => {
+      try {
+        const updatedSession = await toggleSessionStartApi(sessionId);
+        console.log("Timer:", updatedSession.hasStarted);
+        if (activeSession) {
+          setTimerActive(updatedSession.hasStarted);
+        } else {
+          setTimerActive(false);
+        }
+        socket.emit("updated_time", updatedSession);
+      } catch (error) {
+        console.log("Context Line 125:", error);
       }
-      socket.emit("updated_time", updatedSession);
-    } catch (error) {
-      console.log("Context Line 125:", error);
-    }
-  }, [activeSession, socket]);
+    },
+    [activeSession, socket]
+  );
 
   const genNewCode = async () => {
     try {

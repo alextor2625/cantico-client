@@ -23,7 +23,7 @@ const MySongs = () => {
         <div>
             <Button variant="dark" className='mysongs-btn'>My Songs</Button>{' '}
 
-            <div>
+            <div className='queue-songs-holder'>
                 {mySongs.map(song => (
                     <div key={song._id} className='videos-mysongs'>
                         <img src={song.thumbnail} alt={song.name} />
@@ -36,12 +36,12 @@ const MySongs = () => {
                         />
                         <AddToQueue perfomId={song._id} />
                         </div>
-                        <hr />
+                        <hr className='hr-mysongs'/>
                     </div>
                 ))}
             </div>
 
-            <Button onClick={handleAddSong}>
+            <Button onClick={handleAddSong} className='mysongs-name-btn'>
                 {addSong ? 'Seguir Viendo' : 'Add Song'}
             </Button>
         </div>

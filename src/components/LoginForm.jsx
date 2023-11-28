@@ -69,9 +69,12 @@ const LoginForm = () => {
           <button type="submit" className="btn btn-danger">
             Sign In
           </button>
-          <Link to="/signup">
-            <p>Don't have an account yet?</p>
-          </Link>
+          {/* <Link to="/signup"> */}
+            <p>Esta pagina es para administradores</p>
+            <p>¿que tu hace aqui?</p>
+            <br />
+            <p>Para agregar canciones, escanea el qr code en la pantalla.</p>
+          {/* </Link> */}
           <p className="error-message">{errorMessage}</p>
         </form>
       </div>

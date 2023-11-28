@@ -58,7 +58,7 @@ const YouTubeSearch = ({ activeSession }) => {
 
                 {canAddMoreSongs && videos.length === 0 && (
                     <div>
-                        <p>Aquí aparecerán los videos que agregues.</p>
+                        <h4 className='select-videos-add'>Selecciona tus videos y haz click en add</h4>
                     </div>
                 )}
 

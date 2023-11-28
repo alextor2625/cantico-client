@@ -580,3 +580,77 @@ h3 {
   background-color: white;
   position: fixed;
 }
+
+@media (min-width: 750px) {
+       .cellphone-viewport {
+        display: none;
+       }
+       .cellphone-homepage {
+        display: none;
+      }
+}
+
+
+
+
+@media (max-width: 750px) {
+  .main-content {
+   display: none;
+  }
+  .youtube-search-bar {
+    margin: 0rem 1rem;
+  }
+
+  .mysongs-btn {
+    display: none;
+  }
+
+  .cellphone-viewport {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white; /* O el color de fondo que prefieras */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Opcional: para darle un efecto elevado */
+    padding: 10px 0; /* Ajusta el relleno según necesites */
+    display: flex;
+    justify-content: center; /* Centrar los botones horizontalmente */
+    gap: 10px; /* Espacio entre botones */
+  }
+
+  .cellphone-homepage {
+    text-align: center;
+    margin: 0rem  1rem;
+  }
+
+  .mysongscell-name-btn {
+    position: fixed;
+    bottom: 8%;
+    left: 0;
+    width: 94%;
+    margin: 0rem  1rem;
+  }
+
+  .mysongs-name-btn {
+    display: none;
+  }
+  .queue-songs-holder {
+    margin: 1rem 1rem;
+    /* border: 1px solid black; */
+  }
+  .videos-mysongs {
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: rgb(157, 185, 198);
+  }
+
+  .hr-mysongs {
+    display: none;
+  }
+
+  .select-videos-add {
+    text-align: center;
+  }
+}

@@ -11,6 +11,11 @@ import WhosNext from "../components/WhosNext";
 import SpotifySearch from "../components/SpotifySearch";
 import YouTubeSearch from "../components/YouTubeSearch";
 import { useSongs } from "../context/Songs.context";
+// import Cantar from "./Cantar";
+// import MySongsCell from "./MySongsCell";
+// import Queue from "./Queue";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const HomePage = () => {
   // Handy Things ----------------------
@@ -63,7 +68,7 @@ const HomePage = () => {
                     activeSession={activeSession}
                   />
                 ) : (
-                  <YouTube hideControls={false}/>
+                  <YouTube hideControls={false} />
                 )}
 
                 <MySongs />
@@ -89,7 +94,7 @@ const HomePage = () => {
             <h1>No hay Sesion Activa en este momento</h1>
           )}
 
-          {/* Actice Sessio === True && !Not Actice */}
+          {/* Actice Session === True && !Not Actice */}
 
           {user && !user.admin && activeSession && !isRunning && (
             <h1>La sesion esta a punto de iniciar...</h1>
@@ -117,6 +122,26 @@ const HomePage = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className="cellphone-homepage">
+        {console.log('activeSession:',activeSession)}
+        {activeSession ? <ActiveSession /> : <h2>No hay sesion activa</h2>}
+
+        <h2>Como agregar canciones?</h2>
+      </div>
+
+      <div className="cellphone-viewport">
+        <Link to="/mysongs">
+          <Button>My Songs</Button>
+        </Link>
+
+        <Link to="/cantar">
+          <Button>Cantar</Button>
+        </Link>
+
+        <Link to="/queue">
+          <Button>Queue</Button>
+        </Link>
       </div>
       <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />
     </div>
