@@ -15,6 +15,7 @@ const StreamingPage = () => {
     <div className="streaming">
       StreamingPage
       <h1 className="streamin-title">CANTICO</h1>
+      <div className="content-blocker">.</div>
     
       <div className="streaming-display">
         <div className="video-size-streaming">

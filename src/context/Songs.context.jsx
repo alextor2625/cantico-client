@@ -127,6 +127,7 @@ export const SongsProvider = ({ children }) => {
       console.log("Context Line 125:", error);
     }
   }, [activeSession, socket]);
+  
   const setSessionStart = useCallback(async (sessionId, hasStarted) => {
     try {
       const updatedSession = await setSessionHasStartedApi(sessionId,hasStarted);
