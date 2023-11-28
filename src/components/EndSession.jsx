@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { endSession, getActiveSession } from "../services/session.service";
 import TimerSession from "./TimerSession";
 import { useSongs } from "../context/Songs.context";
+import MaxQueueLimitInput from "./MaxQueueLimit";
 
 const EndSession = () => {
   const {
@@ -12,7 +13,7 @@ const EndSession = () => {
     setActiveSession,
     timerActive,
     setIsRunning,
-    socket // Utiliza el socket del contexto
+    socket, // Utiliza el socket del contexto
   } = useSongs();
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const EndSession = () => {
 
   return (
     <div className="timer-flex">
+      <MaxQueueLimitInput />
       <TimerSession />
 
       <Button
