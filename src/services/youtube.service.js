@@ -132,3 +132,20 @@ export const updatePerfomStatus = async (perfomId, statusData) => {
         throw error;
     }
 };
+
+export const updateMaxQueueLimit = async (sessionId, maxQueueLimit) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+    };
+
+    try {
+        const response = await axios.put(`${API_URL}/perform/session/${sessionId}/updateMaxQueueLimit`, { maxQueueLimit }, config); // Corregido aquí
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar maxQueueLimit', error);
+        throw error;
+    }
+};

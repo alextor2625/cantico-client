@@ -127,6 +127,7 @@ export const SongsProvider = ({ children }) => {
       console.log("Context Line 125:", error);
     }
   }, [activeSession, socket]);
+  
   const setSessionStart = useCallback(async (sessionId, hasStarted) => {
     try {
       const updatedSession = await setSessionHasStartedApi(sessionId,hasStarted);
@@ -150,6 +151,10 @@ export const SongsProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  const toggleIsPlaying = () => {
+    setIsPlaying((prevState)=> !prevState)
+  }
 
   return (
     <SongsContext.Provider
@@ -183,6 +188,7 @@ export const SongsProvider = ({ children }) => {
         setCode,
         genNewCode,
         socket, // Proporcionar la conexión del socket
+        toggleIsPlaying,
       }}
     >
       {children}
