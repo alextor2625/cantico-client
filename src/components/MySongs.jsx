@@ -1,51 +1,53 @@
-import React, { useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import DeleteMySong from './DeleteMySong';
-import { useSongs } from '../context/Songs.context'; 
-import AddToQueue from './AddToQueue';
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import DeleteMySong from "./DeleteMySong";
+import { useSongs } from "../context/Songs.context";
+import AddToQueue from "./AddToQueue";
 
-const MySongs = () => {
-    const { mySongs, refreshSongs, activeSession, addSong, setAddSong } = useSongs(); 
 
-    // console.log('myysongs', mySongs)
+const MySongs = ({setSuccess}) => {
+  const { mySongs, refreshSongs, activeSession, addSong, setAddSong } =
+    useSongs();
 
-    useEffect(() => {
-        if (activeSession && activeSession._id) {
-            refreshSongs(activeSession._id); 
-        }
-    }, [activeSession, refreshSongs]); 
+  // console.log('myysongs', mySongs)
 
-    const handleAddSong = () => {
-        setAddSong(prevState => !prevState);
-    };
+  useEffect(() => {
+    if (activeSession && activeSession._id) {
+      refreshSongs(activeSession._id);
+    }
+  }, [activeSession, refreshSongs]);
 
-    return (
-        <div>
-            <Button variant="dark" className='mysongs-btn'>My Songs</Button>{' '}
+  const handleAddSong = () => {
+    setAddSong((prevState) => !prevState);
+  };
 
-            <div className='queue-songs-holder'>
-                {mySongs.map(song => (
-                    <div key={song._id} className='videos-mysongs'>
-                        <img src={song.thumbnail} alt={song.name} />
-                        <p>{song.name}</p>
-                        <div className='delete-add-queu'>
-                        <DeleteMySong 
-                            perfomId={song._id} 
-                            activeSession={activeSession} 
-                            onRefresh={() => refreshSongs(activeSession._id)}
-                        />
-                        <AddToQueue perfomId={song._id} />
-                        </div>
-                        <hr className='hr-mysongs'/>
-                    </div>
-                ))}
+  return (
+    <div>
+      <Button variant="dark" className="mysongs-btn">
+        My Songs
+      </Button>{" "}
+      <div className="queue-songs-holder">
+        {mySongs.map((song) => (
+          <div key={song._id} className="videos-mysongs">
+            <img src={song.thumbnail} alt={song.name} />
+            <p>{song.name}</p>
+            <div className="delete-add-queu">
+              <DeleteMySong
+                perfomId={song._id}
+                activeSession={activeSession}
+                onRefresh={() => refreshSongs(activeSession._id)}
+              />
+              <AddToQueue perfomId={song._id} setSuccess={setSuccess} />
             </div>
-
-            <Button onClick={handleAddSong} className='mysongs-name-btn'>
-                {addSong ? 'Seguir Viendo' : 'Add Song'}
-            </Button>
-        </div>
-    );
+            <hr className="hr-mysongs" />
+          </div>
+        ))}
+      </div>
+      <Button onClick={handleAddSong} className="mysongs-name-btn">
+        {addSong ? "Seguir Viendo" : "Add Song"}
+      </Button>
+    </div>
+  );
 };
 
 export default MySongs;

@@ -704,3 +704,7 @@ h3 {
   /* padding-bottom: 1rem; */
 }
 
+.spinner{
+  text-align: center;
+  margin-top: 50%;
+}
