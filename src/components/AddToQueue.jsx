@@ -22,7 +22,7 @@ const AddToQueue = ({ perfomId }) => {
 
     return (
         <div>
-            <Button variant="outline-dark" onClick={handleAddToQueue}>Queue</Button>
+            <Button variant="outline-dark" className='delete-queue-btn' onClick={handleAddToQueue}>Queue</Button>
         </div>
     );
 };

@@ -17,7 +17,7 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
 
   // const { isLoggedIn } = useContext(AuthContext);
 
-  console.log("Login Prompt User:", user);
+  // console.log("Login Prompt User:", user);
 
   // const { user } = useContext(AuthContext);
 

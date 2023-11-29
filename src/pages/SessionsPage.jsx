@@ -28,7 +28,7 @@ const SessionsPage = () => {
   const [deleteSessionId, setDeleteSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [noSessionsMessage, setNoSessionsMessage] = useState(null);
-  const { fetchActiveSession, isRunning, socket } = useSongs();
+  const { fetchActiveSession, isRunning, socket, activeSession, refreshQueueSongs } = useSongs();
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -63,7 +63,19 @@ const SessionsPage = () => {
   }, [editingSessionId]);
 
   useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession]);
+  
+  useEffect(() => {
+    if (activeSession && activeSession._id) {
+      refreshQueueSongs(activeSession._id);
+    }
+  }, [activeSession, refreshQueueSongs]);
+  
+
+  useEffect(() => {
     setIsLoading(true);
+    // fetchActiveSession()
     getAllSessions()
       .then((data) => {
         if (
@@ -88,7 +100,7 @@ const SessionsPage = () => {
     if (socket) {
       socket.emit("getIsRunning");
     }
-  },[socket])
+  }, [socket]);
 
   const handleIsEditing = (sessionId, sessionName) => {
     if (editingSessionId === sessionId) {
@@ -220,7 +232,9 @@ const SessionsPage = () => {
 
             {isRunning && (
               <Button className="display-title">
-                <Link to="/streaming" target="_blank" className="stream-btn">Stream</Link>
+                <Link to="/streaming" target="_blank" className="stream-btn">
+                  Stream
+                </Link>
                 {/* <StreamingPage /> */}
               </Button>
             )}

@@ -36,7 +36,7 @@ const Navbar = () => {
             </Link>
           </li>
         )}
-        {!isLoggedIn && (
+        {!isLoggedIn && user && user.admin &&(
           <li className="nav-item">
             <Link
               onClick={() => setActiveTab("signup")}
