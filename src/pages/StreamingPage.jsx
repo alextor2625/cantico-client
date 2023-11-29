@@ -5,11 +5,25 @@ import SessionId from "../components/SessionId";
 import cantico from "../assets/cantico.png";
 
 const StreamingPage = () => {
-  const { addSong, queueSongs, isPlaying } = useSongs();
+  const { addSong, queueSongs, isPlaying, fetchActiveSession } = useSongs();
 
+  // useEffect(() => {
+  //   console.log("queueSogns", queueSongs);
+  // }, [queueSongs, isPlaying]);
+
+  const getQueueSongs = async () => {
+    try {
+      const getActiveSessionResponse = await fetchActiveSession();
+      console.log("RESPONSE SESSION ===> ", getActiveSessionResponse);
+      const getQueueSongsResponse = await refreshQueueSongs(getActiveSessionResponse._id)
+      console.log("RESPONSE QUEUE ===> ", getQueueSongsResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
-    console.log("queueSogns", queueSongs);
-  }, [queueSongs, isPlaying]);
+    getQueueSongs();
+  }, []);
 
   return (
     <div className="streaming">

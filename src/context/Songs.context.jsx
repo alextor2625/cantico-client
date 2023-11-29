@@ -37,13 +37,17 @@ export const SongsProvider = ({ children }) => {
 
   useEffect(() => {
     const newSocket = io.connect(API_URL, { withCredentials: true });
-    setSocket(newSocket);
+    newSocket.on("connect", () => {
+      console.log("Socket conectado:", newSocket.connected); // Ahora debería mostrar true
+      setSocket(newSocket);
+    });
 
     newSocket.on("update_session", (updatedSessionData) => {
       setActiveSession(updatedSessionData);
     });
 
     newSocket.on("update_queue", (performs) => {
+      console.log("Evento 'update_queue' recibido:", performs);
       setQueueSongs(performs);
     });
 
@@ -106,6 +110,7 @@ export const SongsProvider = ({ children }) => {
           socket.emit("setActiveSession", { activeSession: response.session });
           socket.emit("update_session", response.session);
         }
+        return response
       } else {
         setActiveSession(null);
         setError("No active session found.");
@@ -124,7 +129,9 @@ export const SongsProvider = ({ children }) => {
         const response = await getQueueSongs(sessionId);
         if (response.success) {
           setQueueSongs(response.data);
-          // socket.emit("update_queue", {performs: response.data});
+          console.log("Datos de la cola recibidos:", response.data);
+          socket.emit("update_queue", { performs: response.data });
+          return response;
         } else {
           console.log("No se pudo encontrar queue songs");
         }
@@ -132,7 +139,7 @@ export const SongsProvider = ({ children }) => {
         console.error("Error al obtener las canciones en cola:", error);
       }
     },
-    [socket]
+    [socket, activeSession]
   );
 
   const toggleSessionStart = useCallback(
@@ -225,6 +232,7 @@ export const SongsProvider = ({ children }) => {
         genNewCode,
         socket,
         toggleIsPlaying,
+        getQueueSongs,
       }}
     >
       {children}

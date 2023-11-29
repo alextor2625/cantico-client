@@ -43,9 +43,19 @@ const HomePage = () => {
   // console.log("active session", activeSession);
   // console.log("isRunnig", isRunning);
 
+  // useEffect(() => {
+  //   fetchActiveSession();
+  // }, [fetchActiveSession]);
+
   useEffect(() => {
+    console.log("Componente de Session/Admin montado");
     fetchActiveSession();
+    console.log("Estado actual de activeSession:", activeSession);
+    // Considera si necesitas llamar a refreshQueueSongs aquí
   }, [fetchActiveSession]);
+  
+  // Continúa con el resto del componente...
+  
 
   useEffect(() => {
     if (socket) {

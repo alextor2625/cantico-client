@@ -45,6 +45,8 @@ const YouTube = ({ hideControls }) => {
     }
   }, [queueSongs, activeSession, user]);
 
+  
+
   const skipToNext = async () => {
     // Asegúrate de que currentVideoIndex apunte a la canción actualmente en reproducción
     if (queueSongs.length > currentVideoIndex + 1) {

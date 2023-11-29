@@ -5,14 +5,13 @@ import { Button } from "react-bootstrap";
 import { useSongs } from "../context/Songs.context";
 
 const Queue = () => {
-  const { queueSongs, socket } = useSongs();
+  const { queueSongs, fetchActiveSession } = useSongs();
+
+  console.log("Renderizando con queueSongs:", queueSongs);
 
   useEffect(() => {
-    if(socket){
-      console.log("queuesongs:", queueSongs);
-      socket.emit("getQueue")
-    }
-  }, [queueSongs]);
+    fetchActiveSession();
+  }, [fetchActiveSession]);
 
   return (
     <div>
