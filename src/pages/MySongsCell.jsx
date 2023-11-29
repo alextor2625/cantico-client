@@ -6,12 +6,13 @@ import { Button } from "react-bootstrap";
 import { useSongs } from "../context/Songs.context";
 
 const MySongsCell = () => {
-  const { addSong, setAddSong, activeSession, mySongs, socket } = useSongs();
+  const { addSong, setAddSong, activeSession, mySongs, socket, isRunning } =
+    useSongs();
 
   useEffect(() => {
     if (socket) {
       socket.emit("getActiveSession");
-      socket.emit("getQueue")
+      socket.emit("getQueue");
       // socket.emit("update_session")
     }
   }, [socket]);
@@ -26,20 +27,24 @@ const MySongsCell = () => {
     <div>
       MySongs
       <div className="cellphone-viewport">
-        <Link to="/mysongs">
-          <Button>My Songs</Button>
-        </Link>
+        {activeSession && isRunning && (
+          <>
+            <Link to="/mysongs">
+              <Button>My Songs</Button>
+            </Link>
 
-        <Link to="/cantar">
-          <Button>Cantar</Button>
-        </Link>
+            <Link to="/cantar">
+              <Button>Cantar</Button>
+            </Link>
 
-        <Link to="/queue">
-          <Button>Queue</Button>
-        </Link>
+            <Link to="/queue">
+              <Button>Queue</Button>
+            </Link>
+          </>
+        )}
       </div>
       {activeSession ? (
-        addSong ? (
+        addSong && activeSession ? (
           <YouTubeSearch />
         ) : (
           <MySongs />
@@ -47,9 +52,14 @@ const MySongsCell = () => {
       ) : (
         <h2>No hay Sesion activa</h2>
       )}
-      <Button onClick={handleAddSong} className="mysongscell-name-btn">
-        {addSong ? "Agregadas" : "Buscar"}
-      </Button>
+      {activeSession && !isRunning && (
+        <h1>La sesion esta a punto de comenzar...</h1>
+      )}
+      {activeSession && isRunning && (
+        <Button onClick={handleAddSong} className="mysongscell-name-btn">
+          {addSong ? "Agregadas" : "Buscar"}
+        </Button>
+      )}
     </div>
   );
 };

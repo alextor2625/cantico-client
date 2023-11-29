@@ -5,7 +5,7 @@ import { useSongs } from "../context/Songs.context";
 import { AuthContext } from "../context/auth.context";
 
 const Cantar = () => {
-  const { toggleIsPlaying, isPlaying, queueSongs, fetchActiveSession } =
+  const { toggleIsPlaying, isPlaying, queueSongs, fetchActiveSession, handlePlayPauseClick } =
     useSongs();
   const { user } = useContext(AuthContext);
 
@@ -36,9 +36,9 @@ const Cantar = () => {
 
   console.log("queueMessage:", queueMessage);
 
-  const handlePlayPauseClick = () => {
-    toggleIsPlaying();
-  };
+//   const handlePlayPauseClick = () => {
+//     toggleIsPlaying();
+//   };
 
   return (
     <div>
@@ -67,7 +67,7 @@ const Cantar = () => {
           </div>
         )}
 
-        {songsBeforeUser !== null && (
+        {songsBeforeUser !== null && !isPlaying &&(
           <div className="queueMessage">{queueMessage}</div>
         )}
       </div>

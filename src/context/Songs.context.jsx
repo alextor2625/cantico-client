@@ -34,6 +34,7 @@ export const SongsProvider = ({ children }) => {
   const [addSong, setAddSong] = useState(false);
   const [code, setCode] = useState(null);
   const [socket, setSocket] = useState(null);
+  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
     const newSocket = io.connect(API_URL, { withCredentials: true });
@@ -47,7 +48,7 @@ export const SongsProvider = ({ children }) => {
     });
 
     newSocket.on("update_queue", (performs) => {
-      console.log("Evento 'update_queue' recibido:", performs);
+      // console.log("Evento 'update_queue' recibido:", performs);
       setQueueSongs(performs);
     });
 
@@ -85,6 +86,7 @@ export const SongsProvider = ({ children }) => {
       newSocket.off("toggleIsRunning");
       newSocket.off("getIsRunning");
       newSocket.off("getActiveSession");
+      newSocket.off("toggleIsPlaying");
       // newSocket.off("getQueue");
       newSocket.disconnect();
     };
@@ -134,7 +136,7 @@ export const SongsProvider = ({ children }) => {
         if (response.success) {
           setQueueSongs(response.data);
           console.log("Datos de la cola recibidos:", response.data);
-          socket.emit("update_queue", { performs: response.data });
+          // socket.emit("update_queue", { performs: response.data });
           return response;
         } else {
           console.log("No se pudo encontrar queue songs");
@@ -174,6 +176,7 @@ export const SongsProvider = ({ children }) => {
         console.log("Timer:", updatedSession.hasStarted);
         if (activeSession) {
           setTimerActive(updatedSession.hasStarted);
+          setTimer(updatedSession.hasStarted);
         } else {
           setTimerActive(false);
         }
@@ -200,13 +203,18 @@ export const SongsProvider = ({ children }) => {
   };
 
   const toggleIsPlaying = () => {
-    setIsPlaying(prevState => {
-        const newState = !prevState;
-        socket.emit("toggleIsPlaying", newState);
-        return newState;
+    setIsPlaying((prevState) => {
+      const newState = !prevState;
+      socket.emit("toggleIsPlaying", newState);
+      return newState;
     });
-};
+  };
 
+  const handlePlayPauseClick = () => {
+    // Cambiar el estado de reproducción cuando se hace clic en el botón
+    // console.log('Video Paused:', isPlaying)
+    toggleIsPlaying();
+  };
   return (
     <SongsContext.Provider
       value={{
@@ -241,6 +249,8 @@ export const SongsProvider = ({ children }) => {
         socket,
         toggleIsPlaying,
         getQueueSongs,
+        timer,
+        handlePlayPauseClick,
       }}
     >
       {children}

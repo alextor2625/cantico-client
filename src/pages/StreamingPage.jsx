@@ -1,11 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import YouTube from "../components/YouTube";
 import { useSongs } from "../context/Songs.context";
 import SessionId from "../components/SessionId";
 import cantico from "../assets/cantico.png";
 
 const StreamingPage = () => {
-  const { addSong, queueSongs, isPlaying, fetchActiveSession } = useSongs();
+  const {
+    addSong,
+    queueSongs,
+    isPlaying,
+    fetchActiveSession,
+    socket,
+    refreshQueueSongs,
+    toggleIsPlaying,
+  } = useSongs();
+  const [play, setPlay] = useState(false);
 
   // useEffect(() => {
   //   console.log("queueSogns", queueSongs);
@@ -27,11 +36,15 @@ const StreamingPage = () => {
     getQueueSongs();
   }, []);
 
+//   useEffect(() => {
+//     console.log("toggleIsPlaying", isPlaying);
+//   }, [toggleIsPlaying, isPlaying]);
+
   useEffect(() => {
     fetchActiveSession();
   }, [fetchActiveSession]);
 
-  console.log("isPlaying:", isPlaying);
+//   console.log("isPlaying:", isPlaying);
 
   return (
     <div className="streaming">
