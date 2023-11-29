@@ -46,15 +46,15 @@ const Queue = () => {
         ))}
       <div className="cellphone-viewport">
         <Link to="/mysongs">
-          <Button>My Songs</Button>
+          <Button className="inactive-cell">My Songs</Button>
         </Link>
 
         <Link to="/cantar">
-          <Button>Cantar</Button>
+          <Button className="inactive-cell">Cantar</Button>
         </Link>
 
         <Link to="/queue">
-          <Button>Queue</Button>
+          <Button className="active-cell">Queue</Button>
         </Link>
       </div>
     </div>

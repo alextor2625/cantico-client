@@ -30,15 +30,15 @@ const MySongsCell = () => {
         {activeSession && isRunning && (
           <>
             <Link to="/mysongs">
-              <Button>My Songs</Button>
+              <Button className="active-cell">My Songs</Button>
             </Link>
 
             <Link to="/cantar">
-              <Button>Cantar</Button>
+              <Button className="inactive-cell">Cantar</Button>
             </Link>
 
             <Link to="/queue">
-              <Button>Queue</Button>
+              <Button className="inactive-cell">Queue</Button>
             </Link>
           </>
         )}
