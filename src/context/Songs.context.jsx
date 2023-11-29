@@ -43,9 +43,13 @@ export const SongsProvider = ({ children }) => {
       setActiveSession(updatedSessionData);
     });
 
-    newSocket.on("update_queue", (updateQueue) => {
-      setQueueSongs(updateQueue);
+    newSocket.on("update_queue", (performs) => {
+      setQueueSongs(performs);
     });
+
+    // newSocket.on("getQueue", () => {
+    //   setQueueSongs(updateQueue);
+    // });
 
     newSocket.on("update_perform", (updatedPerfom) => {
       setIsPlaying(updatedPerfom.isPlaying);
@@ -61,6 +65,9 @@ export const SongsProvider = ({ children }) => {
     newSocket.on("getIsRunning", (data) => {
       setIsRunning(data.isRunning);
     });
+    newSocket.on("getActiveSession", (data) => {
+      setActiveSession(data.activeSession);
+    });
 
     return () => {
       newSocket.off("update_session");
@@ -69,6 +76,8 @@ export const SongsProvider = ({ children }) => {
       newSocket.off("updated_time");
       newSocket.off("toggleIsRunning");
       newSocket.off("getIsRunning");
+      newSocket.off("getActiveSession");
+      // newSocket.off("getQueue");
       newSocket.disconnect();
     };
   }, []);
@@ -94,6 +103,7 @@ export const SongsProvider = ({ children }) => {
       if (response.success) {
         setActiveSession(response.session);
         if (socket) {
+          socket.emit("setActiveSession", { activeSession: response.session });
           socket.emit("update_session", response.session);
         }
       } else {
@@ -114,7 +124,7 @@ export const SongsProvider = ({ children }) => {
         const response = await getQueueSongs(sessionId);
         if (response.success) {
           setQueueSongs(response.data);
-          socket.emit("update_queue", response.data);
+          // socket.emit("update_queue", {performs: response.data});
         } else {
           console.log("No se pudo encontrar queue songs");
         }
@@ -155,6 +165,11 @@ export const SongsProvider = ({ children }) => {
           setTimerActive(updatedSession.hasStarted);
         } else {
           setTimerActive(false);
+        }
+        if (!hasStarted) {
+          socket.emit("setActiveSession", { activeSession: null });
+        } else {
+          socket.emit("setActiveSession", { activeSession: updatedSession });
         }
         socket.emit("updated_time", updatedSession);
       } catch (error) {

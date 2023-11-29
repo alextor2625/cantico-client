@@ -10,8 +10,9 @@ const MySongsCell = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit("getIsRunning");
-      socket.emit("update_session")
+      socket.emit("getActiveSession");
+      socket.emit("getQueue")
+      // socket.emit("update_session")
     }
   }, [socket]);
 

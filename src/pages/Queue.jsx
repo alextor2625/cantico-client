@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddToQueue from "../components/AddToQueue";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { useSongs } from "../context/Songs.context";
 
 const Queue = () => {
+  const { queueSongs, socket } = useSongs();
+
+  useEffect(() => {
+    if(socket){
+      console.log("queuesongs:", queueSongs);
+      socket.emit("getQueue")
+    }
+  }, [queueSongs]);
+
   return (
     <div>
       Queue
+      {queueSongs &&
+        queueSongs.map((song, index) => (
+          <div key={index}>
+            <h2>
+              {(song.user && song.user.name) ||
+                (song.tempUser && song.tempUser.name)}
+            </h2>
+            <p>{song.name}</p>
+          </div>
+        ))}
       <div className="cellphone-viewport">
         <Link to="/mysongs">
           <Button>My Songs</Button>
