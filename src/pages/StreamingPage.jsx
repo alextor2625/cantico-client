@@ -15,22 +15,29 @@ const StreamingPage = () => {
     try {
       const getActiveSessionResponse = await fetchActiveSession();
       console.log("RESPONSE SESSION ===> ", getActiveSessionResponse);
-      const getQueueSongsResponse = await refreshQueueSongs(getActiveSessionResponse._id)
+      const getQueueSongsResponse = await refreshQueueSongs(
+        getActiveSessionResponse._id
+      );
       console.log("RESPONSE QUEUE ===> ", getQueueSongsResponse);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   useEffect(() => {
     getQueueSongs();
   }, []);
+
+  useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession]);
+
+  console.log("isPlaying:", isPlaying);
 
   return (
     <div className="streaming">
       StreamingPage
       <h1 className="streamin-title">CANTICO</h1>
       <div className="content-blocker">.</div>
-    
       <div className="streaming-display">
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
@@ -73,7 +80,7 @@ const StreamingPage = () => {
                     </div>
                   );
                 }
-                return null; 
+                return null;
               })}
             </div>
             <SessionId />

@@ -73,6 +73,10 @@ export const SongsProvider = ({ children }) => {
       setActiveSession(data.activeSession);
     });
 
+    newSocket.on("toggleIsPlaying", (data) => {
+      setIsPlaying(data);
+    });
+
     return () => {
       newSocket.off("update_session");
       newSocket.off("update_queue");
@@ -110,7 +114,7 @@ export const SongsProvider = ({ children }) => {
           socket.emit("setActiveSession", { activeSession: response.session });
           socket.emit("update_session", response.session);
         }
-        return response
+        return response;
       } else {
         setActiveSession(null);
         setError("No active session found.");
@@ -196,8 +200,12 @@ export const SongsProvider = ({ children }) => {
   };
 
   const toggleIsPlaying = () => {
-    setIsPlaying((prevState) => !prevState);
-  };
+    setIsPlaying(prevState => {
+        const newState = !prevState;
+        socket.emit("toggleIsPlaying", newState);
+        return newState;
+    });
+};
 
   return (
     <SongsContext.Provider
