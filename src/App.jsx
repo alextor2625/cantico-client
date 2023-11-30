@@ -21,8 +21,6 @@ function App() {
       <Route path="/cantar" element={<Cantar />} />
       <Route path="/mysongs" element={<MySongsCell />} />
       <Route path="/queue" element={<Queue />} />
-
-      
     </Routes>
   );
 }
