@@ -3,6 +3,7 @@ import AddToQueue from "../components/AddToQueue";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useSongs } from "../context/Songs.context";
+import Cantar from "./Cantar";
 
 const Queue = () => {
   const { queueSongs, fetchActiveSession } = useSongs();
@@ -35,7 +36,7 @@ const Queue = () => {
               )) ||
                 index}
             </h1>
-            <div>
+            <div className="queue-component-songs">
               <h2>
                 {(song.user && song.user.name) ||
                   (song.tempUser && song.tempUser.name)}
@@ -44,6 +45,10 @@ const Queue = () => {
             </div>
           </div>
         ))}
+
+        <div>
+          <Cantar />
+        </div>
       <div className="cellphone-viewport">
         <Link to="/mysongs">
           <Button className="inactive-cell">My Songs</Button>
