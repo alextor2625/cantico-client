@@ -5,8 +5,13 @@ import { useSongs } from "../context/Songs.context";
 import { AuthContext } from "../context/auth.context";
 
 const Cantar = () => {
-  const { toggleIsPlaying, isPlaying, queueSongs, fetchActiveSession, handlePlayPauseClick } =
-    useSongs();
+  const {
+    toggleIsPlaying,
+    isPlaying,
+    queueSongs,
+    fetchActiveSession,
+    handlePlayPauseClick,
+  } = useSongs();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -36,15 +41,17 @@ const Cantar = () => {
 
   console.log("queueMessage:", queueMessage);
 
-//   const handlePlayPauseClick = () => {
-//     toggleIsPlaying();
-//   };
+  //   const handlePlayPauseClick = () => {
+  //     toggleIsPlaying();
+  //   };
 
   return (
     <div>
-      Cantar
       <div className="user-play-btn-cont">
-     
+        {songsBeforeUser !== null && !isPlaying && (
+          <div className="queueMessage">{queueMessage}</div>
+        )}
+
         {isUserTurn ? (
           <Button
             variant="dark"
@@ -55,7 +62,6 @@ const Cantar = () => {
           </Button>
         ) : (
           <div>
-            <p>El botón se habilitará cuando sea tu turno.</p>
             <Button
               variant="dark"
               className="user-play-btn disabled"
@@ -64,11 +70,8 @@ const Cantar = () => {
             >
               {isPlaying ? <p>Pause</p> : <p>Play</p>}
             </Button>
+            <p>El botón se habilitará cuando sea tu turno.</p>
           </div>
-        )}
-
-        {songsBeforeUser !== null && !isPlaying &&(
-          <div className="queueMessage">{queueMessage}</div>
         )}
       </div>
       <div className="cellphone-viewport">
