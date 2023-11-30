@@ -15,6 +15,7 @@ const MySongsCell = () => {
     socket,
     isRunning,
     queueSongs,
+    handleAddSong,
   } = useSongs();
   const { queueLimitError, setQueueLimitError } = useContext(ErrorsContext);
   const [success, setSuccess] = useState(false);
@@ -47,9 +48,9 @@ const MySongsCell = () => {
 
   console.log("activeSession:", activeSession);
 
-  const handleAddSong = () => {
-    setAddSong((prevState) => !prevState);
-  };
+  // const handleAddSong = () => {
+  //   setAddSong((prevState) => !prevState);
+  // };
 
   return (
     <div>

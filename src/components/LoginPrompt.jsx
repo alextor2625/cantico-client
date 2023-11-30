@@ -3,17 +3,18 @@ import { AuthContext } from "../context/auth.context";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { tempSignUp, handleInputChange } from "../services/auth.service";
+import { useSongs } from "../context/Songs.context";
 
 const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
   const [name, setName] = useState("");
   const [lastname, setLastName] = useState("");
-
   const [errorMessage, setErrorMessage] = useState(undefined);
   const { code } = useParams();
   const [signUpCode, setSignUpCode] = useState(code);
   const { setIsLoggedIn, setUser, user, isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const errorMessageTimeoutRef = useRef(null);
+  const { handleAddSong } = useSongs();
 
   // const { isLoggedIn } = useContext(AuthContext);
 
@@ -43,13 +44,15 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
       .catch((error) => {
         console.log(error);
       });
+
+    navigate("/mysongs");
   };
 
   // console.log("Line 15 - User:", user);
 
   return (
     <>
-      {!isLoggedIn && showPrompt &&  (
+      {!isLoggedIn && showPrompt && (
         <div
           id="modal"
           className="modal"
@@ -90,22 +93,22 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
                 {/* <Link to="/"> */}
                 <Button
                   variant="secondary"
-                  // onClick={handleHidePrompt}
+                  onClick={handleAddSong}
                   type="submit"
                 >
                   Submit
                 </Button>
                 {/* </Link> */}
-                <Link to="/login">
+                {/* <Link to="/login">
                   <Button variant="danger">-</Button>
-                </Link>
+                </Link> */}
               </Modal.Footer>
             </Modal.Dialog>
           </form>
         </div>
       )}
 
-      {isLoggedIn && showPrompt && (
+      {/* {isLoggedIn && showPrompt && (
         <div className="modal" style={{ display: "block", position: "fixed" }}>
           <Modal.Dialog onChange={handleHidePrompt} centered>
             {user && user.admin && showPrompt ? (
@@ -154,7 +157,7 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
             )}
           </Modal.Dialog>
         </div>
-      )}
+      )} */}
     </>
   );
 };

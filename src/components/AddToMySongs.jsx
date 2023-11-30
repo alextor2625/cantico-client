@@ -6,7 +6,8 @@ import { useSongs } from "../context/Songs.context"; // Importa el hook del cont
 
 const AddToMySongs = ({ videoId, thumbnails }) => {
   const { user } = useContext(AuthContext);
-  const { refreshSongs, setSearchQuery, activeSession } = useSongs(); // Utiliza el hook para acceder a refreshSongs
+  const { refreshSongs, setSearchQuery, activeSession, handleAddSong } =
+    useSongs(); // Utiliza el hook para acceder a refreshSongs
 
   useEffect(() => {
     console.log(user, activeSession);
@@ -54,7 +55,7 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
 
   return (
     <div>
-      <Button onClick={handleAddClick}>Add</Button>
+      <Button onClick={handleAddClick && handleAddSong}>Add</Button>
     </div>
   );
 };
