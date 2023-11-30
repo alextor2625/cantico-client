@@ -92,11 +92,11 @@ const MySongsCell = () => {
           {addSong ? "Agregadas" : "Buscar"}
         </Button>
       )}
-      {queueSongs.every(
-        (song) =>
-          (!song.user || song.user.length < 1) &&
-          (!song.tempUser || song.tempUser.length < 1)
-      ) && <h1 className="nosongs-queue">No tienes canciones agregadas al la cola.</h1>}
+      {activeSession && isRunning && mySongs.length === 0 && !addSong &&(
+        <h1 className="nosongs-queue">
+          No tienes canciones agregadas, haz click en buscar.
+        </h1>
+      )}
     </div>
   );
 };
