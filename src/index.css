@@ -770,9 +770,11 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 650px;
+  /* max-height: 650px; */
   overflow-y: auto;
 }
+
+
 
 .queue-component-info {
   display: flex;
