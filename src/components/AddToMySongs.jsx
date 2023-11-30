@@ -3,11 +3,13 @@ import { Button } from "react-bootstrap";
 import { getYouTubeVideoDetails, addPerfom } from "../services/youtube.service";
 import { AuthContext } from "../context/auth.context";
 import { useSongs } from "../context/Songs.context"; // Importa el hook del contexto
+import { useNavigate } from "react-router-dom";
 
 const AddToMySongs = ({ videoId, thumbnails }) => {
   const { user } = useContext(AuthContext);
   const { refreshSongs, setSearchQuery, activeSession, handleAddSong } =
     useSongs(); // Utiliza el hook para acceder a refreshSongs
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(user, activeSession);
@@ -41,9 +43,11 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
         };
 
         await addPerfom(perfomData);
-        console.log("Perfom añadido, actualizando canciones...");
+        console.log("Perfom añadido, actualizando canciones...", perfomData);
+
         setSearchQuery("");
         refreshSongs(activeSession._id);
+        handleAddSong()
       }
     } catch (error) {
       console.error(
@@ -55,7 +59,7 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
 
   return (
     <div>
-      <Button onClick={handleAddClick && handleAddSong}>Add</Button>
+      <Button onClick={handleAddClick}>Add</Button>
     </div>
   );
 };
