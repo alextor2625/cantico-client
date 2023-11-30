@@ -4,22 +4,40 @@ import DeleteMySong from "./DeleteMySong";
 import { useSongs } from "../context/Songs.context";
 import AddToQueue from "./AddToQueue";
 
-
-const MySongs = ({setSuccess}) => {
-  const { mySongs, refreshSongs, activeSession, addSong, setAddSong } =
-    useSongs();
+const MySongs = ({ setSuccess }) => {
+  const {
+    mySongs,
+    refreshSongs,
+    activeSession,
+    addSong,
+    setAddSong,
+    isRunning,
+    fetchActiveSession,
+    socket,
+  } = useSongs();
   const [showDelete, setShowDelete] = useState(false);
 
   const handleShowDelete = (songId) => {
-    setShowDelete(prevState => ({
+    setShowDelete((prevState) => ({
       ...prevState,
-      [songId]: !prevState[songId]
+      [songId]: !prevState[songId],
     }));
   };
 
-//   const history = useHistory()
+  //   const history = useHistory()
 
   // console.log('myysongs', mySongs)
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit("getIsRunning");
+    }
+  },[socket])
+
+  // useEffect(() => {
+  //   console.log("isRunning", isRunning);
+  //   fetchActiveSession()
+  // }, [isRunning, fetchActiveSession]);
 
   useEffect(() => {
     if (activeSession && activeSession._id) {
@@ -40,7 +58,7 @@ const MySongs = ({setSuccess}) => {
         {mySongs.map((song) => (
           <div key={song._id} className="videos-mysongs">
             <div className="delete-prompt">
-              {!showDelete[song._id]? (
+              {!showDelete[song._id] ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
@@ -71,7 +89,7 @@ const MySongs = ({setSuccess}) => {
               {!showDelete[song._id] ? (
                 <>
                   <p>{song.name}</p>
-                  <AddToQueue perfomId={song._id} setSuccess={setSuccess}/>
+                  <AddToQueue perfomId={song._id} setSuccess={setSuccess} />
                 </>
               ) : (
                 <>

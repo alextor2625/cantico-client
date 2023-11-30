@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { tempSignUp, handleInputChange } from "../services/auth.service";
 import cantico from "../assets/cantico.png";
 import { AuthContext } from "../context/auth.context";
+import { useSongs } from "../context/Songs.context";
 
 const SignUpForm = () => {
   // Definición de estados y lógica similar a LoginPrompt
@@ -14,6 +15,7 @@ const SignUpForm = () => {
   const { setIsLoggedIn, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const errorMessageTimeoutRef = useRef(null);
+  const { handleAddSong } = useSongs();
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
@@ -30,10 +32,11 @@ const SignUpForm = () => {
     )
       .then((data) => {
         navigate("/mysongs");
+        handleAddSong()
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage(error.message); 
+        setErrorMessage(error.message);
       });
   };
 
@@ -68,9 +71,9 @@ const SignUpForm = () => {
         <button type="submit" className="btn btn-danger">
           Create Account
         </button>
-        <Link to="/login">
+        {/* <Link to="/login">
           <p>Already have an account?</p>
-        </Link>
+        </Link> */}
         <p className="error-message">{errorMessage}</p>
       </form>
     </div>
