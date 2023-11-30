@@ -1,11 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import YouTube from "../components/YouTube";
 import { useSongs } from "../context/Songs.context";
 import SessionId from "../components/SessionId";
 import cantico from "../assets/cantico.png";
 
 const StreamingPage = () => {
-  const { addSong, queueSongs, isPlaying, fetchActiveSession } = useSongs();
+  const {
+    addSong,
+    queueSongs,
+    isPlaying,
+    fetchActiveSession,
+    socket,
+    refreshQueueSongs,
+    toggleIsPlaying,
+  } = useSongs();
+  const [play, setPlay] = useState(false);
 
   // useEffect(() => {
   //   console.log("queueSogns", queueSongs);
@@ -15,22 +24,33 @@ const StreamingPage = () => {
     try {
       const getActiveSessionResponse = await fetchActiveSession();
       console.log("RESPONSE SESSION ===> ", getActiveSessionResponse);
-      const getQueueSongsResponse = await refreshQueueSongs(getActiveSessionResponse._id)
+      const getQueueSongsResponse = await refreshQueueSongs(
+        getActiveSessionResponse._id
+      );
       console.log("RESPONSE QUEUE ===> ", getQueueSongsResponse);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   useEffect(() => {
     getQueueSongs();
   }, []);
+
+//   useEffect(() => {
+//     console.log("toggleIsPlaying", isPlaying);
+//   }, [toggleIsPlaying, isPlaying]);
+
+  useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession]);
+
+//   console.log("isPlaying:", isPlaying);
 
   return (
     <div className="streaming">
       StreamingPage
       <h1 className="streamin-title">CANTICO</h1>
       <div className="content-blocker">.</div>
-    
       <div className="streaming-display">
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
@@ -73,7 +93,7 @@ const StreamingPage = () => {
                     </div>
                   );
                 }
-                return null; 
+                return null;
               })}
             </div>
             <SessionId />

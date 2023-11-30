@@ -16,7 +16,7 @@ const SessionId = () => {
   useEffect(() => {
     genNewCode();
   }, []);
-  console.log("Code:", code);
+//   console.log("Code:", code);
 
   return (
     <div className="sessionId-container">
