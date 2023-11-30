@@ -35,6 +35,7 @@ export const SongsProvider = ({ children }) => {
   const [code, setCode] = useState(null);
   const [socket, setSocket] = useState(null);
   const [timer, setTimer] = useState(null);
+  // const [addSong, setAddSong] = useState(false)
 
   useEffect(() => {
     const newSocket = io.connect(API_URL, { withCredentials: true });
@@ -215,6 +216,10 @@ export const SongsProvider = ({ children }) => {
     // console.log('Video Paused:', isPlaying)
     toggleIsPlaying();
   };
+
+  const handleAddSong = () => {
+    setAddSong((prevState) => !prevState);
+  };
   return (
     <SongsContext.Provider
       value={{
@@ -251,6 +256,7 @@ export const SongsProvider = ({ children }) => {
         getQueueSongs,
         timer,
         handlePlayPauseClick,
+        handleAddSong,
       }}
     >
       {children}

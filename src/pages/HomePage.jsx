@@ -65,7 +65,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className={showPrompt ? "main-content blurred" : "main-content"}>
+      <div className={showPrompt ? "main-content" : "main-content"}>
         <Navbar />
         <div>
           {user && user.admin && (
