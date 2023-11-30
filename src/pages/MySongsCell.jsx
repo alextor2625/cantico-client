@@ -7,7 +7,15 @@ import { useSongs } from "../context/Songs.context";
 import { ErrorsContext } from "../context/Errors.context";
 
 const MySongsCell = () => {
-  const { addSong, setAddSong, activeSession, mySongs, socket, isRunning } = useSongs();
+  const {
+    addSong,
+    setAddSong,
+    activeSession,
+    mySongs,
+    socket,
+    isRunning,
+    queueSongs,
+  } = useSongs();
   const { queueLimitError, setQueueLimitError } = useContext(ErrorsContext);
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,25 +26,24 @@ const MySongsCell = () => {
       // socket.emit("update_session")
     }
     console.log(queueLimitError);
-    if(success){
+    if (success) {
       const timerId = setTimeout(() => {
         setSuccess(false);
-    }, 5000);
+      }, 5000);
 
-    return () => clearTimeout(timerId);
+      return () => clearTimeout(timerId);
     }
     if (queueLimitError) {
       setErrorMessage(queueLimitError.response.data.message);
       const timerId = setTimeout(() => {
         setQueueLimitError(null);
-    }, 10000);
+      }, 10000);
 
-    return () => clearTimeout(timerId);
-
+      return () => clearTimeout(timerId);
     } else {
       setErrorMessage("");
     }
-  }, [socket,queueLimitError,errorMessage, success]);
+  }, [socket, queueLimitError, errorMessage, success]);
 
   console.log("activeSession:", activeSession);
 
@@ -69,7 +76,7 @@ const MySongsCell = () => {
           <YouTubeSearch />
         ) : (
           <>
-            <MySongs setSuccess={setSuccess}/>
+            <MySongs setSuccess={setSuccess} />
             {success && <div>Added To Queue</div>}
             {errorMessage && <div>{errorMessage}</div>}
           </>
@@ -85,6 +92,11 @@ const MySongsCell = () => {
           {addSong ? "Agregadas" : "Buscar"}
         </Button>
       )}
+      {queueSongs.every(
+        (song) =>
+          (!song.user || song.user.length < 1) &&
+          (!song.tempUser || song.tempUser.length < 1)
+      ) && <h1 className="nosongs-queue">No tienes canciones agregadas al la cola.</h1>}
     </div>
   );
 };

@@ -800,3 +800,12 @@ h3 {
   color: black;
   border: 1px solid black;
 }
+
+
+.nosongs-queue {
+  text-align: center;
+  margin-top: 50%;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  /* white-space: nowrap; */
+}
