@@ -27,11 +27,17 @@ const AddToQueue = ({ perfomId, setSuccess }) => {
         }
     };
 
-    return (
-        <div>
-            <Button variant="outline-dark" className='delete-queue-btn' onClick={handleAddToQueue}>Queue</Button>
-        </div>
-    );
+  return (
+    <div>
+      <Button
+        variant="outline-dark"
+        className="add-queue-btn"
+        onClick={handleAddToQueue}
+      >
+        Agregar a la cola
+      </Button>
+    </div>
+  );
 };
 
 export default AddToQueue;

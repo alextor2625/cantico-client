@@ -384,7 +384,8 @@ p {
 
 .videos-searched {
   display: flex;
-justify-content: space-between;
+  justify-content: space-between;
+  margin: 1rem 1rem;
 }
 
 .searched-video-title {
@@ -654,6 +655,40 @@ h3 {
   .select-videos-add {
     text-align: center;
   }
+  .add-queue-btn {
+    width: 100%;
+    background-color: white;
+  }
+  .delete-queue-btn {
+    width: 100%;
+  }
+  .user-play-btn-cont {
+    display: flex;
+    flex-direction: column;
+    /* margin: 0rem 1rem; */
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    margin-top: 50%;
+  }
+
+  .user-play-btn-cont > button {
+    width: 90%;
+    margin-bottom: 4rem;
+    padding: 2rem 0rem;
+  }
+  
+  .queueMessage {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .disabled {
+    background-color: rgb(176, 175, 175);
+    color: white;
+    width: 100%;
+  }
+
 }
 
 .streaming-index {
@@ -707,4 +742,61 @@ h3 {
 .spinner{
   text-align: center;
   margin-top: 50%;
+}
+.bi-x-circle-fill {
+  cursor: pointer;
+  /* text-align: right; */
+}
+
+.delete-prompt {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bi-arrow-left-circle-fill {
+  cursor: pointer;
+}
+
+.queue-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.queue-component-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid black;
+  margin: 1rem 0rem;
+  width: 90%;
+  padding: 1rem 0rem;
+}
+
+.queue-component-info > h2 {
+  margin-left: 1rem;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.queue-component-info > p {
+  margin-left: 1rem;
+  font-family: var(--texto);
+}
+
+.queue-component-info > h1 {
+  margin-left: 1rem;
+  font-size: 5rem;
+
+}
+
+.active-cell {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+}
+
+.inactive-cell {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
 }

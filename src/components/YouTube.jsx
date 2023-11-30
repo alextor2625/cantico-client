@@ -12,12 +12,15 @@ const YouTube = ({ hideControls }) => {
     activeSession,
     isPlaying,
     toggleIsPlaying,
+    handlePlayPauseClick,
   } = useSongs();
   const { user } = useContext(AuthContext);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isPlaying, setIsPlaying] = useState(true);
 
+  useEffect(()=> {
+    console.log('isPlaying', isPlaying)
+  }, [toggleIsPlaying])
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex) {
       // Actualizar estado a reproducido y cargar siguiente video
@@ -35,6 +38,8 @@ const YouTube = ({ hideControls }) => {
       updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
         isPlaying: isPlaying,
       });
+
+      console.log('update perform status:', isPlaying)
     }
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
@@ -43,7 +48,7 @@ const YouTube = ({ hideControls }) => {
     if (queueSongs.length <= currentVideoIndex) {
       setCurrentVideoIndex(Math.max(0, queueSongs.length - 1));
     }
-  }, [queueSongs, activeSession, user]);
+  }, [queueSongs, activeSession, user, isPlaying]);
 
   
 
@@ -74,10 +79,7 @@ const YouTube = ({ hideControls }) => {
     }
   };
 
-  const handlePlayPauseClick = () => {
-    // Cambiar el estado de reproducción cuando se hace clic en el botón
-    toggleIsPlaying();
-  };
+
 
   // Verificar si existe queueSongs[currentVideoIndex] antes de acceder a videoId
   const videoUrl =
@@ -158,7 +160,7 @@ const YouTube = ({ hideControls }) => {
           </Button>
         </div>
       )}
-      {console.log(queueSongs[currentVideoIndex])}
+      {/* {console.log(queueSongs[currentVideoIndex])} */}
       {user &&
         !user.admin &&
         queueSongs.length > currentVideoIndex &&
@@ -176,7 +178,7 @@ const YouTube = ({ hideControls }) => {
             </Button>
           </div>
         )}
-
+{/* {console.log("isPlaying from Youtube.jsx:", isPlaying) } */}
       {user && user.admin && (
         <ReactPlayer
           url={videoUrl}
