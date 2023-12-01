@@ -105,13 +105,12 @@ export const generateCode = async () => {
 
 export const tempSignUp = async (
   name,
-  lastname,
   signUpCode,
   setIsLoggedIn,
   setUser,
   callback
 ) => {
-  const requestBody = { name, lastname, signUpCode };
+  const requestBody = { name, signUpCode };
 
   try {
     const response = await axios.post(
