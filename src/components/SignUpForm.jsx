@@ -22,7 +22,6 @@ const SignUpForm = () => {
     e.preventDefault();
     tempSignUp(
       name,
-      lastname,
       signUpCode,
       setIsLoggedIn,
       setUser,
@@ -59,7 +58,7 @@ const SignUpForm = () => {
           />
           <label htmlFor="floatingInputNickName">NICKNAME</label>
         </div>
-        <div className="form-floating">
+        {/* <div className="form-floating">
           <input
             type="text"
             placeholder="Apellido"
@@ -69,7 +68,7 @@ const SignUpForm = () => {
             className="signup-input form-control"
           />
           <label htmlFor="floatingInputLastName">LAST NAME</label>
-        </div>
+        </div> */}
         <div className="form-floating">
           <input
             type="password"
