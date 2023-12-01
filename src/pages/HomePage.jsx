@@ -152,9 +152,9 @@ const HomePage = () => {
           <Button>My Songs</Button>
         </Link>
 
-        <Link to="/cantar">
+        {/* <Link to="/cantar">
           <Button>Cantar</Button>
-        </Link>
+        </Link> */}
 
         <Link to="/queue">
           <Button>Queue</Button>

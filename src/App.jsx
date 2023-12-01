@@ -43,7 +43,7 @@ function App() {
   };
 
   const NotLoggedIn = () => {
-    return !getToken() ? <Outlet /> : <Navigate to="/" />;
+    return !getToken() ? <Outlet /> : <Navigate to="/mysongs" />;
   };
 
   return (
