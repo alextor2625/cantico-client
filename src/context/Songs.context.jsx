@@ -35,6 +35,7 @@ export const SongsProvider = ({ children }) => {
   const [code, setCode] = useState(null);
   const [socket, setSocket] = useState(null);
   const [timer, setTimer] = useState(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   // const [addSong, setAddSong] = useState(false)
 
   useEffect(() => {
@@ -257,6 +258,8 @@ export const SongsProvider = ({ children }) => {
         timer,
         handlePlayPauseClick,
         handleAddSong,
+        currentVideoIndex,
+        setCurrentVideoIndex,
       }}
     >
       {children}

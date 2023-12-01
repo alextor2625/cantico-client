@@ -13,28 +13,31 @@ const YouTube = ({ hideControls }) => {
     isPlaying,
     toggleIsPlaying,
     handlePlayPauseClick,
+    currentVideoIndex,
+    setCurrentVideoIndex
   } = useSongs();
   const { user } = useContext(AuthContext);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(()=> {
     console.log('isPlaying', isPlaying)
   }, [toggleIsPlaying])
+
   const handleVideoEnd = async () => {
-    if (queueSongs.length > currentVideoIndex) {
-      // Actualizar estado a reproducido y cargar siguiente video
+    if (queueSongs.length > currentVideoIndex + 1) {
       await updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
         isPlayed: true,
+        isPlaying: false,
       });
       setCurrentVideoIndex(currentVideoIndex + 1);
       refreshQueueSongs(activeSession._id);
     }
   };
+  
 
   useEffect(() => {
     if (queueSongs.length > currentVideoIndex) {
-      // Marcar el video actual como en reproducción
       updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
         isPlaying: isPlaying,
       });
@@ -44,7 +47,6 @@ const YouTube = ({ hideControls }) => {
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
   useEffect(() => {
-    // Ajusta el índice si la longitud de queueSongs cambia
     if (queueSongs.length <= currentVideoIndex) {
       setCurrentVideoIndex(Math.max(0, queueSongs.length - 1));
     }
@@ -78,8 +80,6 @@ const YouTube = ({ hideControls }) => {
       refreshQueueSongs(activeSession._id);
     }
   };
-
-
 
   // Verificar si existe queueSongs[currentVideoIndex] antes de acceder a videoId
   const videoUrl =
@@ -192,7 +192,7 @@ const YouTube = ({ hideControls }) => {
                 modestbranding: 1, // Modest Branding
                 rel: 0, // No mostrar videos relacionados
                 enablejsapi: 1, // Habilitar la API de YouTube
-                autohide: 1, // Ocultar la barra de reproducción automáticamente
+                autohide: 0, // Ocultar la barra de reproducción automáticamente
                 showinfo: 0, // No mostrar información del video
                 disablekb: 0, // Deshabilitar el teclado
                 autoplay: 0,
