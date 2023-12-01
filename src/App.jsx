@@ -9,6 +9,7 @@ import MySongsCell from "./pages/MySongsCell";
 import Queue from "./pages/Queue";
 import axios from "axios";
 import "./App.css";
+import { API_URL } from "./services/config.service";
 
 function App() {
   const getToken = () => {
@@ -23,11 +24,12 @@ function App() {
       const response = await axios.get(`${API_URL}/auth/verify`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      if (!response.success) {
+      if (!response.data.success) {
         removeToken();
       }
-      return response.success;
+      return response.data.success;
     } catch (error) {
+      removeToken();
       console.log(error);
     }
   };
@@ -41,7 +43,7 @@ function App() {
   };
 
   const NotLoggedIn = () => {
-    return !getToken() ? <Outlet /> : <Navigate to="/" />;
+    return !getToken() ? <Outlet /> : <Navigate to="/mysongs" />;
   };
 
   return (
@@ -53,8 +55,8 @@ function App() {
       </Route>
 
       <Route element={<LoggedIn />}>
-        <Route path="/sessions" element={<SessionsPage />} />
         <Route path="/streaming" element={<StreamingPage />} />
+        <Route path="/sessions" element={<SessionsPage />} />
         <Route path="/mysongs" element={<MySongsCell />} />
         <Route path="/cantar" element={<Cantar />} />
         <Route path="/queue" element={<Queue />} />

@@ -16,7 +16,7 @@ export const authenticateUser = () => {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((response) => {
-        return { user: response.data, isLoggedIn: true, isLoading: false };
+        return { user: response.data.user, isLoggedIn: true, isLoading: false };
       })
       .catch((error) => {
         console.log("Line 27 - Error:", error);
@@ -69,11 +69,11 @@ export const login = async (
     if (response.data.success) {
       storeToken(response.data.authToken);
       setIsLoggedIn(true);
-      setUser(response.data.foundUser);
+      setUser(response.data.user);
 
-      console.log("Line 66 - setUser:", response.data.foundUser);
+      console.log("Line 66 - setUser:", response.data.user);
 
-      if (callback) callback(response.data.foundUser);
+      if (callback) callback(response.data.user);
     }
     return response.data;
   } catch (error) {

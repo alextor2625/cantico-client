@@ -20,11 +20,12 @@ const MySongsCell = () => {
   const { queueLimitError, setQueueLimitError } = useContext(ErrorsContext);
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     if (socket) {
       socket.emit("getActiveSession");
       socket.emit("getQueue");
-      // socket.emit("update_session")
+      socket.emit("getIsRunning");
     }
     console.log(queueLimitError);
     if (success) {
@@ -62,9 +63,9 @@ const MySongsCell = () => {
               <Button className="active-cell">My Songs</Button>
             </Link>
 
-            <Link to="/cantar">
+            {/* <Link to="/cantar">
               <Button className="inactive-cell">Cantar</Button>
-            </Link>
+            </Link> */}
 
             <Link to="/queue">
               <Button className="inactive-cell">Queue</Button>
@@ -85,15 +86,16 @@ const MySongsCell = () => {
       ) : (
         <h2>No hay Sesion activa</h2>
       )}
-      {activeSession && !isRunning && (
+      {activeSession && !isRunning &&  (
         <h1>La sesion esta a punto de comenzar...</h1>
       )}
+     
       {activeSession && isRunning && (
         <Button onClick={handleAddSong} className="mysongscell-name-btn">
           {addSong ? "Agregadas" : "Buscar"}
         </Button>
       )}
-      {activeSession && isRunning && mySongs.length === 0 && !addSong &&(
+      {activeSession && isRunning && mySongs.length === 0 && !addSong && (
         <h1 className="nosongs-queue">
           No tienes canciones agregadas, haz click en buscar.
         </h1>

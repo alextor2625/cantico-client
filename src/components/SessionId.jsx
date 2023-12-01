@@ -10,7 +10,7 @@ const SessionId = () => {
   const { code, genNewCode } = useSongs();
   const dataToEncode =
     code && code.data && code.data.genCode
-      ? `${TEST_HOST}/${code.data.genCode}`
+      ? `${TEST_HOST}/signup/${code.data.genCode}`
       : "";
 
   useEffect(() => {

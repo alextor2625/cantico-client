@@ -1,9 +1,10 @@
 import React, { useState, useContext, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { tempSignUp, handleInputChange } from "../services/auth.service";
-import cantico from "../assets/cantico.png";
+import cantico from "../assets/cantico-black-white.png";
 import { AuthContext } from "../context/auth.context";
 import { useSongs } from "../context/Songs.context";
+import signUpFooter from "../assets/signup-footer.png"
 
 const SignUpForm = () => {
   // Definición de estados y lógica similar a LoginPrompt
@@ -32,7 +33,7 @@ const SignUpForm = () => {
     )
       .then((data) => {
         navigate("/mysongs");
-        handleAddSong()
+        handleAddSong();
       })
       .catch((error) => {
         console.log(error);
@@ -44,38 +45,52 @@ const SignUpForm = () => {
     <div className="userform-container">
       <div className="logo-title">
         <img src={cantico} alt="logo" className="logo" />
-        <h1>Please Sign Up</h1>
+        <h1 className="signup-title">SIGN UP</h1>
       </div>
       <form onSubmit={handleSignupSubmit}>
-        <div className="userform-flex">
+        <div className="userform-flex form-floating mb-3">
           <input
             type="text"
             placeholder="Nick Name"
+            id="floatingInputNickName"
             onChange={handleInputChange(setName)}
             value={name}
+            className="signup-input form-control"
           />
+          <label htmlFor="floatingInputNickName">NICKNAME</label>
+        </div>
+        <div className="form-floating">
           <input
             type="text"
             placeholder="Apellido"
+            id="floatingInputLastName"
             onChange={handleInputChange(setLastName)}
             value={lastname}
+            className="signup-input form-control"
           />
+          <label htmlFor="floatingInputLastName">LAST NAME</label>
+        </div>
+        <div className="form-floating">
           <input
             type="password"
             placeholder="Ex: 9A9A9A"
             onChange={handleInputChange(setSignUpCode)}
             value={signUpCode}
+            id="floatingPassword"
             readOnly={signUpCode !== ""}
+            className="signup-input form-control"
           />
+          <label htmlFor="floatingPassword">ROOM CODE</label>
         </div>
-        <button type="submit" className="btn btn-danger">
-          Create Account
+        <button type="submit" className="signup-submit-btn">
+          S I N G !
         </button>
         {/* <Link to="/login">
           <p>Already have an account?</p>
         </Link> */}
         <p className="error-message">{errorMessage}</p>
       </form>
+      <img src={signUpFooter} alt="signup-footer" className="signup-footer" />
     </div>
   );
 };
