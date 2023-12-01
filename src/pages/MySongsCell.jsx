@@ -63,9 +63,9 @@ const MySongsCell = () => {
               <Button className="active-cell">My Songs</Button>
             </Link>
 
-            <Link to="/cantar">
+            {/* <Link to="/cantar">
               <Button className="inactive-cell">Cantar</Button>
-            </Link>
+            </Link> */}
 
             <Link to="/queue">
               <Button className="inactive-cell">Queue</Button>
