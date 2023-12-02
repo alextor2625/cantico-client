@@ -38,7 +38,7 @@ const AddToQueue = ({ perfomId, setSuccess }) => {
       >
         Add to queue
       </Button>
-      <p className="add-queue-prompt">**Click para agregar a la cola**</p>
+      <p className="add-queue-prompt">**Toque aquí para agregar a la cola**</p>
     </div>
   );
 };
