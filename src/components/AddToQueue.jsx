@@ -30,14 +30,15 @@ const AddToQueue = ({ perfomId, setSuccess }) => {
   };
 
   return (
-    <div>
+    <div className="">
       <Button
         variant="outline-dark"
         className="add-queue-btn"
         onClick={handleAddToQueue}
       >
-        Agregar a la cola
+        Add to queue
       </Button>
+      <p className="add-queue-prompt">**Click para agregar a la cola**</p>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useContext, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import cantico from "../assets/cantico.png";
+import cantico from "../assets/cantico-black-white.png";
 import { login, handleInputChange } from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
+import signUpFooter from "../assets/signup-footer.png"
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -39,13 +40,13 @@ const LoginForm = () => {
       <div className="userform-container">
         <div className="logo-title">
           <img src={cantico} alt="logo" className="logo" />
-          <h1>Please Log In</h1>
+          <h1 className="signup-title">Please Log In</h1>
         </div>
         <form onSubmit={handleLogInSubmit}>
           <div className="form-floating mb-3">
             <input
               type="email"
-              className="form-control"
+              className="form-control signup-input"
               id="floatingInput"
               placeholder="name@example.com"
               autoComplete=""
@@ -57,7 +58,7 @@ const LoginForm = () => {
           <div className="form-floating">
             <input
               type="password"
-              className="form-control"
+              className="form-control signup-input"
               id="floatingPassword"
               placeholder="Password"
               autoComplete="current-password"
@@ -66,7 +67,7 @@ const LoginForm = () => {
             />
             <label htmlFor="floatingPassword">Password</label>
           </div>
-          <button type="submit" className="btn btn-danger">
+          <button type="submit" className="signup-submit-btn">
             Sign In
           </button>
           {/* <Link to="/signup"> */}
@@ -77,6 +78,7 @@ const LoginForm = () => {
           {/* </Link> */}
           <p className="error-message">{errorMessage}</p>
         </form>
+        <img src={signUpFooter} alt="signup-footer" className="signup-footer" />
       </div>
     </>
   );
