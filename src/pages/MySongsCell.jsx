@@ -7,7 +7,7 @@ import { useSongs } from "../context/Songs.context";
 import { ErrorsContext } from "../context/Errors.context";
 import { AuthContext } from "../context/auth.context";
 import textura from "../assets/textura-2.png";
-import mysongsIcon from "../assets/mysongs-icon.png";
+// import mysongsIcon from "../assets/mysongs-icon.png";
 
 const MySongsCell = () => {
   const {

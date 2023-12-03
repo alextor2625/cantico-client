@@ -4,6 +4,7 @@ import React, {
   useContext,
   useCallback,
   useEffect,
+  useRef
 } from "react";
 import { io } from "socket.io-client";
 import { API_URL } from "../services/config.service";
@@ -14,6 +15,7 @@ import {
   toggleSessionStartApi,
 } from "../services/session.service";
 import axios from "axios";
+import { AuthContext } from "./auth.context";
 
 export const SongsContext = createContext();
 
@@ -36,6 +38,13 @@ export const SongsProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [timer, setTimer] = useState(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [countdown, setCountdown] = useState(null);
+  const countdownRef = useRef(null);
+  const { user } = useContext(AuthContext);
+  const currentUserId = user?._id;
+  const isUserTurn = queueSongs?.findIndex(
+    (song) => song.user?._id === currentUserId || song.tempUser?._id === currentUserId
+  ) === 0;
   // const [addSong, setAddSong] = useState(false)
 
   useEffect(() => {
@@ -221,6 +230,45 @@ export const SongsProvider = ({ children }) => {
   const handleAddSong = () => {
     setAddSong((prevState) => !prevState);
   };
+
+  const startCountdown = useCallback((duration) => {
+    if (countdownRef.current) clearInterval(countdownRef.current);
+    
+    setCountdown(duration);
+    countdownRef.current = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown <= 1) {
+          clearInterval(countdownRef.current);
+          if (prevCountdown === 1) {
+            toggleIsPlaying();  
+          }
+          return null;
+        } else {
+          return prevCountdown - 1;
+        }
+      });
+    }, 1000);
+  }, [toggleIsPlaying]);
+  
+  
+  const stopCountdown = useCallback(() => {
+    if (countdownRef.current) {
+      
+      clearInterval(countdownRef.current);
+    }
+    
+    setCountdown(null);
+  }, []);
+
+  useEffect(() => {
+    if (isUserTurn && !isPlaying && countdown === null) {
+      startCountdown(30);
+    } else if (!isUserTurn || isPlaying) {
+      stopCountdown();
+    }
+  }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown]);
+
+
   return (
     <SongsContext.Provider
       value={{
@@ -260,6 +308,10 @@ export const SongsProvider = ({ children }) => {
         handleAddSong,
         currentVideoIndex,
         setCurrentVideoIndex,
+        countdown,
+        setCountdown,
+        startCountdown,
+        stopCountdown
       }}
     >
       {children}
