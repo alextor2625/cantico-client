@@ -1,7 +1,7 @@
 import { API_URL } from "./config.service";
 import axios from "axios";
 
-const headers = {
+const config = {
   headers: {
     "Content-type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("authToken"),
@@ -21,7 +21,7 @@ export const getSongsList = async () => {
 
 export const getSongFromList = async (songId) => {
   try {
-    const response = await axios.get(`${route}/${songId}`, headers);
+    const response = await axios.get(`${route}/${songId}`, config);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -35,8 +35,8 @@ export const addSongToList = async ({
   thumbnailURL = "No Thumbnail",
 } = {}) => {
   try {
-    const body = { ...headers, title, description, videoId, thumbnailURL };
-    const response = await axios.post(`${route}/create`, body);
+    const body = {title, description, videoId, thumbnailURL };
+    const response = await axios.post(`${route}/create`, body, config);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -45,8 +45,8 @@ export const addSongToList = async ({
 
 export const updateSongOnList = async (songId, { title, description, videoId, thumbnailURL } = {}) => {
   try {
-    const body = { ...headers, title, description, videoId, thumbnailURL };
-    const response = await axios.put(`${route}/update/${songId}`, body);
+    const body = { title, description, videoId, thumbnailURL };
+    const response = await axios.put(`${route}/update/${songId}`, body, config);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -56,8 +56,9 @@ export const updateSongOnList = async (songId, { title, description, videoId, th
 
 export const deleteSongOnList = async (songId) => {
     try {
-        const response = await axios.delete
+        const response = await axios.delete(`${route}/${songId}`, config)
+        return response.data;
     } catch (error) {
-        
+        console.log(error);
     }
 }
