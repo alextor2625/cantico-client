@@ -9,7 +9,7 @@ const Queue = () => {
   const { queueSongs, fetchActiveSession, isRunning, activeSession, socket } =
     useSongs();
 
-  console.log("Renderizando con queueSongs:", queueSongs);
+  // console.log("Renderizando con queueSongs:", queueSongs);
 
   useEffect(() => {
     fetchActiveSession();

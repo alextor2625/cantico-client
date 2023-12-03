@@ -14,15 +14,17 @@ const YouTube = ({ hideControls }) => {
     toggleIsPlaying,
     handlePlayPauseClick,
     currentVideoIndex,
-    setCurrentVideoIndex
+    setCurrentVideoIndex,
+    
   } = useSongs();
   const { user } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(true);
+  
 
-  useEffect(()=> {
-    console.log('isPlaying', isPlaying)
-  }, [toggleIsPlaying])
+  useEffect(() => {
+    console.log("isPlaying", isPlaying);
+  }, [toggleIsPlaying]);
 
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex + 1) {
@@ -33,8 +35,9 @@ const YouTube = ({ hideControls }) => {
       setCurrentVideoIndex(currentVideoIndex + 1);
       refreshQueueSongs(activeSession._id);
     }
+
+    
   };
-  
 
   useEffect(() => {
     if (queueSongs.length > currentVideoIndex) {
@@ -42,7 +45,7 @@ const YouTube = ({ hideControls }) => {
         isPlaying: isPlaying,
       });
 
-      console.log('update perform status:', isPlaying)
+      console.log("update perform status:", isPlaying);
     }
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
@@ -51,8 +54,6 @@ const YouTube = ({ hideControls }) => {
       setCurrentVideoIndex(Math.max(0, queueSongs.length - 1));
     }
   }, [queueSongs, activeSession, user, isPlaying]);
-
-  
 
   const skipToNext = async () => {
     // Asegúrate de que currentVideoIndex apunte a la canción actualmente en reproducción
@@ -178,7 +179,7 @@ const YouTube = ({ hideControls }) => {
             </Button>
           </div>
         )}
-{/* {console.log("isPlaying from Youtube.jsx:", isPlaying) } */}
+      {/* {console.log("isPlaying from Youtube.jsx:", isPlaying) } */}
       {user && user.admin && (
         <ReactPlayer
           url={videoUrl}
