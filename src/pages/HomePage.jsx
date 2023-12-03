@@ -148,17 +148,17 @@ const HomePage = () => {
       </div>
 
       <div className="cellphone-viewport">
-        <Link to="/mysongs">
+        {/* <Link to="/mysongs">
           <Button className="inactive-cell">My Songs</Button>
-        </Link>
+        </Link> */}
 
         {/* <Link to="/cantar">
           <Button>Cantar</Button>
         </Link> */}
 
-        <Link to="/queue">
+        {/* <Link to="/queue">
           <Button className="inactive-cell">Queue</Button>
-        </Link>
+        </Link> */}
       </div>
       <LoginPrompt showPrompt={showPrompt} setShowPrompt={setShowPrompt} />
     </div>

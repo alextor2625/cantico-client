@@ -184,7 +184,7 @@ const YouTube = ({ hideControls }) => {
         <ReactPlayer
           url={videoUrl}
           width="100%"
-          height={!hideControls ? "100%" : "750px"}
+          height={!hideControls ? "100%" : "calc(100vh - 300px)"}
           playing={isPlaying} // Utiliza la prop "playing" para controlar la reproducción
           controls={false}
           config={{
