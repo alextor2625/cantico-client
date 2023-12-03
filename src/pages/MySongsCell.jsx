@@ -87,7 +87,7 @@ const MySongsCell = () => {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
                   />
                 </svg>
@@ -96,12 +96,12 @@ const MySongsCell = () => {
             </Link>
 
             <Link to="/queue" className="mysongs-link">
-              <div className="heart-container">
+              <div className="queue-container-inactive">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="30"
-                  fill="#2270E0"
+                  fill="#FFFFFF"
                   class="bi bi-stack"
                   viewBox="0 0 16 16"
                 >
