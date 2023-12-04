@@ -23,7 +23,7 @@ const YouTube = ({ hideControls }) => {
   
 
   useEffect(() => {
-    console.log("isPlaying", isPlaying);
+    // console.log("isPlaying", isPlaying);
   }, [toggleIsPlaying]);
 
   const handleVideoEnd = async () => {
@@ -35,8 +35,6 @@ const YouTube = ({ hideControls }) => {
       setCurrentVideoIndex(currentVideoIndex + 1);
       refreshQueueSongs(activeSession._id);
     }
-
-    
   };
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const YouTube = ({ hideControls }) => {
         isPlaying: isPlaying,
       });
 
-      console.log("update perform status:", isPlaying);
+      // console.log("update perform status:", isPlaying);
     }
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 

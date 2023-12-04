@@ -253,20 +253,22 @@ export const SongsProvider = ({ children }) => {
   
   const stopCountdown = useCallback(() => {
     if (countdownRef.current) {
-      
       clearInterval(countdownRef.current);
     }
-    
     setCountdown(null);
   }, []);
 
   useEffect(() => {
-    if (isUserTurn && !isPlaying && countdown === null) {
+    // Condición para el administrador
+    const isAdmin = user && user.admin;
+  
+    if ((isUserTurn && !isPlaying && countdown === null) || isAdmin) {
       startCountdown(30);
-    } else if (!isUserTurn || isPlaying) {
+    } else if ((!isUserTurn || isPlaying) && !isAdmin) {
       stopCountdown();
     }
-  }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown]);
+  }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
+  
 
 
   return (

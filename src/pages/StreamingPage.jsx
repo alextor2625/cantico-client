@@ -43,20 +43,21 @@ const StreamingPage = () => {
 
   useEffect(() => {
     fetchActiveSession();
-  }, [fetchActiveSession, countdown, isPlaying]);
+  }, [fetchActiveSession, isPlaying, countdown]);
 
-  //   console.log("isPlaying:", isPlaying);
+  console.log("countdown:", countdown);
 
   return (
     <div className="streaming">
-      {!isPlaying && (
-        <h1 className="streamin-title">{`La cancion comenzara en ${countdown}`}</h1>
-      )}
       <div className="content-blocker">.</div>
       <div className="streaming-display">
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
         </div>
+        {countdown > 0 && (
+          <h1 className="streamin-title">{`La cancion comenzara en ${countdown}`}</h1>
+        )}
+        <hr />
 
         <div className="streaming-container">
           <div className="streaming-session-queue">
