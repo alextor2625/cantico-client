@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import AddToMySongs from "./AddToMySongs";
 import { useSongs } from "../context/Songs.context";
 import { ClipLoader } from "react-spinners";
+import logoBlue from "../assets/logo-blue.png"
 
 const YouTubeSearch = ({ activeSession }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,11 +43,13 @@ const YouTubeSearch = ({ activeSession }) => {
 
   return (
     <div>
+      <img src={logoBlue} alt="cantico logo" className="logo-blue" />
+      <h3 className="findyoursongs-title">FIND YOUR SONGS</h3>
       <Form className="youtube-search-bar">
         <Form.Control
           type="text"
-          placeholder="Qué deseas cantar?"
-          className="mr-sm-2"
+          placeholder="Search..."
+          className="mr-sm-2 search-holder"
           value={searchQuery}
           onChange={handleInputChange}
         />
@@ -69,7 +72,7 @@ const YouTubeSearch = ({ activeSession }) => {
           {canAddMoreSongs && videos.length === 0 && (
             <div>
               <h4 className="select-videos-add">
-                Selecciona tus videos y haz click en add
+                Busca tu canción y haz click en add.
               </h4>
             </div>
           )}
@@ -98,7 +101,7 @@ const YouTubeSearch = ({ activeSession }) => {
         </div>
       ) : (
         <div className="spinner">
-          <ClipLoader color="blue" loading={true} size={50}/>
+          <ClipLoader color="blue" loading={true} size={50} />
         </div>
       )}
     </div>

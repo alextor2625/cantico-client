@@ -5,41 +5,16 @@ import { useSongs } from "../context/Songs.context";
 import { AuthContext } from "../context/auth.context";
 
 const Cantar = () => {
-  const { toggleIsPlaying, isPlaying, queueSongs, fetchActiveSession, currentVideoIndex } = useSongs();
+  const { toggleIsPlaying, isPlaying, fetchActiveSession, countdown } =
+    useSongs();
   const { user } = useContext(AuthContext);
-  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
     fetchActiveSession();
-  }, [fetchActiveSession]);
-
-  const currentUserId = user?._id;
-  const isUserTurn = queueSongs?.findIndex(
-    (song) => song.user?._id === currentUserId || song.tempUser?._id === currentUserId
-  ) === 0;
-
-  useEffect(() => {
-    if (isUserTurn && !isPlaying) {
-      setCountdown(30); 
-      const intervalId = setInterval(() => {
-        setCountdown((currentCountdown) => {
-          if (currentCountdown <= 1) {
-            clearInterval(intervalId);
-            if (!isPlaying) {
-              toggleIsPlaying();
-            }
-            return 0;
-          }
-          return currentCountdown - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [isUserTurn, isPlaying, currentVideoIndex]);
+  }, [fetchActiveSession, isPlaying, countdown]);
 
   const handlePlayPauseClick = () => {
-    if (!isPlaying && isUserTurn) {
+    if (!isPlaying) {
       toggleIsPlaying();
     }
   };
@@ -47,26 +22,28 @@ const Cantar = () => {
   return (
     <div>
       <div className="user-play-btn-cont">
-        {isUserTurn && !isPlaying && (
-          <div className="queueMessage">{countdown > 0 ? `Tu canción comenzará en: ${countdown}` : "Presiona Play para comenzar"}</div>
+        {countdown > 0 && (
+          <div className="queueMessage">
+            {`Tu canción comenzará en: ${countdown}`}
+          </div>
         )}
-        <Button
+        <button
           variant="dark"
-          className={`user-play-btn ${!isUserTurn ? "disabled" : ""}`}
+          className={`user-play-btn ${!countdown ? "disabled" : ""}`}
           onClick={handlePlayPauseClick}
-          disabled={!isUserTurn || isPlaying}
+          disabled={!isPlaying && countdown !== 0 ? false : true}
         >
           {isPlaying ? "Pause" : "Play"}
-        </Button>
-        {!isUserTurn && <p>Espera tu turno para cantar.</p>}
+        </button>
+        {!countdown && <p className="esperatuturno">Espera tu turno para cantar.</p>}
       </div>
       <div className="cellphone-viewport">
-        <Link to="/mysongs">
+        {/* <Link to="/mysongs">
           <Button className="inactive-cell">My Songs</Button>
         </Link>
         <Link to="/queue">
           <Button className="inactive-cell">Queue</Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@
   --azul-medio: #0099E7;
   --azul-oscuro: #2270DF;
   --gris-claro: #b7b7b6;
+  --verder-add: #66cc66;
 }
 
 .userform-container {
@@ -31,7 +32,7 @@
 }
 
 .nav-tabs {
-  background-color: #4E0A05;
+  background-color: var(--azul-oscuro);
   padding-top: 1rem;
 }
 
@@ -564,9 +565,17 @@ h3 {
 }
 
 .streaming {
-  /* margin: 0 3rem; */
+  min-height: 100vh;
   background-color: black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   color: white;
+}
+
+.streaming-container {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .cantico-logo-streaming {
@@ -597,6 +606,24 @@ h3 {
        .cellphone-homepage {
         display: none;
       }
+      .signup-footer {
+        position: fixed;
+        bottom: -166px;
+        left: -279px;
+        /* background-size: 75%; */
+        width: 144%;
+        height: 38%;
+      }
+      .logo {
+        margin-bottom: 0rem;
+        height: 50%;
+        width: 50%;
+        margin-left: 20%;
+      }
+
+      .signup-submit-btn {
+        margin-bottom: 1rem;
+      }
 }
 
 
@@ -619,12 +646,19 @@ h3 {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: white; /* O el color de fondo que prefieras */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Opcional: para darle un efecto elevado */
+    /* background-color: white;  */
+    /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);  */
     padding: 10px 0; /* Ajusta el relleno según necesites */
     display: flex;
     justify-content: center; /* Centrar los botones horizontalmente */
-    gap: 10px; /* Espacio entre botones */
+    gap: 2rem; /* Espacio entre botones */
+    z-index: 4;
+  }
+
+  .navbar-cell-btn {
+    z-index: 4;
+    height: 50px;
+    width: 50px;
   }
 
   .cellphone-homepage {
@@ -634,10 +668,11 @@ h3 {
 
   .mysongscell-name-btn {
     position: fixed;
-    bottom: 8%;
+    bottom: 12%;
     left: 0;
     width: 94%;
     margin: 0rem  1rem;
+    z-index: 4;
   }
 
   .mysongs-name-btn {
@@ -649,23 +684,66 @@ h3 {
   }
   .videos-mysongs {
     border: 1px solid black;
-    border-radius: 4px;
+    border-radius: 15px;
     margin-bottom: 1rem;
-    padding: 1rem;
-    background-color: rgb(157, 185, 198);
+    /* padding: 1rem; */
+    background-color: white;
   }
 
+  .delete-back-icon {
+    position: relative;
+    left: 365px;
+  }
+
+  .thumbnail-image {
+    width: 40%; /* o el ancho deseado */
+    height: auto; /* o la altura deseada */
+    background-size: 175%;
+    background-position: center;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    -webkit-mask-image: linear-gradient(to right, black 75%, transparent);
+}
+
+
+  .videos-mysongs-cell {
+    display: flex;
+  }
+
+  .videos-mysongs-cell > p {
+    text-align:left;
+    margin-left: 1rem;
+  }
+  
   .hr-mysongs {
     display: none;
   }
 
   .select-videos-add {
     text-align: center;
+    margin: 0rem 2rem;
+    margin-top: 40%;
+    color: var(--gris-claro);
+    font-size: 50px;
   }
   .add-queue-btn {
-    width: 100%;
+    width: 90%;
+    margin-bottom: 2%;
+    padding: 0rem;
+    border: none;
     background-color: white;
+    color: var(--azul-oscuro);
+    font-family: var(--texto);
+    font-weight: bold;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+    /* font-style: italic; */
   }
+
+  .add-queue-btn:hover, .add-queue-btn:focus {
+
+    background-color: var(--azul-claro);
+  }
+
   .delete-queue-btn {
     width: 100%;
   }
@@ -678,7 +756,7 @@ h3 {
     align-items: center;
     /* margin-top: 50%; */
     position: fixed;
-    bottom: 8%;
+    bottom: 12%;
     left: 1%;
     background-color: white;
     z-index: 9999;
@@ -689,6 +767,16 @@ h3 {
     /* margin-bottom: 4rem; */
     padding: 2rem 0rem;
   }
+
+  .user-play-btn {
+    background-color: var(--azul-oscuro);
+    border: none;
+    border-radius: 14px;
+    font-family: var(--texto);
+    font-size: large;
+    color: white;
+    width: 100%;
+  }
   
   .queueMessage {
     font-size: 2rem;
@@ -696,15 +784,193 @@ h3 {
   }
 
   .disabled {
-    background-color: rgb(176, 175, 175);
+    background-color: var(--azul-claro);
+    border: none;
+    border-radius: 14px;
+    font-family: var(--texto);
+    font-size: large;
     color: white;
     width: 100%;
   }
 
-  .queue-component-songs:last-of-type{
-    /* margin-bottom: 50rem; */
+  .signup-footer {
+    position: fixed;
+    bottom: -45px;
+    left: -86px;
+    /* background-size: 75%; */
+    width: 144%;
+    height: 38%;
   }
 
+  .findyoursongs-title {
+    text-align: center;
+    color: var(--azul-oscuro);
+    margin-bottom: 1rem;
+    font-family: var(--texto);
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  .search-holder {
+    border: 1px solid var(--azul-claro);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    outline: none !important;
+}
+
+.textura {
+  height: 50%;
+  width: 115%;
+  position: fixed;
+  bottom: -5%;
+  left: -8%;
+}
+
+.mysongscell-name-btn {
+  background-color: white;
+  color: var(--azul-oscuro);
+  border: none;
+  font-family: var(--texto);
+  font-weight: bold;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.logo-blue {
+  width: 80px;
+  height: 80px;
+  margin-left: 40%;
+}
+
+.mysongs-link {
+  text-align: center;
+  color: white;
+}
+
+.mysongs-link-text {
+  font-family: var(--texto);
+  color: white;
+  font-size: 12px;
+}
+
+.mysongs-link-text-queue {
+  font-family: var(--texto);
+  color: black;
+  font-size: 12px;
+}
+
+/* .bi-heart-fill {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 50px;
+} */
+
+.heart-container {
+  background-color: white;
+  border-radius: 40px;
+  padding: 0.8rem 0.8rem;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.heart-container-inactive {
+  background-color: white;
+  border-radius: 40px;
+  padding: 0.8rem 0.8rem;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0);
+}
+
+.queue-container {
+  background-color: var(--azul-oscuro);
+  border-radius: 40px;
+  padding: 0.8rem 0.8rem;
+  box-shadow: 0px 0px 10px 0px rgba(34, 112, 223, 0.5);
+}
+
+.queue-container-inactive {
+  /* background-color: white; */
+  border-radius: 40px;
+  padding: 0.8rem 0.8rem;
+}
+
+.agregar-queue-cola {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-top: 6%;
+
+}
+
+.agregar-queue-cola > p {
+  color: black;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.mysongs-cell-title {
+  text-align: center;
+  color: var(--azul-oscuro);
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.add-queue-prompt {
+  color: red;
+  font-style: italic;
+  font-size: 10px;
+}
+
+.queue-song-name-cell {
+  color: var(--azul-oscuro);
+  font-family: var(--texto);
+  font-weight: bold;
+}
+
+.queue-user-name-cell {
+  color: var(--azul-claro);
+  font-family: var(--texto);
+  font-weight: bold;
+}
+
+.microfono-icono {
+  width: 80px;
+  height: 80px;
+}
+
+.index-songs {
+  color: var(--azul-medio);
+}
+
+.queue-songs-cell-title {
+  font-family: var(--texto);
+  color: black;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.esperatuturno {
+  color: black;
+  font-family: var(--texto);
+  font-weight: bold;
+}
+
+}
+
+.next-song {
+  font-family: var(--texto);
+  font-weight: bold;
+  color: var(--azul-medio);
+  font-size: 40px;
+}
+
+.streaming-song-name {
+  color: var(--azul-claro);
+  font-family: var(--texto);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.streaming-user-name {
+  font-family: var(--texto);
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .streaming-index {
@@ -765,8 +1031,9 @@ h3 {
 }
 
 .delete-prompt {
-  display: flex;
-  justify-content: flex-end;
+  /* display: flex;
+  justify-content: flex-end; */
+  position: absolute;
 }
 
 .bi-arrow-left-circle-fill {
@@ -777,7 +1044,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* max-height: 650px; */
+  max-height: 650px;
   overflow-y: auto;
 }
 
@@ -788,11 +1055,16 @@ h3 {
   /* flex-direction: column; */
   align-items: center;
   gap: 1rem;
-  border: 1px solid black;
+  border: 2px solid var(--azul-oscuro);
+  border-radius: 14px;
   margin: 1rem 0rem;
   width: 90%;
   padding: 1rem 0rem;
+  /* overflow-y: auto;
+  max-height: 400px; */
 }
+
+
 
 /* .display-flex-column {
   display: flex;
@@ -876,11 +1148,5 @@ h3 {
   padding: 0.5rem;
 }
 
-.signup-footer {
-  position: fixed;
-  bottom: -45px;
-  left: -86px;
-  /* background-size: 75%; */
-  width: 144%;
-  height: 38%;
-}
+
+.streaming

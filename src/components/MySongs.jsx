@@ -32,7 +32,7 @@ const MySongs = ({ setSuccess }) => {
     if (socket) {
       socket.emit("getIsRunning");
     }
-  },[socket])
+  }, [socket]);
 
   // useEffect(() => {
   //   console.log("isRunning", isRunning);
@@ -61,10 +61,10 @@ const MySongs = ({ setSuccess }) => {
               {!showDelete[song._id] ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="currentColor"
-                  className="bi bi-x-circle-fill"
+                  width="20"
+                  height="20"
+                  fill="#2270E0"
+                  className="bi bi-x-circle-fill delete-back-icon"
                   viewBox="0 0 16 16"
                   onClick={() => handleShowDelete(song._id)}
                 >
@@ -73,10 +73,10 @@ const MySongs = ({ setSuccess }) => {
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="currentColor"
-                  className="bi bi-arrow-left-circle-fill"
+                  width="20"
+                  height="20"
+                  fill="#2270E0"
+                  className="bi bi-arrow-left-circle-fill delete-back-icon"
                   viewBox="0 0 16 16"
                   onClick={() => handleShowDelete(song._id)}
                 >
@@ -84,22 +84,33 @@ const MySongs = ({ setSuccess }) => {
                 </svg>
               )}
             </div>
-            <div>
-              <img src={song.thumbnail} alt={song.name} />
+            <div className="videos-mysongs-cell">
+              <div
+                className="thumbnail-image"
+                style={{
+                  backgroundImage: `url(${song.thumbnail})`,
+                }}
+                aria-label={song.name}
+              ></div>
+              {/* <img
+                src={song.thumbnail}
+                alt={song.name}
+                className="thumbnail-image"
+              /> */}
               {!showDelete[song._id] ? (
-                <>
+                <div className="agregar-queue-cola">
                   <p>{song.name}</p>
                   <AddToQueue perfomId={song._id} setSuccess={setSuccess} />
-                </>
+                </div>
               ) : (
-                <>
-                  <h2>¿Deseas eliminar esta canción?</h2>
+                <div className="agregar-queue-cola">
+                  <p>¿Deseas eliminar esta canción?</p>
                   <DeleteMySong
                     perfomId={song._id}
                     activeSession={activeSession}
                     onRefresh={() => refreshSongs(activeSession._id)}
                   />
-                </>
+                </div>
               )}
             </div>
             <hr className="hr-mysongs" />
@@ -109,6 +120,7 @@ const MySongs = ({ setSuccess }) => {
       <Button onClick={handleAddSong} className="mysongs-name-btn">
         {addSong ? "Seguir Viendo" : "Add Song"}
       </Button>
+      {/* <img src={textura} alt="textura" className="textura" /> */}
     </div>
   );
 };
