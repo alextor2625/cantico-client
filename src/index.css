@@ -1072,12 +1072,22 @@ h3 {
   max-height: 400px; */
 }
 
+.delete-user-song-cont {
+  display: flex;
+  justify-content: space-between;
+}
+
 
 
 /* .display-flex-column {
   display: flex;
   flex-direction: column;
 } */
+
+.remove-btn {
+  padding: 0rem 1rem;
+  padding-right: 1.3rem;
+}
 
 
 

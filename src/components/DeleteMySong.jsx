@@ -29,10 +29,7 @@ const DeleteMySong = ({ perfomId }) => {
 
   return (
     <div>
-      <Button className="add-queue-btn" onClick={handleDeleteSong}>
-        Confirm
-      </Button>
-      
+      <Button className="add-queue-btn remove-btn" onClick={handleDeleteSong}>Remove</Button>
     </div>
   );
 };
