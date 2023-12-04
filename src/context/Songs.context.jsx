@@ -254,7 +254,7 @@ export const SongsProvider = ({ children }) => {
         });
       }, 1000);
     },
-    [toggleIsPlaying, isPlaying] // Agregar isPlaying a las dependencias
+    [toggleIsPlaying, isPlaying] 
   );
 
   const stopCountdown = useCallback(() => {
