@@ -21,16 +21,9 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
       return;
     }
 
-    //   const handleAddClick = async () => {
-    //     if (!videoId) {
-    //       console.log("No hay un ID de video proporcionado");
-    //       return;
-    //     }
-
-    // console.log("activeSession", activeSession);
-
     try {
       const videoDetails = await getYouTubeVideoDetails(videoId);
+      console.log("ADDING SONG ==>",videoDetails);
       if (videoDetails && videoDetails.contentDetails) {
         const perfomData = {
           name: videoDetails.snippet.title,

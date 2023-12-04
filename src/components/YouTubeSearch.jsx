@@ -24,6 +24,7 @@ const YouTubeSearch = ({ activeSession }) => {
   }, [canAddMoreSongs, videos.length]);
 
   const handleSearch = async () => {
+    e.preventDefault();
     if (searchQuery) {
       const searchQueryWithKaraoke = searchQuery + "karaoke";
       setIsLoading(true);
