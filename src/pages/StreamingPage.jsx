@@ -46,6 +46,7 @@ const StreamingPage = () => {
   //   }, [toggleIsPlaying, isPlaying]);
 
   console.log("isplaying", isPlaying);
+  console.log("countdown", countdown);
 
   // useEffect(() => {
   //   console.log("countdown", countdown);

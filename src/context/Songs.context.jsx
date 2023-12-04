@@ -218,7 +218,7 @@ export const SongsProvider = ({ children }) => {
   const toggleIsPlaying = () => {
     setIsPlaying((prevState) => {
       const newState = !prevState;
-      if (socket){
+      if (socket) {
         socket.emit("toggleIsPlaying", newState);
       }
       return newState;
@@ -242,11 +242,11 @@ export const SongsProvider = ({ children }) => {
       setCountdown(duration);
       countdownRef.current = setInterval(() => {
         setCountdown((prevCountdown) => {
-          if (prevCountdown <= 1) {
+          if (prevCountdown === 1 && !isPlaying) {
             clearInterval(countdownRef.current);
-            if (prevCountdown === 1) {
-              toggleIsPlaying();
-            }
+            toggleIsPlaying();
+          } else if (isPlaying) {
+            clearInterval(countdownRef.current);
             return null;
           } else {
             return prevCountdown - 1;
@@ -254,7 +254,7 @@ export const SongsProvider = ({ children }) => {
         });
       }, 1000);
     },
-    [toggleIsPlaying]
+    [toggleIsPlaying, isPlaying] // Agregar isPlaying a las dependencias
   );
 
   const stopCountdown = useCallback(() => {
@@ -265,18 +265,21 @@ export const SongsProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const isAdmin = user && user.admin;
-  
-    // Iniciar el countdown si no está en curso y si es el turno del usuario o el usuario es admin
-    if ((!isPlaying && countdown === null) && (isUserTurn || isAdmin)) {
-      startCountdown(30);
+    if (isPlaying && countdownRef.current) {
+      clearInterval(countdownRef.current);
+      setCountdown(null);
     }
-    // Detener el countdown si es necesario y el usuario no es admin
-    else if ((isPlaying || !isUserTurn) && !isAdmin) {
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const isAdmin = user && user.admin;
+
+    if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
+      startCountdown(30);
+    } else if ((isPlaying || !isUserTurn) && !isAdmin) {
       stopCountdown();
     }
   }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
-  
 
   return (
     <SongsContext.Provider
