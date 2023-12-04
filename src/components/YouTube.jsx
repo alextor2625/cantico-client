@@ -27,12 +27,12 @@ const YouTube = ({ hideControls }) => {
   }, [toggleIsPlaying]);
 
   const handleVideoEnd = async () => {
-    if (queueSongs.length > currentVideoIndex + 1) {
+    if (queueSongs.length > currentVideoIndex) {
       await updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
         isPlayed: true,
         isPlaying: false,
       });
-      setCurrentVideoIndex(currentVideoIndex + 1);
+      setCurrentVideoIndex(currentVideoIndex);
       refreshQueueSongs(activeSession._id);
     }
   };

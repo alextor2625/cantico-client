@@ -21,6 +21,10 @@ const StreamingPage = () => {
   //   console.log("queueSogns", queueSongs);
   // }, [queueSongs, isPlaying]);
 
+  useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession, isPlaying, countdown]);
+
   const getQueueSongs = async () => {
     try {
       const getActiveSessionResponse = await fetchActiveSession();
@@ -41,11 +45,13 @@ const StreamingPage = () => {
   //     console.log("toggleIsPlaying", isPlaying);
   //   }, [toggleIsPlaying, isPlaying]);
 
-  useEffect(() => {
-    fetchActiveSession();
-  }, [fetchActiveSession, isPlaying, countdown]);
+  console.log("isplaying", isPlaying);
 
-  console.log("countdown:", countdown);
+  // useEffect(() => {
+  //   console.log("countdown", countdown);
+  // }, [countdown]);
+
+  // console.log("countdown:", countdown);
 
   return (
     <div className="streaming">
@@ -54,8 +60,8 @@ const StreamingPage = () => {
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
         </div>
-        {countdown > 0 && (
-          <h1 className="streamin-title">{`La cancion comenzara en ${countdown}`}</h1>
+        {!isPlaying && (
+          <h1 className="streamin-title">{`La cancion comenzara en ${countdown} segundos...`}</h1>
         )}
         <hr />
 
