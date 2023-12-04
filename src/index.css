@@ -74,6 +74,10 @@ a {
   margin-top: 10rem;
 }
 
+.btn-primary {
+  z-index: 9999;
+}
+
 /* .create-session {
   display: flex;
   justify-content: center;
@@ -825,6 +829,8 @@ h3 {
   position: fixed;
   bottom: -5%;
   left: -8%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .mysongscell-name-btn {
