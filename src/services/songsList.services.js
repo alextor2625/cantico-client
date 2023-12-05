@@ -19,23 +19,35 @@ export const getSongsList = async () => {
   }
 };
 
-export const getSongFromList = async (songId) => {
+export const getSongFromList = async (videoId) => {
   try {
-    const response = await axios.get(`${route}/${songId}`, config);
+    const response = await axios.get(`${route}/${videoId}`, config);
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
+export const searchForSongInList = async (searchTerm) => {
+  try {
+    const response = await axios.get(`${route}/search/${searchTerm}`, config);
+    console.log("searchForSongInList TESTING", response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 export const addSongToList = async ({
   title = "No Title",
   description = "No Description",
   videoId,
-  thumbnailURL = "No Thumbnail",
+  videoDuration= "Unknown",
+  thumbnail = "No Thumbnail",
 } = {}) => {
   try {
-    const body = {title, description, videoId, thumbnailURL };
+    const body = {title, description, videoId, videoDuration, thumbnail };
     const response = await axios.post(`${route}/create`, body, config);
     return response.data;
   } catch (error) {
@@ -43,9 +55,9 @@ export const addSongToList = async ({
   }
 };
 
-export const updateSongOnList = async (songId, { title, description, videoId, thumbnailURL } = {}) => {
+export const updateSongOnList = async (songId, { title, description, videoId, videoDuration, thumbnail } = {}) => {
   try {
-    const body = { title, description, videoId, thumbnailURL };
+    const body = { title, description, videoId, videoDuration, thumbnail };
     const response = await axios.put(`${route}/update/${songId}`, body, config);
     return response.data;
   } catch (error) {

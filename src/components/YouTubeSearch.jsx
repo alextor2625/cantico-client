@@ -5,10 +5,13 @@ import { Button } from "react-bootstrap";
 import AddToMySongs from "./AddToMySongs";
 import { useSongs } from "../context/Songs.context";
 import { ClipLoader } from "react-spinners";
-import logoBlue from "../assets/logo-blue.png"
+import logoBlue from "../assets/logo-blue.png";
+import { searchForSongInList } from "../services/songsList.services";
+import AddToMySongsFromList from "./AddToMySongsFromList";
 
 const YouTubeSearch = ({ activeSession }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchMore, setSearchMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [videos, setVideos] = useState([]);
   const { searchQuery, setSearchQuery, mySongs, refreshSongs } = useSongs();
@@ -23,14 +26,47 @@ const YouTubeSearch = ({ activeSession }) => {
     }
   }, [canAddMoreSongs, videos.length]);
 
-  const handleSearch = async () => {
+  const handleSearchMore = async (e) => {
     e.preventDefault();
+    setSearchMore(true);
     if (searchQuery) {
-      const searchQueryWithKaraoke = searchQuery + "karaoke";
       setIsLoading(true);
       try {
+        const searchQueryWithKaraoke = searchQuery + "karaoke";
         const results = await searchYouTube(searchQueryWithKaraoke);
         setVideos(results.items);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error al buscar en YouTube", error);
+      }
+    }
+  };
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setSearchMore(false);
+    if (searchQuery) {
+      setIsLoading(true);
+      try {
+        const searchQueryWithKaraoke = searchQuery + "karaoke";
+        const searchList = await searchForSongInList(searchQuery);
+        console.log("searchList TESTING", searchList);
+        if (searchList) {
+          if (searchList.success && searchList.songs.length) {
+            setVideos(searchList.songs);
+          } else {
+            console.log("Found LIST SUCCESS IS FALSE");
+            setSearchMore(true);
+
+            const results = await searchYouTube(searchQueryWithKaraoke);
+            setVideos(results.items);
+          }
+        } else {
+          console.log("LIST NOT FOUND");
+          setSearchMore(true);
+
+          const results = await searchYouTube(searchQueryWithKaraoke);
+          setVideos(results.items);
+        }
         setIsLoading(false);
       } catch (error) {
         console.error("Error al buscar en YouTube", error);
@@ -46,7 +82,7 @@ const YouTubeSearch = ({ activeSession }) => {
     <div>
       <img src={logoBlue} alt="cantico logo" className="logo-blue" />
       <h3 className="findyoursongs-title">FIND YOUR SONGS</h3>
-      <Form className="youtube-search-bar">
+      <Form className="youtube-search-bar" onSubmit={handleSearch}>
         <Form.Control
           type="text"
           placeholder="Search..."
@@ -54,7 +90,7 @@ const YouTubeSearch = ({ activeSession }) => {
           value={searchQuery}
           onChange={handleInputChange}
         />
-        {canAddMoreSongs && <Button onClick={handleSearch}>Search</Button>}
+        {canAddMoreSongs && <Button type="submit">Search</Button>}
       </Form>
 
       {!isLoading ? (
@@ -78,27 +114,52 @@ const YouTubeSearch = ({ activeSession }) => {
             </div>
           )}
 
-          {canAddMoreSongs && searchQuery && videos.length > 0 && (
-            <div>
-              {videos.map((video, index) => (
-                <div key={index} className="videos-searched">
-                  <img
-                    src={video.snippet.thumbnails.default.url}
-                    alt={video.snippet.title}
-                  />
-                  <div className="searched-video-title">
-                    <p className="video-title">{video.snippet.title}</p>
-                    <AddToMySongs
-                      videoId={video.id.videoId}
-                      activeSession={activeSession}
-                      thumbnails={video.snippet.thumbnails.default.url}
-                      onSongAdded={refreshSongs}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          {canAddMoreSongs &&
+            searchQuery &&
+            (searchMore ? (
+              <div>
+                {videos.length &&
+                  videos.map((video, index) => (
+                    <div key={index} className="videos-searched">
+                      <img
+                        src={video.snippet.thumbnails.default.url}
+                        alt={video.snippet.title}
+                      />
+                      <div className="searched-video-title">
+                        <p className="video-title">{video.snippet.title}</p>
+                        <AddToMySongs
+                          videoId={video.id.videoId}
+                          activeSession={activeSession}
+                          thumbnails={video.snippet.thumbnails.default.url}
+                          onSongAdded={refreshSongs}
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            ) : (
+              <div>
+                {videos.length &&
+                  videos.map((video, index) => (
+                    <div key={index} className="videos-searched">
+                      <img src={video.thumbnail} alt={video.title} />
+                      <div className="searched-video-title">
+                        <p className="video-title">{video.title}</p>
+                        <AddToMySongsFromList
+                          videoId={video.videoId}
+                          activeSession={activeSession}
+                          thumbnails={video.thumbnail}
+                          onSongAdded={refreshSongs}
+                        />
+                      </div>
+                    </div>
+                  ))}
+
+                {videos.length && !searchMore && (
+                  <Button onClick={handleSearchMore}>Search More</Button>
+                )}
+              </div>
+            ))}
         </div>
       ) : (
         <div className="spinner">

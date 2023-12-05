@@ -4,6 +4,7 @@ import { getYouTubeVideoDetails, addPerfom } from "../services/youtube.service";
 import { AuthContext } from "../context/auth.context";
 import { useSongs } from "../context/Songs.context"; // Importa el hook del contexto
 import { useNavigate } from "react-router-dom";
+import { addSongToList } from "../services/songsList.services";
 
 const AddToMySongs = ({ videoId, thumbnails }) => {
   const { user } = useContext(AuthContext);
@@ -34,6 +35,17 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
           session: activeSession._id,
           thumbnail: thumbnails,
         };
+        console.log("CHECKING THUMBNAILS", thumbnails);
+        const savedSongData = {
+          title: videoDetails.snippet.title,
+          videoDuration: videoDetails.contentDetails.duration,
+          description: videoDetails.snippet.description,
+          videoId,
+          thumbnail: thumbnails
+        }
+
+        const savingSong = await addSongToList(savedSongData);
+        console.log("SAVING SONG",savingSong);
 
         await addPerfom(perfomData);
         console.log("Perfom añadido, actualizando canciones...", perfomData);
