@@ -23,20 +23,18 @@ const YouTube = ({ hideControls }) => {
   
 
   useEffect(() => {
-    console.log("isPlaying", isPlaying);
+    // console.log("isPlaying", isPlaying);
   }, [toggleIsPlaying]);
 
   const handleVideoEnd = async () => {
-    if (queueSongs.length > currentVideoIndex + 1) {
+    if (queueSongs.length > currentVideoIndex) {
       await updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
         isPlayed: true,
         isPlaying: false,
       });
-      setCurrentVideoIndex(currentVideoIndex + 1);
+      setCurrentVideoIndex(currentVideoIndex);
       refreshQueueSongs(activeSession._id);
     }
-
-    
   };
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const YouTube = ({ hideControls }) => {
         isPlaying: isPlaying,
       });
 
-      console.log("update perform status:", isPlaying);
+      // console.log("update perform status:", isPlaying);
     }
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
@@ -184,7 +182,7 @@ const YouTube = ({ hideControls }) => {
         <ReactPlayer
           url={videoUrl}
           width="100%"
-          height={!hideControls ? "100%" : "750px"}
+          height={!hideControls ? "100%" : "calc(100vh - 300px)"}
           playing={isPlaying} // Utiliza la prop "playing" para controlar la reproducción
           controls={false}
           config={{

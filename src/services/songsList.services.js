@@ -8,7 +8,7 @@ const config = {
   },
 };
 
-const route = `${API_URL}/songs/`;
+const route = `${API_URL}/songs`;
 
 export const getSongsList = async () => {
   try {

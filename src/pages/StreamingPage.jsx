@@ -13,12 +13,17 @@ const StreamingPage = () => {
     socket,
     refreshQueueSongs,
     toggleIsPlaying,
+    countdown,
   } = useSongs();
   const [play, setPlay] = useState(false);
 
   // useEffect(() => {
   //   console.log("queueSogns", queueSongs);
   // }, [queueSongs, isPlaying]);
+
+  useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession, isPlaying, countdown]);
 
   const getQueueSongs = async () => {
     try {
@@ -36,26 +41,29 @@ const StreamingPage = () => {
     getQueueSongs();
   }, []);
 
-//   useEffect(() => {
-//     console.log("toggleIsPlaying", isPlaying);
-//   }, [toggleIsPlaying, isPlaying]);
+  //   useEffect(() => {
+  //     console.log("toggleIsPlaying", isPlaying);
+  //   }, [toggleIsPlaying, isPlaying]);
 
-  useEffect(() => {
-    fetchActiveSession();
-  }, [fetchActiveSession]);
+  console.log("isplaying", isPlaying);
+  console.log("countdown", countdown);
 
-//   console.log("isPlaying:", isPlaying);
+  // useEffect(() => {
+  //   console.log("countdown", countdown);
+  // }, [countdown]);
+
+  // console.log("countdown:", countdown);
 
   return (
     <div className="streaming">
-      StreamingPage
-      <h1 className="streamin-title">CANTICO</h1>
       <div className="content-blocker">.</div>
       <div className="streaming-display">
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
         </div>
-
+        {!isPlaying && (
+          <h1 className="streamin-title">{`La cancion comenzara en ${countdown} segundos...`}</h1>
+        )}
         <hr />
 
         <div className="streaming-container">
@@ -66,10 +74,10 @@ const StreamingPage = () => {
                   index === 1 && (
                     <div key={index}>
                       <div className="display-flex">
-                        <h4> Siguiente en fila</h4>
+                        <h4 className="next-song">Next Song</h4>
                       </div>
-                      <p>{song.name}</p>
-                      <p>
+                      <p className="streaming-song-name">{song.name}</p>
+                      <p className="streaming-user-name">
                         {(song.user && song.user.name) ||
                           (song.tempUser && song.tempUser.name)}
                       </p>
@@ -77,7 +85,7 @@ const StreamingPage = () => {
                   )
               )}
 
-              {queueSongs.map((song, index) => {
+              {/* {queueSongs.map((song, index) => {
                 if (index === 2 || index === 3 || index === 4) {
                   return (
                     <div key={index}>
@@ -94,7 +102,7 @@ const StreamingPage = () => {
                   );
                 }
                 return null;
-              })}
+              })} */}
             </div>
             <SessionId />
           </div>
