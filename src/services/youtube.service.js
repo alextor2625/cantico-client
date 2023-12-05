@@ -36,11 +36,9 @@ export const addPerfom = async (perfomData) => {
 
   try {
     const response = await axios.post(
-      `${API_URL}/perform/add-perform`,
-      perfomData,
-      config
+      `${API_URL}/perform/add-perform`, perfomData, config
     );
-    // console.log('Respuesta al añadir perfom:', response.data);
+    console.log('Respuesta al añadir perfom:', perfomData);
     return response.data;
   } catch (error) {
     console.error("Error al añadir perfom", error);

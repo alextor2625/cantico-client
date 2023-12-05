@@ -23,6 +23,7 @@ export const useSongs = () => useContext(SongsContext);
 
 export const SongsProvider = ({ children }) => {
   const [mySongs, setMySongs] = useState([]);
+  const [videoPull, setVideoPull] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSession, setActiveSession] = useState(null);
   const [isLoading, setIsLoading] = useState(false);

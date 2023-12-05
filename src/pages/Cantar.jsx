@@ -60,7 +60,7 @@ const Cantar = () => {
           variant="dark"
           className={`user-play-btn ${isUserTurn && countdown ? "" : "disabled"}`}
           onClick={handlePlayPauseClick}
-          disabled={!isUserTurn}
+          disabled={isUserTurn && !countdown}
         >
           {isPlaying ? "Pause" : "Play"}
         </button>
