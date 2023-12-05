@@ -46,7 +46,6 @@ const WhosNext = () => {
               (user.admin || (song.user && song.user._id === user._id)) && (
                 <DeleteMySong
                   perfomId={song._id}
-                  
                   onRefresh={() => refreshQueueSongs(activeSession._id)}
                 />
               )}

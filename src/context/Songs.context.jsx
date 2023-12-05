@@ -4,7 +4,7 @@ import React, {
   useContext,
   useCallback,
   useEffect,
-  useRef
+  useRef,
 } from "react";
 import { io } from "socket.io-client";
 import { API_URL } from "../services/config.service";
@@ -42,9 +42,11 @@ export const SongsProvider = ({ children }) => {
   const countdownRef = useRef(null);
   const { user } = useContext(AuthContext);
   const currentUserId = user?._id;
-  const isUserTurn = queueSongs?.findIndex(
-    (song) => song.user?._id === currentUserId || song.tempUser?._id === currentUserId
-  ) === 0;
+  const isUserTurn =
+    queueSongs?.findIndex(
+      (song) =>
+        song.user?._id === currentUserId || song.tempUser?._id === currentUserId
+    ) === 0;
   // const [addSong, setAddSong] = useState(false)
 
   useEffect(() => {
@@ -216,7 +218,9 @@ export const SongsProvider = ({ children }) => {
   const toggleIsPlaying = () => {
     setIsPlaying((prevState) => {
       const newState = !prevState;
-      socket.emit("toggleIsPlaying", newState);
+      if (socket) {
+        socket.emit("toggleIsPlaying", newState);
+      }
       return newState;
     });
   };
@@ -231,43 +235,51 @@ export const SongsProvider = ({ children }) => {
     setAddSong((prevState) => !prevState);
   };
 
-  const startCountdown = useCallback((duration) => {
-    if (countdownRef.current) clearInterval(countdownRef.current);
-    
-    setCountdown(duration);
-    countdownRef.current = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (prevCountdown <= 1) {
-          clearInterval(countdownRef.current);
-          if (prevCountdown === 1) {
-            toggleIsPlaying();  
+  const startCountdown = useCallback(
+    (duration) => {
+      if (countdownRef.current) clearInterval(countdownRef.current);
+
+      setCountdown(duration);
+      countdownRef.current = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown === 1 && !isPlaying) {
+            clearInterval(countdownRef.current);
+            toggleIsPlaying();
+          } else if (isPlaying) {
+            clearInterval(countdownRef.current);
+            return null;
+          } else {
+            return prevCountdown - 1;
           }
-          return null;
-        } else {
-          return prevCountdown - 1;
-        }
-      });
-    }, 1000);
-  }, [toggleIsPlaying]);
-  
-  
+        });
+      }, 1000);
+    },
+    [toggleIsPlaying, isPlaying] 
+  );
+
   const stopCountdown = useCallback(() => {
     if (countdownRef.current) {
-      
       clearInterval(countdownRef.current);
     }
-    
     setCountdown(null);
   }, []);
 
   useEffect(() => {
-    if (isUserTurn && !isPlaying && countdown === null) {
+    if (isPlaying && countdownRef.current) {
+      clearInterval(countdownRef.current);
+      setCountdown(null);
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const isAdmin = user && user.admin;
+
+    if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
       startCountdown(30);
-    } else if (!isUserTurn || isPlaying) {
+    } else if ((isPlaying || !isUserTurn) && !isAdmin) {
       stopCountdown();
     }
-  }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown]);
-
+  }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
 
   return (
     <SongsContext.Provider
@@ -311,7 +323,7 @@ export const SongsProvider = ({ children }) => {
         countdown,
         setCountdown,
         startCountdown,
-        stopCountdown
+        stopCountdown,
       }}
     >
       {children}

@@ -1,14 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import AddToQueue from "../components/AddToQueue";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useSongs } from "../context/Songs.context";
 import Cantar from "./Cantar";
-import microfono from "../assets/microfono.png"
+import microfono from "../assets/microfono.png";
+import DeleteMySong from "../components/DeleteMySong";
+import { AuthContext } from "../context/auth.context";
 
 const Queue = () => {
-  const { queueSongs, fetchActiveSession, isRunning, activeSession, socket } =
-    useSongs();
+  const {
+    queueSongs,
+    fetchActiveSession,
+    isRunning,
+    activeSession,
+    socket,
+    refreshQueueSongs,
+  } = useSongs();
+  const { user } = useContext(AuthContext);
 
   // console.log("Renderizando con queueSongs:", queueSongs);
 
@@ -24,7 +33,6 @@ const Queue = () => {
 
   return (
     <div className="queue-component">
-
       {activeSession && isRunning ? ( // Corregido aquí
         <>
           <h2 className="queue-songs-cell-title">Canciones en fila</h2>
@@ -33,16 +41,33 @@ const Queue = () => {
               <div key={index} className="queue-component-info">
                 <h1 className="index-songs">
                   {(index === 0 && (
-                    <img src={microfono} alt="icono de microfono" className="microfono-icono" />
+                    <img
+                      src={microfono}
+                      alt="icono de microfono"
+                      className="microfono-icono"
+                    />
                   )) ||
                     index}
                 </h1>
                 <div className="queue-component-songs">
-                    <h2 className="queue-song-name-cell">{song.name}</h2>
-                  <p className="queue-user-name-cell">
-                    {(song.user && song.user.name) ||
-                      (song.tempUser && song.tempUser.name)}
-                  </p>
+                  
+                  <h2 className="queue-song-name-cell">{song.name}</h2>
+                  <div className="delete-user-song-cont">
+                    <p className="queue-user-name-cell">
+                      {(song.user && song.user.name) ||
+                        (song.tempUser && song.tempUser.name)}
+                    </p>
+
+                    {((song.user && user && song.user._id === user._id) ||
+                      (song.tempUser &&
+                        user &&
+                        song.tempUser._id === user._id)) && (
+                      <DeleteMySong
+                        perfomId={song._id}
+                        onRefresh={() => refreshQueueSongs(activeSession._id)}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
