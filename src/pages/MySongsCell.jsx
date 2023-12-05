@@ -83,7 +83,7 @@ const MySongsCell = () => {
                   width="30"
                   height="30"
                   fill="#2270E0"
-                  class="bi bi-heart-fill"
+                  className="bi bi-heart-fill"
                   viewBox="0 0 16 16"
                 >
                   <path
