@@ -519,10 +519,8 @@ h3 {
 }
 
 .qr-image {
-  height: 200px;
-  width: 200px;
-  background-color: white;
-  text-align: center;
+  margin-top: 1rem;
+  box-shadow: 0px 4px 17px 10px var(--azul-claro);
 }
 
 .code-intruction {
@@ -1184,5 +1182,10 @@ h3 {
   padding: 0.5rem;
 }
 
-
-.streaming
+.queuelimit-error {
+  text-align: center;
+  margin: 0rem 1rem;
+  color: red;
+  font-size: 25px;
+  font-style: italic;
+}
