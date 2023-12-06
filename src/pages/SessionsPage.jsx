@@ -15,6 +15,8 @@ import { useSongs } from "../context/Songs.context";
 import { Link } from "react-router-dom";
 import StreamingPage from "./StreamingPage";
 // import Button from "react-bootstrap";
+import { cleanUpVideos } from "../services/songsList.services";
+// import Button from "react-bootstrap";
 
 const SessionsPage = () => {
   const [sessionId, setSessionId] = useState(null);
@@ -28,7 +30,24 @@ const SessionsPage = () => {
   const [deleteSessionId, setDeleteSessionId] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [noSessionsMessage, setNoSessionsMessage] = useState(null);
-  const { fetchActiveSession, isRunning, socket, activeSession, refreshQueueSongs } = useSongs();
+  const {
+    fetchActiveSession,
+    isRunning,
+    socket,
+    activeSession,
+    refreshQueueSongs,
+  } = useSongs();
+  const [cleanupResult, setCleanupResult] = useState(null);
+
+  const handleCleanUp = async () => {
+    try {
+      const result = await cleanUpVideos();
+      setCleanupResult(result);
+      console.log(result);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -65,13 +84,12 @@ const SessionsPage = () => {
   useEffect(() => {
     fetchActiveSession();
   }, [fetchActiveSession]);
-  
+
   useEffect(() => {
     if (activeSession && activeSession._id) {
       refreshQueueSongs(activeSession._id);
     }
   }, [activeSession, refreshQueueSongs]);
-  
 
   useEffect(() => {
     setIsLoading(true);
@@ -240,12 +258,16 @@ const SessionsPage = () => {
             )}
 
             {!isActive ? (
-              <CreateSession
-                sessionId={sessionId}
-                setSessionId={setSessionId}
-                allSessions={allSessions}
-                setAllSessions={setAllSessions}
-              />
+              <>
+                <Button onClick={handleCleanUp}>Clean Up - Data Base</Button>
+
+                <CreateSession
+                  sessionId={sessionId}
+                  setSessionId={setSessionId}
+                  allSessions={allSessions}
+                  setAllSessions={setAllSessions}
+                />
+              </>
             ) : (
               <div className="timer-endSession">
                 <EndSession
@@ -277,6 +299,7 @@ const SessionsPage = () => {
           ) : (
             <div className="grid-session-title">
               <h2>All Sessions</h2>
+              {/* <h1>{cleanupResult && cleanupResult}</h1> */}
               <h1 className="error-message">{errorMessage}</h1>
               <p className="nosession-message">
                 {noSessionsMessage &&
