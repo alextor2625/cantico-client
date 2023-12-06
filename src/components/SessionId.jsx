@@ -21,7 +21,9 @@ const SessionId = () => {
   return (
     <div className="sessionId-container">
       {/* <img src={qrImage} alt="" className="qr-image" /> */}
-      <QRCode className="qr-image" value={dataToEncode} onClick={genNewCode} />
+      <div className="qr-image" > 
+      <QRCode value={dataToEncode} onClick={genNewCode} bgColor="#D4F4FF"/>
+      </div>
 
       <p className="code-intruction">Código de la sesion</p>
       <h4 className="code-session">

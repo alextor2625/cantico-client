@@ -121,7 +121,7 @@ const MySongsCell = () => {
           <>
             <MySongs setSuccess={setSuccess} />
             {success && <div>Added To Queue</div>}
-            {errorMessage && <div>{errorMessage}</div>}
+            {errorMessage && <div className="queuelimit-error">{errorMessage}</div>}
           </>
         )
       ) : (
