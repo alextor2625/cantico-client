@@ -38,16 +38,15 @@ export const searchForSongInList = async (searchTerm) => {
   }
 };
 
-
 export const addSongToList = async ({
   title = "No Title",
   description = "No Description",
   videoId,
-  videoDuration= "Unknown",
+  videoDuration = "Unknown",
   thumbnail = "No Thumbnail",
 } = {}) => {
   try {
-    const body = {title, description, videoId, videoDuration, thumbnail };
+    const body = { title, description, videoId, videoDuration, thumbnail };
     const response = await axios.post(`${route}/create`, body, config);
     return response.data;
   } catch (error) {
@@ -55,7 +54,10 @@ export const addSongToList = async ({
   }
 };
 
-export const updateSongOnList = async (songId, { title, description, videoId, videoDuration, thumbnail } = {}) => {
+export const updateSongOnList = async (
+  songId,
+  { title, description, videoId, videoDuration, thumbnail } = {}
+) => {
   try {
     const body = { title, description, videoId, videoDuration, thumbnail };
     const response = await axios.put(`${route}/update/${songId}`, body, config);
@@ -65,12 +67,22 @@ export const updateSongOnList = async (songId, { title, description, videoId, vi
   }
 };
 
-
 export const deleteSongOnList = async (songId) => {
-    try {
-        const response = await axios.delete(`${route}/${songId}`, config)
-        return response.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
+  try {
+    const response = await axios.delete(`${route}/${songId}`, config);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const cleanUpVideos = async () => {
+  try {
+    const response = await axios.get(`${route}/cleanupVideos`, config);
+    console.log("clean up videos:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Error:", error);
+    console.log("No se puedo eliminar videos existentes");
+  }
+};

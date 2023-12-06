@@ -139,25 +139,34 @@ const YouTubeSearch = ({ activeSession }) => {
               </div>
             ) : (
               <div>
-                {videos.length &&
+                {videos.length > 0 &&
                   videos.map((video, index) => (
-                    <div key={index} className="videos-searched">
-                      <img src={video.thumbnail} alt={video.title} />
-                      <div className="searched-video-title">
-                        <p className="video-title">{video.title}</p>
-                        <AddToMySongsFromList
-                          videoId={video.videoId}
-                          activeSession={activeSession}
-                          thumbnails={video.thumbnail}
-                          onSongAdded={refreshSongs}
-                        />
+                    <div key={index}>
+                      <div className="videos-searched">
+                        <img src={video.thumbnail} alt={video.title} />
+                        <div className="searched-video-title">
+                          <p className="video-title">{video.title}</p>
+                          <AddToMySongsFromList
+                            videoId={video.videoId}
+                            activeSession={activeSession}
+                            thumbnails={video.thumbnail}
+                            onSongAdded={refreshSongs}
+                          />
+                        </div>
                       </div>
+                      {index === videos.length - 1 && !searchMore && (
+                        <>
+                          <Button
+                            onClick={handleSearchMore}
+                            className="search-more"
+                          >
+                            Search More
+                          </Button>
+                          <p className="search-more-prompt">**¿No encuentras tu canción?, toca aqui arriba**</p>
+                        </>
+                      )}
                     </div>
                   ))}
-
-                {videos.length && !searchMore && (
-                  <Button onClick={handleSearchMore}>Search More</Button>
-                )}
               </div>
             ))}
         </div>
