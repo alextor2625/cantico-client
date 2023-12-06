@@ -7,7 +7,7 @@ import {
   editSession,
   deleteSession,
 } from "../services/session.service";
-import { Button, Card, Placeholder } from "react-bootstrap";
+import { Button, Card, Placeholder, ProgressBar } from "react-bootstrap";
 import ActiveSession from "../components/ActiveSession";
 import TimerSession from "../components/TimerSession";
 import EndSession from "../components/EndSession";
@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import StreamingPage from "./StreamingPage";
 // import Button from "react-bootstrap";
 import { cleanUpVideos } from "../services/songsList.services";
+// import ProgressBar from "react-bootstrap";
 // import Button from "react-bootstrap";
 
 const SessionsPage = () => {
@@ -38,14 +39,40 @@ const SessionsPage = () => {
     refreshQueueSongs,
   } = useSongs();
   const [cleanupResult, setCleanupResult] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [availableSongs, setAvailableSong] = useState("");
+  const [deletedSongs, setDeletedSongs] = useState("");
 
   const handleCleanUp = async () => {
+    setProgress(10);
+
     try {
+      // Simular un incremento del progreso
+      const intervalId = setInterval(() => {
+        setProgress((oldProgress) => {
+          if (oldProgress >= 90) {
+            clearInterval(intervalId); // Detiene el intervalo si el progreso es suficientemente alto
+            return oldProgress;
+          }
+          return oldProgress + 10;
+        });
+      }, 2000); // Incrementa el progreso cada segundo
+
       const result = await cleanUpVideos();
+
+      setAvailableSong(result.stillAvailable.length);
+      setDeletedSongs(result.deleted.length);
+
+      console.log("result", result);
+
+      clearInterval(intervalId);
+      setProgress(100);
       setCleanupResult(result);
       console.log(result);
     } catch (error) {
-      console.log("Error:", error);
+      console.error("Error:", error);
+      clearInterval(intervalId); // Asegúrate de limpiar el intervalo si hay un error
+      setProgress(0); // Restablece el progreso en caso de error
     }
   };
 
@@ -259,7 +286,7 @@ const SessionsPage = () => {
 
             {!isActive ? (
               <>
-                <Button onClick={handleCleanUp}>Clean Up - Data Base</Button>
+                <Button onClick={handleCleanUp} className="cleanup-btn">Clean Up - Data Base</Button>
 
                 <CreateSession
                   sessionId={sessionId}
@@ -299,6 +326,17 @@ const SessionsPage = () => {
           ) : (
             <div className="grid-session-title">
               <h2>All Sessions</h2>
+              {progress > 0 && (
+                <ProgressBar now={progress} label={`${progress}`} />
+              )}
+
+              {progress === 100 && (
+                <h3>
+                  tienes {availableSongs} canciones descargadas y se eliminaron{" "}
+                  {deletedSongs} canciones.
+                </h3>
+              )}
+
               {/* <h1>{cleanupResult && cleanupResult}</h1> */}
               <h1 className="error-message">{errorMessage}</h1>
               <p className="nosession-message">
