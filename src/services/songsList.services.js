@@ -76,7 +76,16 @@ export const deleteSongOnList = async (songId) => {
   }
 };
 
+
 export const cleanUpVideos = async () => {
+
+  const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("authToken"),
+      },
+    };
+
   try {
     const response = await axios.get(`${route}/cleanupVideos`, config);
     console.log("clean up videos:", response.data);
