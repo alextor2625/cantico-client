@@ -49,7 +49,7 @@ const Cantar = () => {
   }
 
   return (
-    <div>
+    <div >
       <div className="user-play-btn-cont">
         {countdown > 0 && isUserTurn && (
           <div className="queueMessage">
@@ -58,7 +58,7 @@ const Cantar = () => {
         )}
         <button
           variant="dark"
-          className={`user-play-btn ${isUserTurn && countdown ? "" : "disabled"}`}
+          className={`user-play-btn cantar-container ${isUserTurn && countdown ? "" : "disabled"}`}
           onClick={handlePlayPauseClick}
           disabled={isUserTurn && !countdown}
         >
