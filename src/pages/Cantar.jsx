@@ -3,36 +3,30 @@ import { useSongs } from "../context/Songs.context";
 import { AuthContext } from "../context/auth.context";
 
 const Cantar = () => {
-  const { toggleIsPlaying, isPlaying, fetchActiveSession, countdown, queueSongs } = useSongs();
+  const { toggleIsPlaying, isPlaying, fetchActiveSession, queueSongs } = useSongs();
   const { user } = useContext(AuthContext);
   const [songsBeforeUser, setSongsBeforeUser] = useState(0);
   const [isUserTurn, setIsUserTurn] = useState(false);
 
   useEffect(() => {
     fetchActiveSession();
-  }, [fetchActiveSession, isPlaying, countdown]);
+  }, [fetchActiveSession]);
 
   useEffect(() => {
-    // Determina si es el turno del usuario para cantar
     const isTurn = queueSongs.length > 0 && ((queueSongs[0].user && queueSongs[0].user._id === user._id) || (queueSongs[0].tempUser && queueSongs[0].tempUser._id === user._id));
     setIsUserTurn(isTurn);
 
-    // Calcula cuántas canciones hay antes del turno del usuario
     const userSongIndex = queueSongs.findIndex((song) =>
       song.user ? song.user._id === user._id : song.tempUser && song.tempUser._id === user._id
     );
     
-    if (userSongIndex >= 0) {
-      // Usuario tiene canciones en la cola, pero no es su turno aún
-      setSongsBeforeUser(userSongIndex);
-    } else if (!isTurn) {
-      // No hay canciones del usuario en la cola y no es su turno
-      setSongsBeforeUser(-1);
+    setSongsBeforeUser(userSongIndex >= 0 ? userSongIndex : -1);
+
+    // Asegúrate de que solo se llame a toggleIsPlaying una vez cuando sea el turno del usuario
+    if (isTurn && !isPlaying) {
+      toggleIsPlaying();
     }
-
-
-
-  }, [queueSongs, user._id]);
+  }, [queueSongs, user._id, isPlaying, toggleIsPlaying]);
 
   const handlePlayPauseClick = () => {
     if (isUserTurn) {
@@ -40,40 +34,29 @@ const Cantar = () => {
     }
   };
 
-  if (isUserTurn) {
-    toggleIsPlaying();
-  }
-
-  let userMessage;
-  if (isUserTurn) {
-    userMessage = "Es tu turno para cantar.";
-  } else if (songsBeforeUser === -1) {
-    userMessage = "No tienes canciones en la cola.";
-  } else if (songsBeforeUser > 0) {
-    userMessage = `Tu turno es en ${songsBeforeUser} canción(es).`;
-  } else {
-    userMessage = "Espera tu turno para cantar.";
-  }
+  const getUserMessage = () => {
+    if (isUserTurn) {
+      return "Es tu turno para cantar.";
+    } else if (songsBeforeUser === -1) {
+      return "No tienes canciones en la cola.";
+    } else {
+      return `Tu turno es en ${songsBeforeUser} canción(es).`;
+    }
+  };
 
   return (
-    <div >
+    <div>
       <div className="user-play-btn-cont">
-        {countdown > 0 && isUserTurn && (
-          <div className="queueMessage">
-            {`Tu canción comenzará en: ${countdown}`}
-          </div>
-        )}
         <button
           variant="dark"
-          className={`user-play-btn cantar-container ${isUserTurn && countdown ? "" : "disabled"}`}
+          className={`user-play-btn cantar-container ${isUserTurn ? "" : "disabled"}`}
           onClick={handlePlayPauseClick}
-          disabled={isUserTurn && !countdown}
+          disabled={!isUserTurn}
         >
           {isPlaying ? "Pause" : "Play"}
         </button>
-        <p className="esperatuturno">{userMessage}</p>
+        <p className="esperatuturno">{getUserMessage()}</p>
       </div>
-      {/* Resto del componente */}
     </div>
   );
 };
