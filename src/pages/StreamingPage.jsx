@@ -15,7 +15,7 @@ const StreamingPage = () => {
     toggleIsPlaying,
     countdown,
   } = useSongs();
-  const [play, setPlay] = useState(false);
+  // const [play, setPlay] = useState(false);
 
   // useEffect(() => {
   //   //console.log("queueSogns", queueSongs);
@@ -52,7 +52,7 @@ const StreamingPage = () => {
   //   //console.log("countdown", countdown);
   // }, [countdown]);
 
-  // //console.log("countdown:", countdown);
+  console.log("isPlaying:", isPlaying);
 
   return (
     <div className="streaming">

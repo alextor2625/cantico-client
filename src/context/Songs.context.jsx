@@ -223,6 +223,7 @@ export const SongsProvider = ({ children }) => {
     setIsPlaying(true)
       if (socket) {
         socket.emit("toggleIsPlaying", isPlaying);
+        console.log('Line 226 - isPlaying:', isPlaying)
       }
     return isPlaying;
     ;
@@ -231,13 +232,8 @@ export const SongsProvider = ({ children }) => {
   // Created a more direct function just in case.
 
   const handlePlayPauseClick = () => {
-
-    if (!isPlaying) {
-      setIsPlaying(true)
-    } else if (isPlaying) {
-      setIsPlaying(false)
-    }
-
+    setIsPlaying((prevState) => !prevState)
+    console.log('Line 235 - isplaying:', isPlaying)
   };
 
   const handleAddSong = () => {
@@ -254,6 +250,7 @@ export const SongsProvider = ({ children }) => {
           if (prevCountdown === 1 && !isPlaying) {
             clearInterval(countdownRef.current);
             toggleIsPlaying();
+            console.log('Line 253 - isplaying:', isPlaying)
             // setIsPlaying(true)
           } else if (isPlaying) {
             clearInterval(countdownRef.current);
@@ -274,19 +271,22 @@ export const SongsProvider = ({ children }) => {
     setCountdown(null);
   }, []);
 
-  useEffect(() => {
-    if (isPlaying && countdownRef.current) {
-      clearInterval(countdownRef.current);
-      setCountdown(null);
-    }
-  }, [isPlaying]);
+  // useEffect(() => {
+  //   if (isPlaying && countdownRef.current) {
+  //     clearInterval(countdownRef.current);
+  //     setCountdown(null);
+  //     console.log('Line 278 - isplaying:', isPlaying)
+  //   }
+  // }, [isPlaying]);
 
   useEffect(() => {
     const isAdmin = user && user.admin;
 
     if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
       startCountdown(1);
+      console.log('Line 287 - isplaying:', isPlaying)
     } else if ((isPlaying || !isUserTurn) && !isAdmin) {
+      console.log('Line 289 - isplaying:', isPlaying)
       stopCountdown();
     }
   }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
