@@ -40,7 +40,7 @@ const MySongsCell = () => {
       socket.emit("getQueue");
       socket.emit("getIsRunning");
     }
-    console.log(queueLimitError);
+    //console.log(queueLimitError);
     if (success) {
       const timerId = setTimeout(() => {
         setSuccess(false);
@@ -60,7 +60,7 @@ const MySongsCell = () => {
     }
   }, [socket, queueLimitError, errorMessage, success]);
 
-  console.log("activeSession:", activeSession);
+  //console.log("activeSession:", activeSession);
 
   // const handleAddSong = () => {
   //   setAddSong((prevState) => !prevState);

@@ -4,7 +4,7 @@ import { useSongs } from "../context/Songs.context";
 
 export const storeToken = (token) => {
   localStorage.setItem("authToken", token);
-  console.log("Line 6 - Token:", token);
+  //console.log("Line 6 - Token:", token);
 };
 
 export const authenticateUser = () => {
@@ -19,7 +19,7 @@ export const authenticateUser = () => {
         return { user: response.data.user, isLoggedIn: true, isLoading: false };
       })
       .catch((error) => {
-        console.log("Line 27 - Error:", error);
+        //console.log("Line 27 - Error:", error);
         return { user: null, isLoggedIn: false, isLoading: false };
       });
   } else {
@@ -39,13 +39,13 @@ export const signup = async (
 
   try {
     const response = await axios.post(`${API_URL}/auth/signup`, requestBody);
-    console.log("Line 33 - Created User:", response.data);
+    //console.log("Line 33 - Created User:", response.data);
     if (response.data.success) {
       storeToken(response.data.authToken);
     }
     return response.data;
   } catch (error) {
-    console.log("Line 36 - Error:", error);
+    //console.log("Line 36 - Error:", error);
     throw new Error(error.response.data.msg);
   }
 };
@@ -65,19 +65,19 @@ export const login = async (
 
   try {
     const response = await axios.post(`${API_URL}/auth/login`, requestBody);
-    // console.log("Line 57 - Login User:", response.data);
+    // //console.log("Line 57 - Login User:", response.data);
     if (response.data.success) {
       storeToken(response.data.authToken);
       setIsLoggedIn(true);
       setUser(response.data.user);
 
-      console.log("Line 66 - setUser:", response.data.user);
+      //console.log("Line 66 - setUser:", response.data.user);
 
       if (callback) callback(response.data.user);
     }
     return response.data;
   } catch (error) {
-    console.log("Line 60 - Error:", error);
+    //console.log("Line 60 - Error:", error);
     throw new Error(error.response.data.msg);
   }
 };
@@ -96,10 +96,10 @@ export const generateCode = async () => {
   try {
     const response = await axios.get(`${API_URL}/auth/generate-code`);
 
-    console.log(response);
+    //console.log(response);
     return response.data.genCode;
   } catch (error) {
-    console.log("Line error:", error);
+    //console.log("Line error:", error);
   }
 };
 
@@ -129,9 +129,9 @@ export const tempSignUp = async (
       callback(response.data.user);
     }
 
-    console.log("Tempt User:", response.data);
+    //console.log("Tempt User:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Error:", error);
+    //console.log("Error:", error);
   }
 };

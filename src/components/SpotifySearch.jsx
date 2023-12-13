@@ -33,7 +33,7 @@ const SpotifySearch = () => {
                 try {
                     const results = await getSongsSpotify(debouncedSearchTerm);
                     setSongs(results.tracks.items)
-                    console.log(results);
+                    //console.log(results);
                 } catch (error) {
                     console.error("Error al buscar en Spotify", error);
 

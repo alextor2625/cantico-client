@@ -18,7 +18,7 @@ const StreamingPage = () => {
   const [play, setPlay] = useState(false);
 
   // useEffect(() => {
-  //   console.log("queueSogns", queueSongs);
+  //   //console.log("queueSogns", queueSongs);
   // }, [queueSongs, isPlaying]);
 
   useEffect(() => {
@@ -28,13 +28,13 @@ const StreamingPage = () => {
   const getQueueSongs = async () => {
     try {
       const getActiveSessionResponse = await fetchActiveSession();
-      console.log("RESPONSE SESSION ===> ", getActiveSessionResponse);
+      //console.log("RESPONSE SESSION ===> ", getActiveSessionResponse);
       const getQueueSongsResponse = await refreshQueueSongs(
         getActiveSessionResponse._id
       );
-      console.log("RESPONSE QUEUE ===> ", getQueueSongsResponse);
+      //console.log("RESPONSE QUEUE ===> ", getQueueSongsResponse);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   useEffect(() => {
@@ -42,17 +42,17 @@ const StreamingPage = () => {
   }, []);
 
   //   useEffect(() => {
-  //     console.log("toggleIsPlaying", isPlaying);
+  //     //console.log("toggleIsPlaying", isPlaying);
   //   }, [toggleIsPlaying, isPlaying]);
 
-  console.log("isplaying", isPlaying);
-  console.log("countdown", countdown);
+  //console.log("isplaying", isPlaying);
+  //console.log("countdown", countdown);
 
   // useEffect(() => {
-  //   console.log("countdown", countdown);
+  //   //console.log("countdown", countdown);
   // }, [countdown]);
 
-  // console.log("countdown:", countdown);
+  // //console.log("countdown:", countdown);
 
   return (
     <div className="streaming">

@@ -53,7 +53,7 @@ export const SongsProvider = ({ children }) => {
   useEffect(() => {
     const newSocket = io.connect(API_URL, { withCredentials: true });
     newSocket.on("connect", () => {
-      console.log("Socket conectado:", newSocket.connected); // Ahora debería mostrar true
+      //console.log("Socket conectado:", newSocket.connected); // Ahora debería mostrar true
       setSocket(newSocket);
     });
 
@@ -62,7 +62,7 @@ export const SongsProvider = ({ children }) => {
     });
 
     newSocket.on("update_queue", (performs) => {
-      // console.log("Evento 'update_queue' recibido:", performs);
+      // //console.log("Evento 'update_queue' recibido:", performs);
       setQueueSongs(performs);
     });
 
@@ -112,7 +112,7 @@ export const SongsProvider = ({ children }) => {
       if (response.success) {
         setMySongs(response.data);
       } else {
-        console.log("No se pudo encontrar my songs");
+        //console.log("No se pudo encontrar my songs");
       }
     } catch (error) {
       console.error("Error al obtener las canciones:", error);
@@ -149,11 +149,11 @@ export const SongsProvider = ({ children }) => {
         const response = await getQueueSongs(sessionId);
         if (response.success) {
           setQueueSongs(response.data);
-          console.log("Datos de la cola recibidos:", response.data);
+          //console.log("Datos de la cola recibidos:", response.data);
           // socket.emit("update_queue", { performs: response.data });
           return response;
         } else {
-          console.log("No se pudo encontrar queue songs");
+          //console.log("No se pudo encontrar queue songs");
         }
       } catch (error) {
         console.error("Error al obtener las canciones en cola:", error);
@@ -166,7 +166,7 @@ export const SongsProvider = ({ children }) => {
     async (sessionId) => {
       try {
         updatedSession = await toggleSessionStartApi(sessionId);
-        console.log("Timer:", updatedSession.hasStarted);
+        //console.log("Timer:", updatedSession.hasStarted);
         if (activeSession) {
           setTimerActive(updatedSession.hasStarted);
         } else {
@@ -174,7 +174,7 @@ export const SongsProvider = ({ children }) => {
         }
         socket.emit("updated_time", updatedSession);
       } catch (error) {
-        console.log("Context Line 125:", error);
+        //console.log("Context Line 125:", error);
       }
     },
     [activeSession, socket]
@@ -187,7 +187,7 @@ export const SongsProvider = ({ children }) => {
           sessionId,
           hasStarted
         );
-        console.log("Timer:", updatedSession.hasStarted);
+        //console.log("Timer:", updatedSession.hasStarted);
         if (activeSession) {
           setTimerActive(updatedSession.hasStarted);
           setTimer(updatedSession.hasStarted);
@@ -201,7 +201,7 @@ export const SongsProvider = ({ children }) => {
         }
         socket.emit("updated_time", updatedSession);
       } catch (error) {
-        console.log("Context Line 125:", error);
+        //console.log("Context Line 125:", error);
       }
     },
     [activeSession, socket]
@@ -212,7 +212,7 @@ export const SongsProvider = ({ children }) => {
       const response = await axios.get(`${API_URL}/auth/generate-code`);
       setCode(response);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

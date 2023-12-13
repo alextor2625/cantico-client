@@ -32,25 +32,25 @@ const HomePage = () => {
     setAddSong,
     socket
   } = useSongs();
-  // console.log("Before rendering ActiveSession:", typeof setSessionId);
+  // //console.log("Before rendering ActiveSession:", typeof setSessionId);
 
-  // console.log("Timer Active - Home Page:", timerActive);
+  // //console.log("Timer Active - Home Page:", timerActive);
 
   const [showPrompt, setShowPrompt] = useState(true);
   // const [addSong, setAddSong] = useState(false);
   const [videoId, setVideoId] = useState(null);
   // const [activeSession, setActiveSession] = useState(null);
-  // console.log("active session", activeSession);
-  // console.log("isRunnig", isRunning);
+  // //console.log("active session", activeSession);
+  // //console.log("isRunnig", isRunning);
 
   // useEffect(() => {
   //   fetchActiveSession();
   // }, [fetchActiveSession]);
 
   useEffect(() => {
-    console.log("Componente de Session/Admin montado");
+    //console.log("Componente de Session/Admin montado");
     fetchActiveSession();
-    console.log("Estado actual de activeSession:", activeSession);
+    //console.log("Estado actual de activeSession:", activeSession);
     // Considera si necesitas llamar a refreshQueueSongs aquí
   }, [fetchActiveSession]);
   
@@ -118,7 +118,7 @@ const HomePage = () => {
           )}
 
           {/* Active Session && Timer */}
-            {/* {console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
+          {/* {//console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
           {user && !user.admin && activeSession && isRunning && (
             <div className="user-controls">
               {addSong ? (
@@ -141,7 +141,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className="cellphone-homepage">
-        {console.log('activeSession:',activeSession)}
+        {//console.log('activeSession:',activeSession)}
         {activeSession ? <ActiveSession /> : <h2>No hay sesion activa</h2>}
 
         <h2>Como agregar canciones?</h2>

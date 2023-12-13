@@ -12,13 +12,13 @@ const DeleteMySong = ({ perfomId }) => {
     isPlaying,
   } = useSongs();
   useEffect(() => {
-    console.log(activeSession);
+    //console.log(activeSession);
   }, [activeSession, queueSongs, isPlaying]);
   const handleDeleteSong = async () => {
     try {
       const response = await deleteSong(perfomId, activeSession._id);
       if (response.success) {
-        console.log("Canción eliminada con éxito");
+        //console.log("Canción eliminada con éxito");
         refreshSongs(activeSession._id);
         refreshQueueSongs(activeSession._id);
       }
