@@ -30,6 +30,7 @@ export const SongsProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [queueSongs, setQueueSongs] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [performPlaying, setPerfomPlaying] = useState(false)
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [startTime, setStartTime] = useState(null);
@@ -71,7 +72,7 @@ export const SongsProvider = ({ children }) => {
     // });
 
     newSocket.on("update_perform", (updatedPerfom) => {
-      setIsPlaying(updatedPerfom.isPlaying);
+      setPerfomPlaying(updatedPerfom.isPlaying);
     });
 
     newSocket.on("updated_time", (updatedTime) => {
@@ -227,7 +228,7 @@ export const SongsProvider = ({ children }) => {
         }
         return newState;
       }
-      return prevState; // Si es el mismo, no cambia el estado
+      return prevState;
     });
   };
   
