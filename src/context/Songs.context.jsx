@@ -149,7 +149,7 @@ export const SongsProvider = ({ children }) => {
         const response = await getQueueSongs(sessionId);
         if (response.success) {
           setQueueSongs(response.data);
-          console.log("Datos de la cola recibidos:", response.data);
+          // console.log("Datos de la cola recibidos:", response.data);
           // socket.emit("update_queue", { performs: response.data });
           return response;
         } else {
@@ -217,18 +217,25 @@ export const SongsProvider = ({ children }) => {
   };
 
   const toggleIsPlaying = () => {
-    setIsPlaying((prevState) => {
+    setIsPlaying(prevState => {
+      // Solo cambia el estado si es diferente del actual
       const newState = !prevState;
-      if (socket) {
-        socket.emit("toggleIsPlaying", newState);
+      if (newState !== prevState) {
+        if (socket) {
+          socket.emit("toggleIsPlaying", newState);
+          console.log('socket is playing', newState);
+        }
+        return newState;
       }
-      return newState;
+      return prevState; // Si es el mismo, no cambia el estado
     });
   };
+  
 
   const handlePlayPauseClick = () => {
     // Cambiar el estado de reproducción cuando se hace clic en el botón
     // console.log('Video Paused:', isPlaying)
+    console.log('toggleisplaying context:', isPlaying)
     toggleIsPlaying();
   };
 
@@ -236,54 +243,54 @@ export const SongsProvider = ({ children }) => {
     setAddSong((prevState) => !prevState);
   };
 
-  const startCountdown = useCallback(
-    (duration) => {
-      if (countdownRef.current) clearInterval(countdownRef.current);
+  // const startCountdown = useCallback(
+  //   (duration) => {
+  //     if (countdownRef.current) clearInterval(countdownRef.current);
 
-      setCountdown(duration);
-      countdownRef.current = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          if (prevCountdown === 1 && !isPlaying) {
-            clearInterval(countdownRef.current);
-            toggleIsPlaying();
-          } else if (isPlaying) {
-            clearInterval(countdownRef.current);
-            return null;
-          } else {
-            return prevCountdown - 1;
-          }
-        });
-      }, 1000);
-    },
-    [toggleIsPlaying, isPlaying] 
-  );
+  //     setCountdown(duration);
+  //     countdownRef.current = setInterval(() => {
+  //       setCountdown((prevCountdown) => {
+  //         if (prevCountdown === 1 && !isPlaying) {
+  //           clearInterval(countdownRef.current);
+  //           toggleIsPlaying();
+  //         } else if (isPlaying) {
+  //           clearInterval(countdownRef.current);
+  //           return null;
+  //         } else {
+  //           return prevCountdown - 1;
+  //         }
+  //       });
+  //     }, 1000);
+  //   },
+  //   [toggleIsPlaying, isPlaying] 
+  // );
 
-  const stopCountdown = useCallback(() => {
-    if (countdownRef.current) {
-      clearInterval(countdownRef.current);
-    }
-    setCountdown(null);
-  }, []);
+  // const stopCountdown = useCallback(() => {
+  //   if (countdownRef.current) {
+  //     clearInterval(countdownRef.current);
+  //   }
+  //   setCountdown(null);
+  // }, []);
+
+  // // useEffect(() => {
+   
+  // // }, [isPlaying]);
 
   // useEffect(() => {
-   
-  // }, [isPlaying]);
+  //   const isAdmin = user && user.admin;
 
-  useEffect(() => {
-    const isAdmin = user && user.admin;
+  //   if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
+  //     startCountdown(10);
+  //   } else if ((isPlaying || !isUserTurn) && !isAdmin) {
+  //     stopCountdown();
+  //   }
 
-    if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
-      startCountdown(10);
-    } else if ((isPlaying || !isUserTurn) && !isAdmin) {
-      stopCountdown();
-    }
+  //   if (isPlaying && countdownRef.current) {
+  //     clearInterval(countdownRef.current);
+  //     setCountdown(null);
+  //   }
 
-    if (isPlaying && countdownRef.current) {
-      clearInterval(countdownRef.current);
-      setCountdown(null);
-    }
-
-  }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
+  // }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
 
   return (
     <SongsContext.Provider
@@ -324,10 +331,10 @@ export const SongsProvider = ({ children }) => {
         handleAddSong,
         currentVideoIndex,
         setCurrentVideoIndex,
-        countdown,
-        setCountdown,
-        startCountdown,
-        stopCountdown,
+        // countdown,
+        // setCountdown,
+        // startCountdown,
+        // stopCountdown,
       }}
     >
       {children}

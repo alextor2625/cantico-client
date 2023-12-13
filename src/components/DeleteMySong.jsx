@@ -12,7 +12,7 @@ const DeleteMySong = ({ perfomId }) => {
     isPlaying,
   } = useSongs();
   useEffect(() => {
-    console.log(activeSession);
+    // console.log(activeSession);
   }, [activeSession, queueSongs, isPlaying]);
   const handleDeleteSong = async () => {
     try {

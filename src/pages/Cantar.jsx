@@ -29,6 +29,9 @@ const Cantar = () => {
       // No hay canciones del usuario en la cola y no es su turno
       setSongsBeforeUser(-1);
     }
+
+
+
   }, [queueSongs, user._id]);
 
   const handlePlayPauseClick = () => {
@@ -36,6 +39,10 @@ const Cantar = () => {
       toggleIsPlaying();
     }
   };
+
+  if (isUserTurn) {
+    toggleIsPlaying();
+  }
 
   let userMessage;
   if (isUserTurn) {

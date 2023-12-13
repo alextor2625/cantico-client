@@ -20,7 +20,7 @@ const WhosNext = () => {
         Queue
       </Button>
       {queueSongs.map((song, index) => {
-        console.log("SONG ======>", song);
+        // console.log("SONG ======>", song);
         return (
           <div
             key={song._id}

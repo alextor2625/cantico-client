@@ -61,9 +61,9 @@ const StreamingPage = () => {
         <div className="video-size-streaming">
           <YouTube hideControls={true} className="video-yt-streaming" />
         </div>
-        {!isPlaying && (
+        {/* {!isPlaying && (
           <h1 className="streamin-title">{`La cancion comenzara en ${countdown} segundos...`}</h1>
-        )}
+        )} */}
         <hr />
 
         <div className="streaming-container">
