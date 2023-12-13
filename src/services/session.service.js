@@ -19,19 +19,19 @@ export const addSession = async (name, onSuccess, onError) => {
       requestBody,
       config
     );
-    console.log(response.data);
+    //console.log(response.data);
     if (response.data.success) {
       onSuccess(response.data);
-      console.log("Line 23 - onSuccess:", response.data);
+      //console.log("Line 23 - onSuccess:", response.data);
       return response.data;
     } else {
       onError(response.data.message);
-      console.log("Line 26 - onError:", response.data.message);
+      //console.log("Line 26 - onError:", response.data.message);
     }
   } catch (error) {
-    console.log("Line 10 - Error:", error);
+    //console.log("Line 10 - Error:", error);
     onError(error.response.data.message);
-    console.log("Line 31 - onError:", error.response.data.message);
+    //console.log("Line 31 - onError:", error.response.data.message);
   }
 };
 
@@ -49,12 +49,12 @@ export const getSessionID = async (sessionId, onSuccess, onError) => {
     const response = await axios.get(`${API_URL}/sessions/${sessionId}`);
 
     // onSuccess(response);
-    console.log("Line 52 - response", response.data.session);
+    //console.log("Line 52 - response", response.data.session);
     return response.data.session;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     // onError(error);
-    // console.log("Line 31 - onError:", error);
+    // //console.log("Line 31 - onError:", error);
   }
 };
 
@@ -63,10 +63,10 @@ export const getSessionID = async (sessionId, onSuccess, onError) => {
 export const getAllSessions = async () => {
   try {
     const response = await axios.get(`${API_URL}/sessions/`);
-    console.log("Line 65 - getAllSessions:", response.data);
+    //console.log("Line 65 - getAllSessions:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Line 68 - Error:".error);
+    //console.log("Line 68 - Error:".error);
   }
 };
 
@@ -86,7 +86,7 @@ export const editSession = async (sessionId, name, isActive) => {
       { name: name, isActive: isActive },
       config
     );
-    console.log("Line 89 - edit:", response.data);
+    //console.log("Line 89 - edit:", response.data);
     return response.data.session; // Asumiendo que 'session' es la clave que contiene la información actualizada.
   } catch (error) {
     console.error("Line 92 - Error:", error);
@@ -115,10 +115,10 @@ export const deleteSession = async (sessionId) => {
     const response = await axios.delete(
       `${API_URL}/sessions/delete/${sessionId}`
     );
-    console.log("Line 108 - Deleted Session:", response.data);
+    //console.log("Line 108 - Deleted Session:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Line 111 - Error:", error);
+    //console.log("Line 111 - Error:", error);
   }
 };
 
@@ -134,7 +134,7 @@ export const getActiveSession = async () => {
 
   try {
     const response = await axios.get(`${API_URL}/sessions/current/active`);
-    // console.log("Active session data:", response.data);
+    // //console.log("Active session data:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching active session data:", error);
@@ -158,7 +158,7 @@ export const endSession = async (sessionId, duration) => {
       { duration: duration },
       config
     );
-    console.log("Session ended:", response.data);
+    //console.log("Session ended:", response.data);
     return response.data.session;
   } catch (error) {
     console.error("Error ending session:", error);
@@ -189,7 +189,7 @@ export const addUserToSession = async (sessionId, userId) => {
       config
     );
 
-    console.log("User added to session:", response.data);
+    //console.log("User added to session:", response.data);
     return response.data.session;
   } catch (error) {
     console.error("Error adding user to session:", error.response || error);
@@ -204,18 +204,18 @@ export const addUserToSession = async (sessionId, userId) => {
 export const toggleSessionStartApi = async (sessionId) => {
   try {
     const response = await axios.put(`${API_URL}/sessions/toggle-has-started/${sessionId}`);
-    console.log("updadte timer:", response.data);
+    //console.log("updadte timer:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Line 211 - Error:", error);
+    //console.log("Line 211 - Error:", error);
   }
 };
 export const setSessionHasStartedApi = async (sessionId, hasStarted) => {
   try {
     const response = await axios.put(`${API_URL}/sessions//set-session-has-started/${sessionId}`,{hasStarted});
-    console.log("updadte timer:", response.data);
+    //console.log("updadte timer:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Line 211 - Error:", error);
+    //console.log("Line 211 - Error:", error);
   }
 };

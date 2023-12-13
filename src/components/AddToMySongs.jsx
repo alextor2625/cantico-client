@@ -13,18 +13,18 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(user, activeSession);
+    //console.log(user, activeSession);
   }, [user, activeSession]);
 
   const handleAddClick = async () => {
     if (!videoId) {
-      console.log("No hay un ID de video proporcionado");
+      //console.log("No hay un ID de video proporcionado");
       return;
     }
 
     try {
       const videoDetails = await getYouTubeVideoDetails(videoId);
-      console.log("ADDING SONG ==>",videoDetails);
+      //console.log("ADDING SONG ==>",videoDetails);
       if (videoDetails && videoDetails.contentDetails) {
         const perfomData = {
           name: videoDetails.snippet.title,
@@ -35,7 +35,7 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
           session: activeSession._id,
           thumbnail: thumbnails,
         };
-        console.log("CHECKING THUMBNAILS", thumbnails);
+        //console.log("CHECKING THUMBNAILS", thumbnails);
         const savedSongData = {
           title: videoDetails.snippet.title,
           videoDuration: videoDetails.contentDetails.duration,
@@ -45,10 +45,10 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
         }
 
         const savingSong = await addSongToList(savedSongData);
-        console.log("SAVING SONG",savingSong);
+        //console.log("SAVING SONG",savingSong);
 
         await addPerfom(perfomData);
-        console.log("Perfom añadido, actualizando canciones...", perfomData);
+        //console.log("Perfom añadido, actualizando canciones...", perfomData);
 
         setSearchQuery("");
         refreshSongs(activeSession._id);

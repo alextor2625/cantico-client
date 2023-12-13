@@ -17,7 +17,7 @@ const EndSession = () => {
   } = useSongs();
 
   useEffect(() => {
-    console.log("timerActive", timerActive);
+    //console.log("timerActive", timerActive);
   }, [activeSession, timerActive]);
 
   const handleEndSession = async () => {
@@ -29,7 +29,7 @@ const EndSession = () => {
           sessionData.session._id,
           seconds
         );
-        console.log("Session ended with updated duration:", updatedSession);
+        //console.log("Session ended with updated duration:", updatedSession);
       }
     } catch (error) {
       console.error("Error ending the session:", error);

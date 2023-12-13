@@ -10,7 +10,7 @@ const AddToQueue = ({ perfomId, setSuccess }) => {
   const { setQueueLimitError, queueLimitError } = useContext(ErrorsContext);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(activeSession);
+    //console.log(activeSession);
     if (queueLimitError) {
       setSuccess(false);
     }
@@ -21,7 +21,7 @@ const AddToQueue = ({ perfomId, setSuccess }) => {
       refreshSongs(activeSession._id);
       refreshQueueSongs(activeSession._id);
       setSuccess(true);
-      console.log("Perfom actualizado con éxito:", result);
+      //console.log("Perfom actualizado con éxito:", result);
       navigate("/queue");
     } catch (error) {
       setQueueLimitError(error);

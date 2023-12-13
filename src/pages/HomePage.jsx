@@ -32,23 +32,23 @@ const HomePage = () => {
     setAddSong,
     socket
   } = useSongs();
-  // console.log("Before rendering ActiveSession:", typeof setSessionId);
+  // //console.log("Before rendering ActiveSession:", typeof setSessionId);
 
-  // console.log("Timer Active - Home Page:", timerActive);
+  // //console.log("Timer Active - Home Page:", timerActive);
 
   const [showPrompt, setShowPrompt] = useState(true);
   // const [addSong, setAddSong] = useState(false);
   const [videoId, setVideoId] = useState(null);
   // const [activeSession, setActiveSession] = useState(null);
-  // console.log("active session", activeSession);
-  // console.log("isRunnig", isRunning);
+  // //console.log("active session", activeSession);
+  // //console.log("isRunnig", isRunning);
 
   // useEffect(() => {
   //   fetchActiveSession();
   // }, [fetchActiveSession]);
 
   useEffect(() => {
-    console.log("Componente de Session/Admin montado");
+    //console.log("Componente de Session/Admin montado");
     fetchActiveSession();
     // console.log("Estado actual de activeSession:", activeSession);
     // Considera si necesitas llamar a refreshQueueSongs aquí
@@ -79,14 +79,14 @@ const HomePage = () => {
               </div>
 
               <div className="user-controls">
-                {addSong ? (
+                {/* {addSong ? (
                   <YouTubeSearch
                     setVideoId={setVideoId}
                     activeSession={activeSession}
                   />
                 ) : (
                   <YouTube hideControls={false} />
-                )}
+                )} */}
 
                 <MySongs />
                 <WhosNext />
@@ -118,17 +118,17 @@ const HomePage = () => {
           )}
 
           {/* Active Session && Timer */}
-            {/* {console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
+          {/* {//console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
           {user && !user.admin && activeSession && isRunning && (
             <div className="user-controls">
-              {addSong ? (
+              {/* {addSong ? (
                 <YouTubeSearch
                   setVideoId={setVideoId}
                   activeSession={activeSession}
                 />
               ) : (
                 <YouTube />
-              )}
+              )} */}
 
               <MySongs
                 addSong={addSong}

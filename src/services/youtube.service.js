@@ -6,7 +6,7 @@ export const searchYouTube = async (query) => {
     const response = await axios.get(`${API_URL}/youtube/search/videos`, {
       params: { q: query },
     });
-    //   console.log('Line 9 - Youtube Search:', response.data)
+    //   //console.log('Line 9 - Youtube Search:', response.data)
     return response.data;
   } catch (error) {
     console.error("Error al realizar la búsqueda en YouTube", error);
@@ -38,7 +38,7 @@ export const addPerfom = async (perfomData) => {
     const response = await axios.post(
       `${API_URL}/perform/add-perform`, perfomData, config
     );
-    console.log('Respuesta al añadir perfom:', perfomData);
+    //console.log('Respuesta al añadir perfom:', perfomData);
     return response.data;
   } catch (error) {
     console.error("Error al añadir perfom", error);
@@ -54,7 +54,7 @@ export const getMySongs = async (sessionId) => {
         Authorization: "Bearer " + localStorage.getItem("authToken"),
       },
     });
-    // console.log('get my songs:', response.data)
+    // //console.log('get my songs:', response.data)
     return response.data;
   } catch (error) {
     console.error("Error al obtener mis canciones", error);
@@ -75,7 +75,7 @@ export const deleteSong = async (perfomId, sessionId) => {
       `${API_URL}/perform/deletesong/${perfomId}`,
       config
     );
-    // console.log('Respuesta al eliminar perfom:', response.data);
+    // //console.log('Respuesta al eliminar perfom:', response.data);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar perfom", error);
@@ -96,7 +96,7 @@ export const queuePerfom = async (perfomId) => {
       {},
       config
     );
-    console.log("queueperform:", response.data);
+    //console.log("queueperform:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el estado de Perfom:", error);
@@ -136,7 +136,7 @@ export const updatePerfomStatus = async (perfomId, statusData) => {
       statusData,
       config
     );
-    // console.log('update perform status:', response.data)
+    // //console.log('update perform status:', response.data)
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el estado del Perfom:", error);

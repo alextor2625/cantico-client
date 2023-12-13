@@ -216,6 +216,8 @@ export const SongsProvider = ({ children }) => {
     }
   };
 
+  // Change the toggle for a true state because of the erratic  play & pause behavior.
+
   const toggleIsPlaying = () => {
     setIsPlaying(prevState => {
       // Solo cambia el estado si es diferente del actual
@@ -231,6 +233,8 @@ export const SongsProvider = ({ children }) => {
     });
   };
   
+
+  // Created a more direct function just in case.
 
   const handlePlayPauseClick = () => {
     // Cambiar el estado de reproducción cuando se hace clic en el botón
