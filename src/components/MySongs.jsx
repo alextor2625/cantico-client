@@ -26,7 +26,7 @@ const MySongs = ({ setSuccess }) => {
 
   //   const history = useHistory()
 
-  // console.log('myysongs', mySongs)
+  // //console.log('myysongs', mySongs)
 
   useEffect(() => {
     if (socket) {
@@ -35,7 +35,7 @@ const MySongs = ({ setSuccess }) => {
   }, [socket]);
 
   // useEffect(() => {
-  //   console.log("isRunning", isRunning);
+  //   //console.log("isRunning", isRunning);
   //   fetchActiveSession()
   // }, [isRunning, fetchActiveSession]);
 

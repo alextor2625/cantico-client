@@ -63,12 +63,12 @@ const SessionsPage = () => {
       setAvailableSong(result.stillAvailable.length);
       setDeletedSongs(result.deleted.length);
 
-      console.log("result", result);
+      //console.log("result", result);
 
       clearInterval(intervalId);
       setProgress(100);
       setCleanupResult(result);
-      console.log(result);
+      //console.log(result);
     } catch (error) {
       console.error("Error:", error);
       clearInterval(intervalId); // Asegúrate de limpiar el intervalo si hay un error
@@ -153,12 +153,12 @@ const SessionsPage = () => {
     } else {
       setIsEditingSessionId(sessionId);
       setInputValue(sessionName);
-      console.log("setIsEditingSessionID:", sessionId);
+      //console.log("setIsEditingSessionID:", sessionId);
     }
 
     getSessionID(sessionId);
     setSessionId(sessionId);
-    console.log("Line 30 - sessionId", sessionId);
+    //console.log("Line 30 - sessionId", sessionId);
     setSaveChanges(true);
   };
 
@@ -177,7 +177,7 @@ const SessionsPage = () => {
         prevSessions.filter((session) => session._id !== sessionId)
       );
     } catch (error) {
-      console.log("Error deleting session:", error);
+      //console.log("Error deleting session:", error);
     }
   };
 
@@ -236,12 +236,12 @@ const SessionsPage = () => {
   const hanldeSetIsActive = () => {
     const updatedSessions = allSessions.map((session) => {
       if (session._id === editingSessionId) {
-        console.log("isActive - Antes:", session.name, session.isActive);
+        //console.log("isActive - Antes:", session.name, session.isActive);
         const updatedSession = {
           ...session,
           isActive: !session.isActive,
         };
-        console.log(
+        //console.log(
           "isActive - Despues:",
           session.name,
           updatedSession.isActive

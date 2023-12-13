@@ -12,12 +12,12 @@ const AddToMySongsFromList = ({ videoId }) => {
     // const navigate = useNavigate();
   
     useEffect(() => {
-      console.log(user, activeSession);
+      //console.log(user, activeSession);
     }, [user, activeSession]);
   
     const handleAddClick = async () => {
       if (!videoId) {
-        console.log("No hay un ID de video proporcionado");
+        //console.log("No hay un ID de video proporcionado");
         return;
       }
   
@@ -34,7 +34,7 @@ const AddToMySongsFromList = ({ videoId }) => {
             thumbnail: videoDetails.song.thumbnail,
           };
           await addPerfom(perfomData);
-          console.log("Perform ====>", perfomData);
+          //console.log("Perform ====>", perfomData);
   
           setSearchQuery("");
           refreshSongs(activeSession._id);

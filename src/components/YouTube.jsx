@@ -23,7 +23,7 @@ const YouTube = ({ hideControls }) => {
   
 
   useEffect(() => {
-    // console.log("isPlaying", isPlaying);
+    // //console.log("isPlaying", isPlaying);
   }, [toggleIsPlaying]);
 
   const handleVideoEnd = async () => {
@@ -43,7 +43,7 @@ const YouTube = ({ hideControls }) => {
         isPlaying: isPlaying,
       });
 
-      // console.log("update perform status:", isPlaying);
+      // //console.log("update perform status:", isPlaying);
     }
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
@@ -87,16 +87,16 @@ const YouTube = ({ hideControls }) => {
       : "";
 
   const cancionesHastaTurno = () => {
-    console.log("Line 91 ===>", queueSongs);
+    //console.log("Line 91 ===>", queueSongs);
     const proximoTurno = queueSongs.findIndex((song, index) => {
-      console.log("Checking IDS ====>", song);
+      //console.log("Checking IDS ====>", song);
       return (
         index > currentVideoIndex &&
         ((song.user && song.user._id === user._id) ||
           (song.tempUser && song.tempUser._id === user._id))
       );
     });
-    console.log("Line 95 ===>", queueSongs);
+    //console.log("Line 95 ===>", queueSongs);
     return proximoTurno === -1 ? 0 : proximoTurno - currentVideoIndex;
   };
 
@@ -159,7 +159,7 @@ const YouTube = ({ hideControls }) => {
           </Button>
         </div>
       )}
-      {/* {console.log(queueSongs[currentVideoIndex])} */}
+      {/* {//console.log(queueSongs[currentVideoIndex])} */}
       {user &&
         !user.admin &&
         queueSongs.length > currentVideoIndex &&
@@ -177,7 +177,7 @@ const YouTube = ({ hideControls }) => {
             </Button>
           </div>
         )}
-      {/* {console.log("isPlaying from Youtube.jsx:", isPlaying) } */}
+      {/* {//console.log("isPlaying from Youtube.jsx:", isPlaying) } */}
       {user && user.admin && (
         <ReactPlayer
           url={videoUrl}

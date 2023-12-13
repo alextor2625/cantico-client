@@ -18,7 +18,7 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
 
   // const { isLoggedIn } = useContext(AuthContext);
 
-  // console.log("Login Prompt User:", user);
+  // //console.log("Login Prompt User:", user);
 
   // const { user } = useContext(AuthContext);
 
@@ -36,19 +36,19 @@ const LoginPrompt = ({ showPrompt, setShowPrompt }) => {
       setIsLoggedIn,
       setUser,
       (currentUser) => {
-        console.log("Line 24 - Current User:", currentUser);
+        //console.log("Line 24 - Current User:", currentUser);
         setUser(currentUser);
       }
     )
       .then((data) => {})
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
     navigate("/mysongs");
   };
 
-  // console.log("Line 15 - User:", user);
+  // //console.log("Line 15 - User:", user);
 
   return (
     <>

@@ -19,7 +19,7 @@ const Queue = () => {
   } = useSongs();
   const { user } = useContext(AuthContext);
 
-  // console.log("Renderizando con queueSongs:", queueSongs);
+  // //console.log("Renderizando con queueSongs:", queueSongs);
 
   useEffect(() => {
     fetchActiveSession();
