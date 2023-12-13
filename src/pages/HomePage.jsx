@@ -141,7 +141,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className="cellphone-homepage">
-        {//console.log('activeSession:',activeSession)}
+        {/* //console.log('activeSession:',activeSession) */}
         {activeSession ? <ActiveSession /> : <h2>No hay sesion activa</h2>}
 
         <h2>Como agregar canciones?</h2>
