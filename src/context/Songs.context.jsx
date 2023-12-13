@@ -88,9 +88,10 @@ export const SongsProvider = ({ children }) => {
       setActiveSession(data.activeSession);
     });
 
-    newSocket.on("toggleIsPlaying", (data) => {
-      setIsPlaying(data);
+    newSocket.on("toggleIsPlaying", (newState) => {
+      setIsPlaying(newState);
     });
+  
 
     return () => {
       newSocket.off("update_session");
@@ -219,21 +220,17 @@ export const SongsProvider = ({ children }) => {
   // Change the toggle for a true state because of the erratic  play & pause behavior.
 
   const toggleIsPlaying = () => {
-
-    setIsPlaying(true)
-      if (socket) {
-        socket.emit("toggleIsPlaying", isPlaying);
-        console.log('Line 226 - isPlaying:', isPlaying)
-      }
-    return isPlaying;
-    ;
+    if (socket) {
+      socket.emit("toggleIsPlaying");
+    }
   };
 
   // Created a more direct function just in case.
 
   const handlePlayPauseClick = () => {
-    setIsPlaying((prevState) => !prevState)
-    console.log('Line 235 - isplaying:', isPlaying)
+    // Cambiar el estado de reproducción cuando se hace clic en el botón
+    // console.log('Video Paused:', isPlaying)
+    toggleIsPlaying();
   };
 
   const handleAddSong = () => {
@@ -250,9 +247,10 @@ export const SongsProvider = ({ children }) => {
           if (prevCountdown === 1 && !isPlaying) {
             clearInterval(countdownRef.current);
             toggleIsPlaying();
-            console.log('Line 253 - isplaying:', isPlaying)
+            console.log('Line 253 - isplaying: Activa el countdown', isPlaying)
             // setIsPlaying(true)
           } else if (isPlaying) {
+            console.log('Line 256 - isplaying: clear el interval:', isPlaying)
             clearInterval(countdownRef.current);
             return null;
           } else {
@@ -269,6 +267,8 @@ export const SongsProvider = ({ children }) => {
       clearInterval(countdownRef.current);
     }
     setCountdown(null);
+    console.log('Line 272 - setea el countdown a null:', countdown)
+
   }, []);
 
   // useEffect(() => {
@@ -283,10 +283,12 @@ export const SongsProvider = ({ children }) => {
     const isAdmin = user && user.admin;
 
     if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
-      startCountdown(1);
-      console.log('Line 287 - isplaying:', isPlaying)
-    } else if ((isPlaying || !isUserTurn) && !isAdmin) {
-      console.log('Line 289 - isplaying:', isPlaying)
+      startCountdown(2);
+      console.log('Line 287 - isplaying: Start Countdown:', isPlaying)
+    } 
+    
+    if ((isPlaying || !isUserTurn) && !isAdmin) {
+      console.log('Line 289 - isplaying: Stop CountDown:', isPlaying)
       stopCountdown();
     }
   }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
