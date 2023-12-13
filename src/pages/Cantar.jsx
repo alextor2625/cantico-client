@@ -25,6 +25,7 @@ const Cantar = () => {
     // Asegúrate de que solo se llame a toggleIsPlaying una vez cuando sea el turno del usuario
     if (isTurn && !isPlaying) {
       toggleIsPlaying();
+      console.log('toggleisplaying')
     }
   }, [queueSongs, user._id, isPlaying, toggleIsPlaying]);
 
