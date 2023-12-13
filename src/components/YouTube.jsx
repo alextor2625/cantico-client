@@ -12,10 +12,9 @@ const YouTube = ({ hideControls }) => {
     activeSession,
     isPlaying,
     toggleIsPlaying,
-    handlePlayPauseClick,
     currentVideoIndex,
     setCurrentVideoIndex,
-    
+    socket,
   } = useSongs();
   const { user } = useContext(AuthContext);
 
@@ -24,6 +23,7 @@ const YouTube = ({ hideControls }) => {
 
   useEffect(() => {
     // console.log("isPlaying", isPlaying);
+    
   }, [toggleIsPlaying]);
 
   const handleVideoEnd = async () => {
@@ -36,6 +36,10 @@ const YouTube = ({ hideControls }) => {
       refreshQueueSongs(activeSession._id);
       toggleIsPlaying()
     }
+  };
+
+  const handlePlayPauseClick = () => {
+      toggleIsPlaying();
   };
 
   useEffect(() => {
@@ -184,7 +188,7 @@ const YouTube = ({ hideControls }) => {
           url={videoUrl}
           width="100%"
           height={!hideControls ? "100%" : "calc(100vh - 300px)"}
-          playing={isPlaying && !isLoading} // Utiliza la prop "playing" para controlar la reproducción
+          playing={isPlaying} // Utiliza la prop "playing" para controlar la reproducción
           controls={false}
           config={{
             youtube: {
