@@ -34,6 +34,7 @@ const YouTube = ({ hideControls }) => {
       });
       setCurrentVideoIndex(currentVideoIndex);
       refreshQueueSongs(activeSession._id);
+      toggleIsPlaying()
     }
   };
 
