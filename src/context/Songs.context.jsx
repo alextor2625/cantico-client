@@ -265,21 +265,24 @@ export const SongsProvider = ({ children }) => {
     setCountdown(null);
   }, []);
 
-  useEffect(() => {
-    if (isPlaying && countdownRef.current) {
-      clearInterval(countdownRef.current);
-      setCountdown(null);
-    }
-  }, [isPlaying]);
+  // useEffect(() => {
+   
+  // }, [isPlaying]);
 
   useEffect(() => {
     const isAdmin = user && user.admin;
 
     if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
-      startCountdown(1);
+      startCountdown(5);
     } else if ((isPlaying || !isUserTurn) && !isAdmin) {
       stopCountdown();
     }
+
+    if (isPlaying && countdownRef.current) {
+      clearInterval(countdownRef.current);
+      setCountdown(null);
+    }
+
   }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
 
   return (
