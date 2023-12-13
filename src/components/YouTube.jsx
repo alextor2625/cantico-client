@@ -182,7 +182,7 @@ const YouTube = ({ hideControls }) => {
         <ReactPlayer
           url={videoUrl}
           width="100%"
-          height={!hideControls ? "100%" : "calc(100vh - 300px)"}
+          height={!hideControls ? "50vh" : "50vh"}
           playing={isPlaying} // Utiliza la prop "playing" para controlar la reproducción
           controls={false}
           config={{
@@ -201,8 +201,8 @@ const YouTube = ({ hideControls }) => {
           onReady={handleVideoReady}
           onBuffer={handleVideoBuffer}
           onEnded={handleVideoEnd}
-          className={hideControls ? "" : "adjust-video-size"}
-          muted={hideControls ? false : true}
+          className={hideControls ? "adjust-video-size" : "adjust-video-size"}
+          // muted={hideControls ? false : true}
         />
       )}
 

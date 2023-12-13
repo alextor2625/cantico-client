@@ -79,14 +79,14 @@ const HomePage = () => {
               </div>
 
               <div className="user-controls">
-                {addSong ? (
+                {/* {addSong ? (
                   <YouTubeSearch
                     setVideoId={setVideoId}
                     activeSession={activeSession}
                   />
                 ) : (
                   <YouTube hideControls={false} />
-                )}
+                )} */}
 
                 <MySongs />
                 <WhosNext />
@@ -121,14 +121,14 @@ const HomePage = () => {
           {/* {//console.log(`${user} && !${user.admin} && ${activeSession} && ${isRunning}`)} */}
           {user && !user.admin && activeSession && isRunning && (
             <div className="user-controls">
-              {addSong ? (
+              {/* {addSong ? (
                 <YouTubeSearch
                   setVideoId={setVideoId}
                   activeSession={activeSession}
                 />
               ) : (
                 <YouTube />
-              )}
+              )} */}
 
               <MySongs
                 addSong={addSong}

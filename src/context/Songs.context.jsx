@@ -53,7 +53,7 @@ export const SongsProvider = ({ children }) => {
   useEffect(() => {
     const newSocket = io.connect(API_URL, { withCredentials: true });
     newSocket.on("connect", () => {
-      //console.log("Socket conectado:", newSocket.connected); // Ahora debería mostrar true
+      console.log("Socket conectado:", newSocket.connected); // Ahora debería mostrar true
       setSocket(newSocket);
     });
 
@@ -62,7 +62,7 @@ export const SongsProvider = ({ children }) => {
     });
 
     newSocket.on("update_queue", (performs) => {
-      // //console.log("Evento 'update_queue' recibido:", performs);
+      // console.log("Evento 'update_queue' recibido:", performs);
       setQueueSongs(performs);
     });
 
@@ -88,10 +88,9 @@ export const SongsProvider = ({ children }) => {
       setActiveSession(data.activeSession);
     });
 
-    newSocket.on("toggleIsPlaying", (newState) => {
-      setIsPlaying(newState);
+    newSocket.on("toggleIsPlaying", (data) => {
+      setIsPlaying(data);
     });
-  
 
     return () => {
       newSocket.off("update_session");
@@ -113,7 +112,7 @@ export const SongsProvider = ({ children }) => {
       if (response.success) {
         setMySongs(response.data);
       } else {
-        //console.log("No se pudo encontrar my songs");
+        console.log("No se pudo encontrar my songs");
       }
     } catch (error) {
       console.error("Error al obtener las canciones:", error);
@@ -150,11 +149,11 @@ export const SongsProvider = ({ children }) => {
         const response = await getQueueSongs(sessionId);
         if (response.success) {
           setQueueSongs(response.data);
-          //console.log("Datos de la cola recibidos:", response.data);
+          console.log("Datos de la cola recibidos:", response.data);
           // socket.emit("update_queue", { performs: response.data });
           return response;
         } else {
-          //console.log("No se pudo encontrar queue songs");
+          console.log("No se pudo encontrar queue songs");
         }
       } catch (error) {
         console.error("Error al obtener las canciones en cola:", error);
@@ -167,7 +166,7 @@ export const SongsProvider = ({ children }) => {
     async (sessionId) => {
       try {
         updatedSession = await toggleSessionStartApi(sessionId);
-        //console.log("Timer:", updatedSession.hasStarted);
+        console.log("Timer:", updatedSession.hasStarted);
         if (activeSession) {
           setTimerActive(updatedSession.hasStarted);
         } else {
@@ -175,7 +174,7 @@ export const SongsProvider = ({ children }) => {
         }
         socket.emit("updated_time", updatedSession);
       } catch (error) {
-        //console.log("Context Line 125:", error);
+        console.log("Context Line 125:", error);
       }
     },
     [activeSession, socket]
@@ -188,7 +187,7 @@ export const SongsProvider = ({ children }) => {
           sessionId,
           hasStarted
         );
-        //console.log("Timer:", updatedSession.hasStarted);
+        console.log("Timer:", updatedSession.hasStarted);
         if (activeSession) {
           setTimerActive(updatedSession.hasStarted);
           setTimer(updatedSession.hasStarted);
@@ -202,7 +201,7 @@ export const SongsProvider = ({ children }) => {
         }
         socket.emit("updated_time", updatedSession);
       } catch (error) {
-        //console.log("Context Line 125:", error);
+        console.log("Context Line 125:", error);
       }
     },
     [activeSession, socket]
@@ -213,24 +212,32 @@ export const SongsProvider = ({ children }) => {
       const response = await axios.get(`${API_URL}/auth/generate-code`);
       setCode(response);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   };
 
   // Change the toggle for a true state because of the erratic  play & pause behavior.
 
   const toggleIsPlaying = () => {
-    if (socket) {
-      socket.emit("toggleIsPlaying");
-    }
+
+    setIsPlaying(true)
+      if (socket) {
+        socket.emit("toggleIsPlaying", isPlaying);
+      }
+    return isPlaying;
+    ;
   };
 
   // Created a more direct function just in case.
 
   const handlePlayPauseClick = () => {
-    // Cambiar el estado de reproducción cuando se hace clic en el botón
-    // console.log('Video Paused:', isPlaying)
-    toggleIsPlaying();
+
+    if (!isPlaying) {
+      setIsPlaying(true)
+    } else if (isPlaying) {
+      setIsPlaying(false)
+    }
+
   };
 
   const handleAddSong = () => {
@@ -247,10 +254,8 @@ export const SongsProvider = ({ children }) => {
           if (prevCountdown === 1 && !isPlaying) {
             clearInterval(countdownRef.current);
             toggleIsPlaying();
-            console.log('Line 253 - isplaying: Activa el countdown', isPlaying)
             // setIsPlaying(true)
           } else if (isPlaying) {
-            console.log('Line 256 - isplaying: clear el interval:', isPlaying)
             clearInterval(countdownRef.current);
             return null;
           } else {
@@ -267,28 +272,21 @@ export const SongsProvider = ({ children }) => {
       clearInterval(countdownRef.current);
     }
     setCountdown(null);
-    console.log('Line 272 - setea el countdown a null:', countdown)
-
   }, []);
 
-  // useEffect(() => {
-  //   if (isPlaying && countdownRef.current) {
-  //     clearInterval(countdownRef.current);
-  //     setCountdown(null);
-  //     console.log('Line 278 - isplaying:', isPlaying)
-  //   }
-  // }, [isPlaying]);
+  useEffect(() => {
+    if (isPlaying && countdownRef.current) {
+      clearInterval(countdownRef.current);
+      setCountdown(null);
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     const isAdmin = user && user.admin;
 
     if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
-      startCountdown(2);
-      console.log('Line 287 - isplaying: Start Countdown:', isPlaying)
-    } 
-    
-    if ((isPlaying || !isUserTurn) && !isAdmin) {
-      console.log('Line 289 - isplaying: Stop CountDown:', isPlaying)
+      startCountdown(1);
+    } else if ((isPlaying || !isUserTurn) && !isAdmin) {
       stopCountdown();
     }
   }, [isUserTurn, isPlaying, countdown, startCountdown, stopCountdown, user]);
