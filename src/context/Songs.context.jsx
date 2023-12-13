@@ -216,20 +216,28 @@ export const SongsProvider = ({ children }) => {
     }
   };
 
+  // Change the toggle for a true state because of the erratic  play & pause behavior.
+
   const toggleIsPlaying = () => {
-    setIsPlaying((prevState) => {
-      const newState = !prevState;
+
+    setIsPlaying(true)
       if (socket) {
-        socket.emit("toggleIsPlaying", newState);
+        socket.emit("toggleIsPlaying", isPlaying);
       }
-      return newState;
-    });
+    return isPlaying;
+    ;
   };
 
+  // Created a more direct function just in case.
+
   const handlePlayPauseClick = () => {
-    // Cambiar el estado de reproducción cuando se hace clic en el botón
-    // console.log('Video Paused:', isPlaying)
-    toggleIsPlaying();
+
+    if (!isPlaying) {
+      setIsPlaying(true)
+    } else if (isPlaying) {
+      setIsPlaying(false)
+    }
+
   };
 
   const handleAddSong = () => {
@@ -246,6 +254,7 @@ export const SongsProvider = ({ children }) => {
           if (prevCountdown === 1 && !isPlaying) {
             clearInterval(countdownRef.current);
             toggleIsPlaying();
+            // setIsPlaying(true)
           } else if (isPlaying) {
             clearInterval(countdownRef.current);
             return null;
