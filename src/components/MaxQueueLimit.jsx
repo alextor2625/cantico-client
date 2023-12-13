@@ -24,7 +24,7 @@ const MaxQueueLimitInput = () => {
             activeSession._id,
             maxQueueLimit
           );
-          console.log("Límite de cola actualizado:", response);
+          //console.log("Límite de cola actualizado:", response);
           fetchActiveSession(); 
         } catch (error) {
           console.error("Error al actualizar maxQueueLimit", error);

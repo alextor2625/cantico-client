@@ -18,7 +18,7 @@ const DeleteMySong = ({ perfomId }) => {
     try {
       const response = await deleteSong(perfomId, activeSession._id);
       if (response.success) {
-        console.log("Canción eliminada con éxito");
+        //console.log("Canción eliminada con éxito");
         refreshSongs(activeSession._id);
         refreshQueueSongs(activeSession._id);
       }

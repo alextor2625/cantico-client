@@ -47,11 +47,11 @@ const CreateSession = ({
         }, 4000);
       }
     );
-    console.log("Line 45 - sessionId", sessionId);
+    //console.log("Line 45 - sessionId", sessionId);
   };
 
   useEffect(() => {
-    console.log("Actual sessionId:", sessionId);
+    //console.log("Actual sessionId:", sessionId);
   }, [sessionId]);
 
   return (

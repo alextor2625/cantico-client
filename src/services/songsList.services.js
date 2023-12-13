@@ -15,7 +15,7 @@ export const getSongsList = async () => {
     const response = await axios.get(route, headers);
     return response.data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -24,17 +24,17 @@ export const getSongFromList = async (videoId) => {
     const response = await axios.get(`${route}/${videoId}`, config);
     return response.data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
 export const searchForSongInList = async (searchTerm) => {
   try {
     const response = await axios.get(`${route}/search/${searchTerm}`, config);
-    console.log("searchForSongInList TESTING", response);
+    //console.log("searchForSongInList TESTING", response);
     return response.data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -50,7 +50,7 @@ export const addSongToList = async ({
     const response = await axios.post(`${route}/create`, body, config);
     return response.data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -63,7 +63,7 @@ export const updateSongOnList = async (
     const response = await axios.put(`${route}/update/${songId}`, body, config);
     return response.data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -72,7 +72,7 @@ export const deleteSongOnList = async (songId) => {
     const response = await axios.delete(`${route}/${songId}`, config);
     return response.data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -88,10 +88,10 @@ export const cleanUpVideos = async () => {
 
   try {
     const response = await axios.get(`${route}/cleanupVideos`, config);
-    console.log("clean up videos:", response.data);
+    //console.log("clean up videos:", response.data);
     return response.data;
   } catch (error) {
-    console.log("Error:", error);
-    console.log("No se puedo eliminar videos existentes");
+    //console.log("Error:", error);
+    //console.log("No se puedo eliminar videos existentes");
   }
 };

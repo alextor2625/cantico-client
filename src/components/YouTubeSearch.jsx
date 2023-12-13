@@ -49,19 +49,19 @@ const YouTubeSearch = ({ activeSession }) => {
       try {
         const searchQueryWithKaraoke = searchQuery + "karaoke";
         const searchList = await searchForSongInList(searchQuery);
-        console.log("searchList TESTING", searchList);
+        //console.log("searchList TESTING", searchList);
         if (searchList) {
           if (searchList.success && searchList.songs.length) {
             setVideos(searchList.songs);
           } else {
-            console.log("Found LIST SUCCESS IS FALSE");
+            //console.log("Found LIST SUCCESS IS FALSE");
             setSearchMore(true);
 
             const results = await searchYouTube(searchQueryWithKaraoke);
             setVideos(results.items);
           }
         } else {
-          console.log("LIST NOT FOUND");
+          //console.log("LIST NOT FOUND");
           setSearchMore(true);
 
           const results = await searchYouTube(searchQueryWithKaraoke);

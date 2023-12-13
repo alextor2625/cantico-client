@@ -30,7 +30,7 @@ function App() {
       return response.data.success;
     } catch (error) {
       removeToken();
-      console.log(error);
+      //console.log(error);
     }
   };
 

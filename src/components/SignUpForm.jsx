@@ -26,7 +26,7 @@ const SignUpForm = () => {
       setIsLoggedIn,
       setUser,
       (currentUser) => {
-        console.log("Current User:", currentUser);
+        //console.log("Current User:", currentUser);
         setUser(currentUser);
       }
     )
@@ -35,7 +35,7 @@ const SignUpForm = () => {
         handleAddSong();
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         setErrorMessage(error.message);
       });
   };
