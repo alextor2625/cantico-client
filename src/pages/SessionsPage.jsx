@@ -245,7 +245,7 @@ const SessionsPage = () => {
           "isActive - Despues:",
           session.name,
           updatedSession.isActive
-        );
+            ;
         return updatedSession;
       }
       return session;
