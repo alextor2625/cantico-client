@@ -273,7 +273,7 @@ export const SongsProvider = ({ children }) => {
     const isAdmin = user && user.admin;
 
     if (!isPlaying && countdown === null && (isUserTurn || isAdmin)) {
-      startCountdown(5);
+      startCountdown(10);
     } else if ((isPlaying || !isUserTurn) && !isAdmin) {
       stopCountdown();
     }
