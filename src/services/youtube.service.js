@@ -6,7 +6,7 @@ export const searchYouTube = async (query) => {
     const response = await axios.get(`${API_URL}/youtube/search/videos`, {
       params: { q: query },
     });
-    //   console.log('Line 9 - Youtube Search:', response.data)
+      console.log('Line 9 - Youtube Search:', response.data)
     return response.data;
   } catch (error) {
     console.error("Error al realizar la búsqueda en YouTube", error);
