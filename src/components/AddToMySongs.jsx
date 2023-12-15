@@ -44,6 +44,8 @@ const AddToMySongs = ({ videoId, thumbnails }) => {
           thumbnail: thumbnails
         }
 
+        console.log('Line 47 - savedSongData:', savedSongData)
+
         const savingSong = await addSongToList(savedSongData);
         console.log("SAVING SONG",savingSong);
 

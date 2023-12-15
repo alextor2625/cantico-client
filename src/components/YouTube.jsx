@@ -15,6 +15,7 @@ const YouTube = ({ hideControls }) => {
     currentVideoIndex,
     setCurrentVideoIndex,
     socket,
+    fetchActiveSession,
   } = useSongs();
   const { user } = useContext(AuthContext);
 
@@ -51,6 +52,26 @@ const YouTube = ({ hideControls }) => {
     // console.log("isPlaying", isPlaying);
     
   }, [toggleIsPlaying]);
+
+  useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession, isPlaying]);
+
+  // const getQueueSongs = async () => {
+  //   try {
+  //     const getActiveSessionResponse = await fetchActiveSession();
+  //     console.log("RESPONSE SESSION ===> ", getActiveSessionResponse);
+  //     const getQueueSongsResponse = await refreshQueueSongs(
+  //       getActiveSessionResponse._id
+  //     );
+  //     console.log("RESPONSE QUEUE ===> ", getQueueSongsResponse);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getQueueSongs();
+  // }, []);
 
   useEffect(() => {
     if (queueSongs.length === 0 && defaultSongs.length > 0 && !hasStartedDefaultSongs) {
