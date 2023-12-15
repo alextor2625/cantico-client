@@ -31,6 +31,8 @@ const Queue = () => {
     }
   }, [fetchActiveSession, socket]);
 
+  // added a comment
+
   return (
     <div className="queue-component">
       {activeSession && isRunning ? ( // Corregido aquí
