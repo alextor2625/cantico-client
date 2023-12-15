@@ -68,7 +68,7 @@ const MySongsCell = () => {
 
   return (
     <div>
-      MySongs
+      
       {!addSong && (
 
       <h1 className="mysongs-cell-title">My Songs</h1>
