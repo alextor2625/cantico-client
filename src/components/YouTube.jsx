@@ -19,12 +19,48 @@ const YouTube = ({ hideControls }) => {
   const { user } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [isDefaultPlaying, setIsDefaultPlaying] = useState(false);
+  const [hasStartedDefaultSongs, setHasStartedDefaultSongs] = useState(false);
+
+  const defaultSongs = [
+    {
+      name: "Maluma - Hawai",
+      videoId: "9Hud4IdhOOE",
+    },
+    {
+      name: "Tony Dize - El doctorado",
+      videoId: "LSbeEi2ryeQ",
+    },
+    {
+      name: "A puro dolor - Karaoke",
+      videoId: "Ucj4MOkELL4",
+    },
+    {
+      name: "Por amarte asi - Chistian Castro",
+      videoId: "hvGT3VVyZZs",
+    },
+    {
+      name: "Rosas - La oreja de vangog",
+      videoId: "TAOSwVD2_4o",
+    },
+
+    
+  ];
 
   useEffect(() => {
     // console.log("isPlaying", isPlaying);
     
   }, [toggleIsPlaying]);
+
+  useEffect(() => {
+    if (queueSongs.length === 0 && defaultSongs.length > 0 && !hasStartedDefaultSongs) {
+      setCurrentVideoIndex(0);
+      setIsDefaultPlaying(true);
+      setHasStartedDefaultSongs(true);
+      console.log('default songs:', defaultSongs);
+    }
+  }, [queueSongs, defaultSongs, hasStartedDefaultSongs]);
+  
 
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex) {
@@ -32,11 +68,16 @@ const YouTube = ({ hideControls }) => {
         isPlayed: true,
         isPlaying: false,
       });
-      setCurrentVideoIndex(currentVideoIndex);
+      setCurrentVideoIndex(prevIndex => prevIndex + 1); // Incrementa el índice
       refreshQueueSongs(activeSession._id);
-      toggleIsPlaying()
+      setIsDefaultPlaying(false);
+    } else if (queueSongs.length === 0) {
+      setIsDefaultPlaying(true);
+      setCurrentVideoIndex(prevIndex => (prevIndex + 1) % defaultSongs.length); // Asegura que el índice se mantenga dentro del rango de defaultSongs
     }
+    toggleIsPlaying(); // Reanuda la reproducción para la siguiente canción
   };
+  
 
   const handlePlayPauseClick = () => {
       toggleIsPlaying();
@@ -53,10 +94,21 @@ const YouTube = ({ hideControls }) => {
   }, [queueSongs, currentVideoIndex, isPlaying, activeSession, user]);
 
   useEffect(() => {
-    if (queueSongs.length <= currentVideoIndex) {
+    if (!isDefaultPlaying && queueSongs.length <= currentVideoIndex) {
       setCurrentVideoIndex(Math.max(0, queueSongs.length - 1));
     }
-  }, [queueSongs, activeSession, user, isPlaying]);
+  }, [queueSongs, activeSession, user, isPlaying, isDefaultPlaying]);
+
+  useEffect(() => {
+    // Si se añaden canciones a la cola mientras se están reproduciendo las defaultSongs,
+    // cambia a la cola y reproduce la primera canción de la cola.
+    if (isDefaultPlaying && queueSongs.length > 0) {
+      setIsDefaultPlaying(false);
+      setHasStartedDefaultSongs(false); // Restablece esto para que puedas volver a defaultSongs más tarde si es necesario
+      setCurrentVideoIndex(0); // Cambia a la primera canción de la cola
+      toggleIsPlaying(true); // Asegúrate de que se reanude la reproducción
+    }
+  }, [queueSongs, isDefaultPlaying]);
 
   const skipToNext = async () => {
     // Asegúrate de que currentVideoIndex apunte a la canción actualmente en reproducción
@@ -71,6 +123,7 @@ const YouTube = ({ hideControls }) => {
       setCurrentVideoIndex(currentVideoIndex);
       refreshQueueSongs(activeSession._id);
     }
+
   };
 
   const skipToPrevious = async () => {
@@ -87,9 +140,9 @@ const YouTube = ({ hideControls }) => {
 
   // Verificar si existe queueSongs[currentVideoIndex] antes de acceder a videoId
   const videoUrl =
-    queueSongs.length > currentVideoIndex && queueSongs[currentVideoIndex]
+    queueSongs.length > currentVideoIndex
       ? `https://www.youtube.com/watch?v=${queueSongs[currentVideoIndex].videoId}`
-      : "";
+      : `https://www.youtube.com/watch?v=${defaultSongs[currentVideoIndex % defaultSongs.length].videoId}`;
 
   const cancionesHastaTurno = () => {
     console.log("Line 91 ===>", queueSongs);
@@ -185,6 +238,7 @@ const YouTube = ({ hideControls }) => {
       {/* {console.log("isPlaying from Youtube.jsx:", isPlaying) } */}
       {user && user.admin && (
         <ReactPlayer
+          key={videoUrl}
           url={videoUrl}
           width="100%"
           height={!hideControls ? "100%" : "calc(100vh - 300px)"}
