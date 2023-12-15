@@ -60,6 +60,7 @@ const HomePage = () => {
   useEffect(() => {
     if (socket) {
       socket.emit("getIsRunning");
+      socket.emit("getActiveSession");
     }
   },[socket])
 
