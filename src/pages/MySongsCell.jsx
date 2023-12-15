@@ -116,20 +116,20 @@ const MySongsCell = () => {
         )}
       </div>
       {activeSession ? (
-        isRunning ? (
-          addSong && activeSession ? (
-            <YouTubeSearch />
-          ) : (
-            <>
-              <MySongs setSuccess={setSuccess} />
-              {success && <div>Added To Queue</div>}
-              {errorMessage && <div className="queuelimit-error">{errorMessage}</div>}
-            </>
-          )
-        ):
-          <h1>La sesion esta a punto de comenzar...</h1>
+        addSong && activeSession ? (
+          <YouTubeSearch />
+        ) : (
+          <>
+            <MySongs setSuccess={setSuccess} />
+            {success && <div>Added To Queue</div>}
+            {errorMessage && <div className="queuelimit-error">{errorMessage}</div>}
+          </>
+        )
       ) : (
         <h2>No hay Sesion activa</h2>
+      )}
+      {activeSession && !isRunning && (
+        <h1>La sesion esta a punto de comenzar...</h1>
       )}
       {activeSession && isRunning && (
         <>
