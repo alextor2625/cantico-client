@@ -16,9 +16,9 @@ const EndSession = () => {
     socket, // Utiliza el socket del contexto
   } = useSongs();
 
-  // useEffect(() => {
-  //   console.log("timerActive", timerActive);
-  // }, [activeSession, timerActive]);
+  useEffect(() => {
+    console.log("timerActive", timerActive);
+  }, [activeSession, timerActive]);
 
   const handleEndSession = async () => {
     try {
