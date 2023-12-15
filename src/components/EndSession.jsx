@@ -13,7 +13,7 @@ const EndSession = () => {
     setActiveSession,
     timerActive,
     setIsRunning,
-    socket, // Utiliza el socket del contexto
+    socket,
   } = useSongs();
 
   useEffect(() => {

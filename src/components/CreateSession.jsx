@@ -33,7 +33,6 @@ const CreateSession = ({
         setTimeout(() => {
           setMessage(undefined);
           window.location.reload(false);
-          //   setShowAddSession(false);
         }, 3000);
         setApiSuccess(true);
         setName("");
