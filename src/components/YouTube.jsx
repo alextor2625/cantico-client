@@ -53,9 +53,9 @@ const YouTube = ({ hideControls }) => {
     
   }, [toggleIsPlaying]);
 
-  useEffect(() => {
-    fetchActiveSession();
-  }, [fetchActiveSession, isPlaying]);
+  // useEffect(() => {
+  //   fetchActiveSession();
+  // }, [fetchActiveSession, isPlaying]);
 
   // const getQueueSongs = async () => {
   //   try {
