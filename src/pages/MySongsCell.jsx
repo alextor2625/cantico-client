@@ -32,7 +32,7 @@ const MySongsCell = () => {
 
   useEffect(() => {
     fetchActiveSession();
-  }, [fetchActiveSession, activeSession]);
+  }, [fetchActiveSession]);
 
   useEffect(() => {
     if (socket) {
