@@ -32,13 +32,14 @@ const MySongsCell = () => {
 
   useEffect(() => {
     fetchActiveSession();
-  }, [fetchActiveSession]);
+  }, [fetchActiveSession, isRunning]);
 
   useEffect(() => {
     if (socket) {
       socket.emit("getActiveSession");
       socket.emit("getQueue");
       socket.emit("getIsRunning");
+      console.log('Line 42 - MySongsCell isRunning:', isRunning)
     }
     console.log(queueLimitError);
     if (success) {
