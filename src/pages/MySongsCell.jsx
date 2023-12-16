@@ -79,6 +79,9 @@ const MySongsCell = () => {
       <div className="cellphone-viewport">
         {activeSession && isRunning && (
           <>
+
+            {console.log('there is an activeSession and isRunning')}
+
             <Link to="/mysongs" className="mysongs-link">
               <div className="heart-container">
                 <svg
@@ -128,10 +131,16 @@ const MySongsCell = () => {
           </>
         )
       ) : (
+        <>
+        {console.log('there is NOO an activeSession and addSong is false')}
         <h2>No hay Sesion activa</h2>
+        </>
       )}
       {activeSession && !isRunning && (
+        <>
+        {console.log('there is an activeSession and is NOOT running')}
         <h1>La sesion esta a punto de comenzar...</h1>
+        </>
       )}
       {activeSession && isRunning && (
         <>

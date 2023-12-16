@@ -36,7 +36,10 @@ const Queue = () => {
   return (
     <div className="queue-component">
       {activeSession && isRunning ? ( // Corregido aquí
+
+
         <>
+          {console.log('there is an activeSession and isRunning')}
           <h2 className="queue-songs-cell-title">Canciones en fila</h2>
           {queueSongs &&
             queueSongs.map((song, index) => (
@@ -127,7 +130,11 @@ const Queue = () => {
           </div>
         </>
       ) : (
+          <>
         <h1>La sesion esta a punto de comenzar...</h1>
+            {console.log('there is NOO an activeSession and isRunning')}
+          </>
+
       )}
     </div>
   );
