@@ -44,8 +44,6 @@ const YouTube = ({ hideControls }) => {
       name: "Rosas - La oreja de vangog",
       videoId: "TAOSwVD2_4o",
     },
-
-    
   ];
 
   useEffect(() => {
@@ -164,6 +162,11 @@ const YouTube = ({ hideControls }) => {
     queueSongs.length > currentVideoIndex
       ? `https://www.youtube.com/watch?v=${queueSongs[currentVideoIndex].videoId}`
       : `https://www.youtube.com/watch?v=${defaultSongs[currentVideoIndex % defaultSongs.length].videoId}`;
+
+
+  // console.log('Current Video Index:', queueSongs[currentVideoIndex].name)
+  // console.log('Queue Songs:', queueSongs)
+  // console.log('Current Video Index:', currentVideoIndex)
 
   const cancionesHastaTurno = () => {
     console.log("Line 91 ===>", queueSongs);
