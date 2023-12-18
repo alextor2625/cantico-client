@@ -48,7 +48,6 @@ const YouTube = ({ hideControls }) => {
 
   useEffect(() => {
     // console.log("isPlaying", isPlaying);
-    
   }, [toggleIsPlaying]);
 
   // useEffect(() => {
@@ -72,14 +71,19 @@ const YouTube = ({ hideControls }) => {
   // }, []);
 
   useEffect(() => {
-    if (queueSongs.length === 0 && defaultSongs.length > 0 && !hasStartedDefaultSongs) {
-      setCurrentVideoIndex(0);
-      setIsDefaultPlaying(true);
-      setHasStartedDefaultSongs(true);
-      console.log('default songs:', defaultSongs);
+    if (queueSongs) {
+      if (
+        queueSongs.length === 0 &&
+        defaultSongs.length > 0 &&
+        !hasStartedDefaultSongs
+      ) {
+        setCurrentVideoIndex(0);
+        setIsDefaultPlaying(true);
+        setHasStartedDefaultSongs(true);
+        console.log("default songs:", defaultSongs);
+      }
     }
   }, [queueSongs, defaultSongs, hasStartedDefaultSongs]);
-  
 
   const handleVideoEnd = async () => {
     if (queueSongs.length > currentVideoIndex) {
@@ -87,19 +91,20 @@ const YouTube = ({ hideControls }) => {
         isPlayed: true,
         isPlaying: false,
       });
-      setCurrentVideoIndex(prevIndex => prevIndex + 1); // Incrementa el índice
+      setCurrentVideoIndex((prevIndex) => prevIndex + 1); // Incrementa el índice
       refreshQueueSongs(activeSession._id);
       setIsDefaultPlaying(false);
     } else if (queueSongs.length === 0) {
       setIsDefaultPlaying(true);
-      setCurrentVideoIndex(prevIndex => (prevIndex + 1) % defaultSongs.length); // Asegura que el índice se mantenga dentro del rango de defaultSongs
+      setCurrentVideoIndex(
+        (prevIndex) => (prevIndex + 1) % defaultSongs.length
+      ); // Asegura que el índice se mantenga dentro del rango de defaultSongs
     }
     toggleIsPlaying(); // Reanuda la reproducción para la siguiente canción
   };
-  
 
   const handlePlayPauseClick = () => {
-      toggleIsPlaying();
+    toggleIsPlaying();
   };
 
   useEffect(() => {
@@ -142,7 +147,6 @@ const YouTube = ({ hideControls }) => {
       setCurrentVideoIndex(currentVideoIndex);
       refreshQueueSongs(activeSession._id);
     }
-
   };
 
   const skipToPrevious = async () => {
@@ -159,14 +163,19 @@ const YouTube = ({ hideControls }) => {
 
   // Verificar si existe queueSongs[currentVideoIndex] antes de acceder a videoId
   const videoUrl =
-    queueSongs.length > currentVideoIndex
-      ? `https://www.youtube.com/watch?v=${queueSongs[currentVideoIndex].videoId}`
-      : `https://www.youtube.com/watch?v=${defaultSongs[currentVideoIndex % defaultSongs.length].videoId}`;
+    queueSongs && queueSongs.length
+      ? `https://www.youtube.com/watch?v=${queueSongs[0].videoId}`
+      : `https://www.youtube.com/watch?v=${
+          defaultSongs[currentVideoIndex % defaultSongs.length].videoId
+        }`;
 
-
-  // console.log('Current Video Index:', queueSongs[currentVideoIndex].name)
-  // console.log('Queue Songs:', queueSongs)
-  // console.log('Current Video Index:', currentVideoIndex)
+  if (queueSongs) {
+    console.log("Queue Songs:", queueSongs);
+    if(queueSongs.length){
+      console.log("Current Video Index:", queueSongs[0].name);
+    }
+    console.log("Current Video Index:", currentVideoIndex);
+  }
 
   const cancionesHastaTurno = () => {
     console.log("Line 91 ===>", queueSongs);
