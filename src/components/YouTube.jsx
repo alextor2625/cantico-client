@@ -91,7 +91,7 @@ const YouTube = ({ hideControls }) => {
         isPlayed: true,
         isPlaying: false,
       });
-      setCurrentVideoIndex((prevIndex) => prevIndex + 1); // Incrementa el índice
+      setCurrentVideoIndex(currentVideoIndex); // Incrementa el índice
       refreshQueueSongs(activeSession._id);
       setIsDefaultPlaying(false);
     } else if (queueSongs.length === 0) {
@@ -101,6 +101,21 @@ const YouTube = ({ hideControls }) => {
       ); // Asegura que el índice se mantenga dentro del rango de defaultSongs
     }
     toggleIsPlaying(); // Reanuda la reproducción para la siguiente canción
+  };
+
+  const skipToNext = async () => {
+    // Asegúrate de que currentVideoIndex apunte a la canción actualmente en reproducción
+    if (queueSongs.length > currentVideoIndex + 1) {
+      // Marcar la canción actual como reproducida
+      await updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
+        isPlayed: true,
+        isPlaying: false,
+      });
+
+      // Incrementar el índice para seleccionar la canción "Siguiente en fila"
+      setCurrentVideoIndex(currentVideoIndex);
+      refreshQueueSongs(activeSession._id);
+    }
   };
 
   const handlePlayPauseClick = () => {
@@ -134,20 +149,7 @@ const YouTube = ({ hideControls }) => {
     }
   }, [queueSongs, isDefaultPlaying]);
 
-  const skipToNext = async () => {
-    // Asegúrate de que currentVideoIndex apunte a la canción actualmente en reproducción
-    if (queueSongs.length > currentVideoIndex + 1) {
-      // Marcar la canción actual como reproducida
-      await updatePerfomStatus(queueSongs[currentVideoIndex]._id, {
-        isPlayed: true,
-        isPlaying: false,
-      });
-
-      // Incrementar el índice para seleccionar la canción "Siguiente en fila"
-      setCurrentVideoIndex(currentVideoIndex);
-      refreshQueueSongs(activeSession._id);
-    }
-  };
+ 
 
   const skipToPrevious = async () => {
     if (currentVideoIndex > 0) {
