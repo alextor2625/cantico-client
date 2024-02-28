@@ -88,6 +88,8 @@ const SignUpForm = () => {
           <p>Already have an account?</p>
         </Link> */}
         <p className="error-message">{errorMessage}</p>
+        <p className="desarrollado-por">App desarrollada por:</p>
+        <p className="desarrollado-por-2">alvarezyanky7@gmail.com & alextor2625@gmail.com</p>
       </form>
       <img src={signUpFooter} alt="signup-footer" className="signup-footer" />
     </div>

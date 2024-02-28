@@ -1193,3 +1193,18 @@ h3 {
 .cantar-container {
   display: none;
 }
+
+
+.desarrollado-por {
+  color: var(--gris-claro);
+  margin-top: 3rem;
+}
+
+.desarrollado-por-2 {
+  color: var(--gris-claro);
+  margin-top: 2rem;
+  /* white-space: nowrap; */
+  margin: 0 auto;
+  font-style: italic;
+  color: #817f7f;
+}
